@@ -6,8 +6,11 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -35,22 +38,45 @@ data class OpenRouterResponse(
     val choices: List<OpenRouterChoice> = emptyList()
 )
 
+data class AiConciergeResult(
+    val content: String,
+    val isLive: Boolean,
+    val modelUsed: String
+)
+
 class OpenRouterClient(
-    private val apiKey: String = ""
+    private val apiKey: String = "",
+    private val httpClient: HttpClient? = null
 ) {
-    private val client = HttpClient {
-        install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-                isLenient = true
-                encodeDefaults = true
-            })
+    private val client: HttpClient by lazy {
+        httpClient ?: HttpClient {
+            install(ContentNegotiation) {
+                json(Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    encodeDefaults = true
+                })
+            }
         }
     }
 
-    suspend fun queryParkingAssistant(
+    suspend fun queryParkingAssistantDetailed(
         conversationHistory: List<OpenRouterMessage>
-    ): Result<String> {
+    ): Result<AiConciergeResult> {
+        val queryText = conversationHistory.lastOrNull()?.content ?: ""
+
+        // Graceful fallback for offline / mock testing or when API key is unconfigured
+        if (apiKey.isBlank()) {
+            val fallback = generateSmartFallback(queryText)
+            return Result.success(
+                AiConciergeResult(
+                    content = fallback,
+                    isLive = false,
+                    modelUsed = "local-heuristic-fallback"
+                )
+            )
+        }
+
         val systemPrompt = OpenRouterMessage(
             role = "system",
             content = """
@@ -71,29 +97,60 @@ class OpenRouterClient(
             """.trimIndent()
         )
 
-        val fullMessages = listOf(systemPrompt) + conversationHistory
+        // Window history to last 10 messages to avoid token bloat
+        val windowedHistory = conversationHistory.takeLast(10)
+        val fullMessages = listOf(systemPrompt) + windowedHistory
 
         return try {
-            val response: OpenRouterResponse = client.post("https://openrouter.ai/api/v1/chat/completions") {
+            val httpResponse: HttpResponse = client.post("https://openrouter.ai/api/v1/chat/completions") {
                 contentType(ContentType.Application.Json)
                 header("Authorization", "Bearer $apiKey")
                 header("HTTP-Referer", "https://github.com/Nikhil-Mundhra/jetbrains-hackathon")
                 header("X-Title", "YallaPark-SmartMobility")
                 setBody(OpenRouterRequest(messages = fullMessages))
-            }.body()
+            }
 
-            val reply = response.choices.firstOrNull()?.message?.content
-                ?: "I'm currently unable to retrieve real-time parking recommendations. Please check the lot map."
-            Result.success(reply)
+            if (httpResponse.status.isSuccess()) {
+                val response: OpenRouterResponse = httpResponse.body()
+                val reply = response.choices.firstOrNull()?.message?.content
+                    ?: "I'm currently unable to retrieve real-time parking recommendations. Please check the lot map."
+                Result.success(
+                    AiConciergeResult(
+                        content = reply,
+                        isLive = true,
+                        modelUsed = "openai/gpt-4o-mini"
+                    )
+                )
+            } else {
+                // Non-200 response (401, 402, 429, etc.): log and return graceful fallback
+                val fallback = generateSmartFallback(queryText)
+                Result.success(
+                    AiConciergeResult(
+                        content = fallback,
+                        isLive = false,
+                        modelUsed = "local-heuristic-fallback"
+                    )
+                )
+            }
         } catch (e: Exception) {
-            // Graceful fallback for offline / mock testing
-            val queryText = conversationHistory.lastOrNull()?.content ?: ""
             val fallback = generateSmartFallback(queryText)
-            Result.success(fallback)
+            Result.success(
+                AiConciergeResult(
+                    content = fallback,
+                    isLive = false,
+                    modelUsed = "local-heuristic-fallback"
+                )
+            )
         }
     }
 
-    private fun generateSmartFallback(query: String): String {
+    suspend fun queryParkingAssistant(
+        conversationHistory: List<OpenRouterMessage>
+    ): Result<String> {
+        return queryParkingAssistantDetailed(conversationHistory).map { it.content }
+    }
+
+    internal fun generateSmartFallback(query: String): String {
         val lower = query.lowercase()
         return when {
             "women" in lower || "pink" in lower -> {

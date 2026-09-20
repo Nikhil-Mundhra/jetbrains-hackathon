@@ -1,9 +1,9 @@
 # Global Agent Directives
 
-**START HERE FOR EVERY REQUEST:** Before taking ANY action or answering ANY question, you MUST first explicitly evaluate if Graphify or Docmancer are relevant to the request:
+**START HERE FOR EVERY REQUEST:** Before taking ANY action or answering ANY question, you MUST first evaluate if Graphify or Docmancer are relevant to the request:
 
-1.  **Internal Map (Graphify):** Does this require understanding the codebase architecture, file locations, or what the next implementation steps are? If yes, check the `graphify-out/` graph or use Graphify (`/graphify query`, `/graphify path`) to orient yourself.
-2.  **External Guide (Docmancer):** Does this involve external libraries, APIs, or specific framework rules? If yes, use Docmancer (`docmancer query`) to retrieve the correct syntax and rules. Only after you have established your internal and external bearings should you proceed with execution.
+1.  **Internal Map (Graphify):** If understanding the codebase architecture or file relationships is required, and `graphify-out/` or `/graphify` is available, consult the knowledge graph to orient yourself.
+2.  **External Guide (Docmancer):** If external libraries, APIs, or specific framework rules are involved, use Docmancer (`docmancer query`) to retrieve the correct syntax and rules. Proceed with execution once your internal and external bearings are established.
 
 ---
 

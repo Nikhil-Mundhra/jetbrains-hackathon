@@ -1,52 +1,49 @@
-name
-docmancer
+---
+name: docmancer
+description: Query local context, fetch public documentation, and retrieve API references using the docmancer CLI.
+---
 
-description
-How to correctly run the docmancer CLI in PowerShell to query context and fetch documentation without syntax errors.
+# Docmancer Skill
 
-when_to_use
-When needing to query local documentation, fetch public docs, or get API references using docmancer CLI.
+Docmancer indexes and compresses documentation context so coding agents spend tokens on implementation rather than rereading raw docs.
 
-allowed-tools
-Read, Glob, Grep, Bash
+## Execution
 
-# Running Docmancer in PowerShell
+Ensure `docmancer` is on PATH (e.g. `~/.local/bin/docmancer` on macOS/Linux or standard Python Scripts on Windows).
 
-Docmancer is used to compress documentation context so coding agents spend tokens on code, not on rereading raw docs.
+If custom configuration is needed, specify `--config <path_to_config>`.
 
-The executable is located at `'C:\Users\Int202613\AppData\Local\Programs\Python\Python312\Scripts\docmancer.exe'` and requires the config `'C:\Users\Int202613\.docmancer\docmancer.yaml'`.
+### Common Invocation Examples
 
-## Important PowerShell Execution Requirement
+```bash
+# General query
+docmancer query "how to configure Ktor HttpClient in Kotlin Multiplatform"
 
-Because the executable path is provided as a quoted string, **you must use the PowerShell call operator (`&`)** to execute it. If you try to run it directly without the call operator, PowerShell will treat it as a string and fail with an error like `Unexpected token 'config' in expression or statement`.
+# Expand surrounding context
+docmancer query "Ktor ContentNegotiation JSON" --expand
 
-### Correct usage example:
+# Ingest local documentation folder
+docmancer ingest ./docs
 
-& 'C:\\Users\\Int202613\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\docmancer.exe' --config 'C:\\Users\\Int202613\\.docmancer\\docmancer.yaml' query "how to change text within a document in MS Word Add-in Office.js"
+# Add public docs URL
+docmancer add https://ktor.io/docs/
+```
 
 ## Core Commands Reference
 
-*(Note: Replace `docmancer` in the below examples with the full `& 'C:\...' --config 'C:\...'` command string as shown above)*
-
-docmancer setup
-docmancer ingest ./docs
-docmancer add https://docs.example.com
-docmancer update
-docmancer query "how to authenticate"
-docmancer query "how to authenticate" --limit 10
-docmancer query "how to authenticate" --expand
-docmancer query "how to authenticate" --expand page
-docmancer query "how to authenticate" --format json
-docmancer query "how to authenticate" --allow-degraded
-docmancer clear --dry-run
-docmancer list
-docmancer inspect
-docmancer remove <source>
-docmancer doctor
-docmancer fetch <url> --output <dir>
+- `docmancer setup`: Initialize docmancer environment.
+- `docmancer ingest <dir>`: Index a directory of local documentation files.
+- `docmancer add <url>`: Add and index a remote documentation URL.
+- `docmancer update`: Refresh indexed documentation sources.
+- `docmancer query "<text>"`: Search indexed documentation.
+- `docmancer query "<text>" --limit <n>`: Limit number of returned chunks.
+- `docmancer query "<text>" --expand`: Expand adjacent sections for full context.
+- `docmancer query "<text>" --format json`: Output structured JSON results.
+- `docmancer list`: List all indexed documentation sources.
+- `docmancer inspect`: Inspect index metadata and statistics.
+- `docmancer doctor`: Validate installation and dependencies.
 
 ## Usage Guidelines
 
--   When documentation context is relevant, do not rely only on model memory or latest-only hosted docs.
--   Always query docmancer first, then cite or summarize the relevant local sections in the response.
--   Use `--expand` for adjacent sections; use `--expand page` only when the surrounding page is necessary.
+- When external library or framework documentation is relevant, query docmancer first to obtain verified syntax and rules.
+- Ground implementation details directly in retrieved documentation chunks.

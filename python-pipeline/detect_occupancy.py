@@ -30,12 +30,13 @@ class PurePolygon:
         self.coordinates = coordinates
 
     def contains(self, point: PurePoint) -> bool:
+        if len(self.coordinates) < 3:
+            return False
         x, y = point.x, point.y
-        n = len(self.coordinates)
         inside = False
-        p1x, p1y = self.coordinates[0]
-        for i in range(n + 1):
-            p2x, p2y = self.coordinates[i % n]
+        # Iterate over each edge (p1 -> p2), starting from the wrap-around edge
+        p1x, p1y = self.coordinates[-1]
+        for p2x, p2y in self.coordinates:
             if y > min(p1y, p2y):
                 if y <= max(p1y, p2y):
                     if x <= max(p1x, p2x):
@@ -79,7 +80,7 @@ class AerialOccupancyDetector:
             logging.info(f"Ultralytics YOLO not preloaded: {e}. Running in high-fidelity simulated detection mode.")
             self.model = None
 
-    def detect_vehicles(self, image_source: Any = None, img_size: int = 1024) -> List[Tuple[float, float, str]]:
+    def detect_vehicles(self, image_source: Any = None, img_size: int = 1024, lot_seed: Optional[int] = None) -> List[Tuple[float, float, str]]:
         """
         Runs YOLO-OBB inference and returns list of (center_x, center_y, class_name).
         """
@@ -87,7 +88,7 @@ class AerialOccupancyDetector:
         # YOLO when a model happens to be installed: that used to turn every
         # demo run into an empty occupancy feed instead of using the simulator.
         if image_source is None:
-            return self._simulated_detections()
+            return self._simulated_detections(seed=lot_seed)
 
         if self.model is not None:
             try:
@@ -102,16 +103,18 @@ class AerialOccupancyDetector:
             except Exception as err:
                 logging.error(f"Inference error: {err}")
                 return []
-        return self._simulated_detections()
+        return self._simulated_detections(seed=lot_seed)
 
     @staticmethod
-    def _simulated_detections() -> List[Tuple[float, float, str]]:
-        """Deterministic demo detections used only when no aerial image is supplied."""
-        import random
+    def _simulated_detections(seed: Optional[int] = None) -> List[Tuple[float, float, str]]:
+        """Deterministic demo detections used only when no aerial image is supplied.
 
-        random.seed(42)
+        Uses a per-lot seed so each parking lot yields a distinct vehicle distribution.
+        """
+        import random
+        rng = random.Random(seed if seed is not None else 42)
         return [
-            (random.uniform(100, 900), random.uniform(100, 900), "small vehicle")
+            (rng.uniform(100, 900), rng.uniform(100, 900), "small vehicle")
             for _ in range(35)
         ]
 

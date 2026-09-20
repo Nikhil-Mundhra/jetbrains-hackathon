@@ -12,10 +12,7 @@ from typing import Dict, List, Any
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
-DEFAULT_MONGO_URI = os.getenv(
-    "MONGODB_URI",
-    "mongodb+srv://psb8013_db_user:<db_password>@jetbrains.tzw6r2y.mongodb.net/?appName=Jetbrains"
-)
+DEFAULT_MONGO_URI = os.getenv("MONGODB_URI", "")
 
 
 def export_to_json(lots_data: List[Dict[str, Any]], output_path: str = "dubai_parking_live.json") -> str:
@@ -38,14 +35,9 @@ def sync_to_mongodb_atlas(lots_data: List[Dict[str, Any]], uri: str = DEFAULT_MO
     """
     Upserts live lot occupancy data to MongoDB Atlas collection `parking_lots`.
     """
-    # Check if password is still placeholder
-    if "<db_password>" in uri:
-        env_pw = os.getenv("MONGODB_PASSWORD")
-        if env_pw:
-            uri = uri.replace("<db_password>", env_pw)
-        else:
-            logging.info("MongoDB password is placeholder. Set MONGODB_PASSWORD env var to sync to live Atlas cluster. Skipping remote sync.")
-            return False
+    if not uri:
+        logging.info("MONGODB_URI is not set. Set it to a valid Atlas connection string to enable remote sync. Skipping.")
+        return False
 
     try:
         from pymongo import MongoClient, UpdateOne

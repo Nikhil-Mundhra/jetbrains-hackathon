@@ -47,8 +47,8 @@ def run_pipeline():
                 
             lot_polygon = create_polygon(poly_px)
             
-            # Detect vehicles
-            detections = detector.detect_vehicles(image_source=None)
+            # Detect vehicles using a per-lot seed for distinct simulated distributions
+            detections = detector.detect_vehicles(image_source=None, lot_seed=lot["osm_id"])
             occ_stats = detector.compute_lot_occupancy(detections, lot_polygon, capacity=lot["capacity"])
             
             # Determine specialized bays allocation

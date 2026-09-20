@@ -39,6 +39,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.kotlinx.test)
+                implementation(libs.ktor.client.mock)
             }
         }
         val androidMain by getting {
@@ -47,6 +48,7 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodel.compose)
                 implementation(libs.androidx.navigation.compose)
                 implementation(libs.androidx.activity.compose)
+                implementation(libs.ktor.client.cio)
             }
         }
         val iosMain by creating {
@@ -57,6 +59,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(libs.ktor.client.jvm)
+                implementation(libs.ktor.client.cio)
             }
         }
         val wasmJsMain by getting {
