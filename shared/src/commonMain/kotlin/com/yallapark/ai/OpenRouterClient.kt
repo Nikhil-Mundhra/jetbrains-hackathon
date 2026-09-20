@@ -36,7 +36,7 @@ data class OpenRouterResponse(
 )
 
 class OpenRouterClient(
-    private val apiKey: String
+    private val apiKey: String = ""
 ) {
     private val client = HttpClient {
         install(ContentNegotiation) {

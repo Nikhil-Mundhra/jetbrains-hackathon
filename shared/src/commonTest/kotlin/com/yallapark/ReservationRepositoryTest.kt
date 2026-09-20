@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -106,7 +107,7 @@ class ReservationRepositoryTest {
         // Try to extend beyond reasonable limit (e.g., 4 hours = 240 mins from 90)
         val extendResult = repo.extendReservation(reservation.id, 150)
         // Extension should either succeed or fail based on business rules
-        assertTrue(extendResult.isSuccess || extendResult.isError)
+        assertTrue(extendResult.isSuccess || extendResult.isFailure)
     }
 
     @Test

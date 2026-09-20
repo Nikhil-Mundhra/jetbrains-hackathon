@@ -35,9 +35,9 @@ kotlin {
                 implementation(libs.decompose)
                 implementation(libs.moko.resources.compose)
             }
-            val test by getting {
-                implementation(androidx.compose.ui:ui-test)
-                implementation(androidx.compose.material3:material3-testing)
+        }
+        val commonTest by getting {
+            dependencies {
                 implementation(kotlin("test"))
             }
         }

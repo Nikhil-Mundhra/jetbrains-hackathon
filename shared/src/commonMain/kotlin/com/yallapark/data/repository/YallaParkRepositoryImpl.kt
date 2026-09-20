@@ -130,23 +130,27 @@ class YallaParkRepositoryImpl : ParkingRepository, ReservationRepository, AdminR
     }
 
     override suspend fun cancelReservation(reservationId: String): Result<Boolean> {
-        val current = _activeReservation.value ?: return Result.success(true)
-        if (current.id == reservationId) {
-            // Free the bay
-            val lot = _lots.value.find { it.id == current.lotId }
-            if (lot != null) {
-                val updatedBays = lot.bays.map {
-                    if (it.id == current.bayId) it.copy(status = BayStatus.AVAILABLE, reservedByUserId = null)
-                    else it
-                }
-                val updatedLot = lot.copy(
-                    bays = updatedBays,
-                    availableBays = (lot.availableBays + 1).coerceAtMost(lot.totalCapacity)
-                )
-                _lots.value = _lots.value.map { if (it.id == lot.id) updatedLot else it }
-            }
-            _activeReservation.value = null
+        val current = _activeReservation.value
+            ?: return Result.failure(IllegalArgumentException("No active reservation found"))
+
+        if (current.id != reservationId) {
+            return Result.failure(IllegalArgumentException("Reservation ID mismatch"))
         }
+
+        // Free the bay
+        val lot = _lots.value.find { it.id == current.lotId }
+        if (lot != null) {
+            val updatedBays = lot.bays.map {
+                if (it.id == current.bayId) it.copy(status = BayStatus.AVAILABLE, reservedByUserId = null)
+                else it
+            }
+            val updatedLot = lot.copy(
+                bays = updatedBays,
+                availableBays = (lot.availableBays + 1).coerceAtMost(lot.totalCapacity)
+            )
+            _lots.value = _lots.value.map { if (it.id == lot.id) updatedLot else it }
+        }
+        _activeReservation.value = null
         return Result.success(true)
     }
 
@@ -243,7 +247,7 @@ class YallaParkRepositoryImpl : ParkingRepository, ReservationRepository, AdminR
     override fun observeLiveLotFeed(): Flow<List<ParkingLot>> = lotsFlow
 
     private fun currentTimeMillis(): Long {
-        return kotlin.time.TimeSource.Monotonic.markNow().elapsedNow().inWholeMilliseconds + 1726830000000L
+        return kotlinx.datetime.Clock.System.now().toEpochMilliseconds()
     }
 
     companion object {

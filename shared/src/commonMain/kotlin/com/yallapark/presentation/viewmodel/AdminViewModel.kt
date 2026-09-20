@@ -182,6 +182,6 @@ class AdminViewModel(
     }
 
     private fun currentTimeMillis(): Long {
-        return kotlin.time.TimeSource.Monotonic.markNow().elapsedNow().inWholeMilliseconds + 1726830000000L
+        return kotlinx.datetime.Clock.System.now().toEpochMilliseconds()
     }
 }
