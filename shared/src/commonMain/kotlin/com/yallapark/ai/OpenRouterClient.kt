@@ -97,22 +97,22 @@ class OpenRouterClient(
         val lower = query.lowercase()
         return when {
             "women" in lower || "pink" in lower -> {
-                "🌸 **Women-Only Pink Bays**: YallaPark features dedicated, well-lit pink bays located near main pedestrian exits and CCTV coverage across Bur Dubai (Al Fahidi) and Karama Center. You can filter for 'Pink Bays' directly on the map."
+                "**Women-Only Pink Bays**: YallaPark features dedicated, well-lit pink bays located near main pedestrian exits and CCTV coverage across Bur Dubai (Al Fahidi) and Karama Center. You can filter for 'Pink Bays' directly on the map."
             }
             "pod" in lower || "determination" in lower || "handicap" in lower || "accessible" in lower -> {
-                "♿ **People of Determination (POD) Bays**: Priority accessibility bays with extra clearance and ramp access are active at all RTA facilities in Bur Dubai, Deira, and Downtown. Permit holders enjoy designated slots."
+                "**People of Determination (POD) Bays**: Priority accessibility bays with extra clearance and ramp access are active at all RTA facilities in Bur Dubai, Deira, and Downtown. Permit holders enjoy designated slots."
             }
             "delivery" in lower || "rider" in lower || "courier" in lower -> {
-                "🛵 **Delivery Rider Quick Bays**: YallaPark provides dedicated 15-20 minute short-stay drop-off bays along Meena Bazaar and Karama Commercial Street to prevent double-parking."
+                "**Delivery Rider Quick Bays**: YallaPark provides dedicated 15-20 minute short-stay drop-off bays along Meena Bazaar and Karama Commercial Street to prevent double-parking."
             }
             "karama" in lower -> {
-                "📍 **Al Karama Parking Status**: Karama Commercial Center currently has 18 bays available (41% occupancy). Due to heavy dinner turnover, predictive arrival probability is 48% in 30 mins. Pre-booking is recommended!"
+                "**Al Karama Parking Status**: Karama Commercial Center currently has 18 bays available (41% occupancy). Due to heavy dinner turnover, predictive arrival probability is 48% in 30 mins. Pre-booking is recommended!"
             }
             "bur dubai" in lower || "fahidi" in lower -> {
-                "📍 **Bur Dubai Status**: Al Fahidi Heritage Lot has 22 bays open at AED 4/hr. Historical turnover is fast; secure your slot now for guaranteed parking."
+                "**Bur Dubai Status**: Al Fahidi Heritage Lot has 22 bays open at AED 4/hr. Historical turnover is fast; secure your slot now for guaranteed parking."
             }
             else -> {
-                "🚗 **YallaPark Smart Concierge**: Real-time availability in Bur Dubai is 22 bays, Karama 18 bays, Deira 45 bays, and Downtown 62 bays. How can I help you route or pre-book today?"
+                "**YallaPark Smart Concierge**: Real-time availability in Bur Dubai is 22 bays, Karama 18 bays, Deira 45 bays, and Downtown 62 bays. How can I help you route or pre-book today?"
             }
         }
     }

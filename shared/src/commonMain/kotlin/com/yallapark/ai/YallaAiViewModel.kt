@@ -22,7 +22,7 @@ class YallaAiViewModel(
             ChatBubble(
                 id = "init_0",
                 sender = "assistant",
-                text = "Marhaba! 🌟 I'm **YallaPark AI**, your Dubai smart parking assistant. Ask me about real-time availability in Bur Dubai, Karama, Deira, or Downtown, or find Women-Only Pink, POD, and Delivery Rider bays."
+                text = "Marhaba! I'm **YallaPark AI**, your Dubai smart parking assistant. Ask me about real-time availability in Bur Dubai, Karama, Deira, or Downtown, or find Women-Only Pink, POD, and Delivery Rider bays."
             )
         )
     )
