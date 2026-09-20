@@ -1,7 +1,5 @@
 package com.yallapark.presentation.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.yallapark.data.engine.PredictiveOccupancyEngine
 import com.yallapark.domain.model.BayType
 import com.yallapark.domain.model.DubaiZone

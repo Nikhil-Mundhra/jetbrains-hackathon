@@ -14,7 +14,9 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     jvm("desktop")
-    wasmJs("wasm")
+    wasmJs {
+        browser()
+    }
 
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
@@ -24,7 +26,7 @@ kotlin {
     val isLinuxArm64 = hostOs.startsWith("Linux") && System.getProperty("os.arch") == "aarch64"
 
     sourceSets {
-val commonMain by getting {
+        val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
@@ -65,11 +67,9 @@ val commonMain by getting {
                 implementation(libs.ktor.client.jvm)
             }
         }
-        val wasmMain by getting {
+        val wasmJsMain by getting {
             dependencies {
                 implementation(libs.ktor.client.js)
-                implementation(libs.compose.web.core)
-                implementation(libs.compose.web.dom)
             }
         }
     }
@@ -80,7 +80,6 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 24
-        targetSdk = 34
     }
 }
 

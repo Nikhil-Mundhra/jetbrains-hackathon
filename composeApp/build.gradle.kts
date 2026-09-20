@@ -5,16 +5,22 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.android.application)
 }
 
 kotlin {
-    androidTarget()
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
     jvm("desktop")
-    wasmJs("wasm")
+    wasmJs {
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
+        binaries.executable()
+    }
 
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
@@ -27,10 +33,12 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":shared"))
-                implementation(libs.androidx.lifecycle.viewmodel.compose)
-                implementation(libs.androidx.navigation.compose)
-                implementation(libs.decompose)
-                implementation(libs.moko.resources.compose)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
             }
         }
         val commonTest by getting {
@@ -38,56 +46,12 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.androidx.activity.compose)
-                implementation(libs.androidx.lifecycle.viewmodel.compose)
-            }
-        }
         val desktopMain by getting {
             dependencies {
-                implementation(libs.decompose)
+                implementation(compose.desktop.currentOs)
             }
         }
-        val wasmMain by getting {
-            dependencies {
-                implementation(libs.compose.web.core)
-                implementation(libs.compose.web.dom)
-            }
-        }
-    }
-}
-
-android {
-    namespace = "com.communityconnect.app"
-    compileSdk = 34
-    defaultConfig {
-        applicationId = "com.yallapark.app"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-    }
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.6.10"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1,LICENSE,NOTICE}"
-        }
+        val wasmJsMain by getting
     }
 }
 

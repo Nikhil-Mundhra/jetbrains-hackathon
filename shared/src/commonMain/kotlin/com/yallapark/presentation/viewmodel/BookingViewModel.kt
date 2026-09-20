@@ -1,7 +1,5 @@
 package com.yallapark.presentation.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.yallapark.domain.model.ParkingBay
 import com.yallapark.domain.model.ParkingLot
 import com.yallapark.domain.model.PaymentMethod

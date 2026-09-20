@@ -25,6 +25,7 @@
       }
     }
   </script>
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -267,46 +268,40 @@
     }
   </style>
 </head>
-<body class="bg-white text-gray-900 min-h-screen flex flex-col antialiased transition-colors duration-200">
+<body class="bg-white dark:bg-slate-950 text-gray-900 dark:text-slate-100 min-h-screen flex flex-col antialiased transition-colors duration-200">
 
   <!-- ================= TOP NAVBAR ================= -->
-  <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
+  <header class="bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-sm sticky top-0 z-50 transition-colors">
     <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
       <!-- Brand Logo (navigates to Home) -->
       <a href="#" onclick="switchMainMode('home'); return false;" class="flex items-center gap-2 cursor-pointer">
-        <div class="w-8 h-8 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center text-base font-black shadow-sm">P</div>
+        <img src="logo.png" alt="Y-Park Logo" class="w-8 h-8 object-contain">
         <span class="font-bold text-xl text-[#1976D2]">Yalla<span class="text-[#4CAF50]">Park</span></span>
       </a>
 
       <!-- Navigation Links -->
-      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
-        <a href="#discover" onclick="switchMainMode('home'); document.getElementById('searchSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 hover:text-[#4CAF50] transition-colors">Find Parking</a>
-        <a href="#create" onclick="openLogin('provider'); return false;" class="text-gray-700 hover:text-[#4CAF50] transition-colors">List Your Spot</a>
-        <a href="#how-it-works" onclick="switchMainMode('home'); document.getElementById('howItWorksSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 hover:text-[#4CAF50] transition-colors">How It Works</a>
-        <a href="#features" onclick="switchMainMode('home'); document.getElementById('featuresSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 hover:text-[#4CAF50] transition-colors">Features</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-slate-300">
+        <a href="#discover" onclick="switchMainMode('home'); document.getElementById('searchSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 dark:text-slate-300 hover:text-[#4CAF50] dark:hover:text-[#4CAF50] transition-colors">Find Parking</a>
+        <a href="#create" onclick="openLogin('provider'); return false;" class="text-gray-700 dark:text-slate-300 hover:text-[#4CAF50] dark:hover:text-[#4CAF50] transition-colors">List Your Spot</a>
+        <a href="#how-it-works" onclick="switchMainMode('home'); document.getElementById('howItWorksSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 dark:text-slate-300 hover:text-[#4CAF50] dark:hover:text-[#4CAF50] transition-colors">How It Works</a>
+        <a href="#features" onclick="switchMainMode('home'); document.getElementById('featuresSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 dark:text-slate-300 hover:text-[#4CAF50] dark:hover:text-[#4CAF50] transition-colors">Features</a>
       </div>
 
       <!-- Action Gateways -->
       <div class="flex items-center gap-2.5">
-        <!-- Prominent Dark / Light Mode Toggle Button -->
-        <button id="btnThemeToggle" onclick="toggleTheme()" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-1.5 shadow-sm cursor-pointer" title="Toggle Light / Dark Mode">
-          <span id="themeToggleIcon" class="inline-flex items-center"></span> <span id="themeToggleText">Dark Mode</span>
-        </button>
+
         <a href="map.html" target="_blank" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-blue-500/40 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 flex items-center gap-1 shadow-sm" title="Open OpenLayers Smart Mobility Map">
           Live Map ↗
         </a>
-        <button id="btnModeAdmin" onclick="switchMainMode('admin')" class="px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-[#1976D2] text-[#1976D2] hover:bg-blue-50">
-          Provider Console
+        <button id="btnActiveApp" onclick="returnToActiveApp()" class="hidden px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all shadow-sm">
+          Active Workspace
         </button>
-        <button id="btnModeDriver" onclick="switchMainMode('driver')" class="px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all bg-[#4CAF50] text-white hover:bg-[#43A047] shadow-sm">
-          Driver App
-        </button>
-        <button id="btnNavLogin" onclick="openLogin('driver')" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-gray-300 text-gray-700 hover:bg-gray-100">
+        <button id="btnNavLogin" onclick="openLogin('driver')" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700">
           Sign In
         </button>
-        <div id="userProfileChip" class="hidden flex items-center gap-2 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-[8px] shadow-sm">
-          <span id="userAvatarText" class="text-xs text-emerald-800 font-bold"></span>
-          <button onclick="logout()" class="text-[10px] font-semibold text-gray-500 hover:text-rose-600 underline">Logout</button>
+        <div id="userProfileChip" class="hidden flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700/60 px-3 py-1 rounded-[8px] shadow-sm">
+          <span id="userAvatarText" class="text-xs text-emerald-800 dark:text-emerald-300 font-bold"></span>
+          <button onclick="logout()" class="text-[10px] font-semibold text-gray-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 underline">Logout</button>
         </div>
       </div>
     </div>
@@ -315,34 +310,34 @@
   <!-- ================= HOMEPAGE ================= -->
   <main id="homeView" class="flex-1 w-full space-y-0">
     <!-- HERO SECTION (KO) -->
-    <section class="hero-section py-16 md:py-24 bg-gradient-to-b from-[#f8fbf9] to-white relative overflow-hidden">
+    <section class="hero-section py-16 md:py-24 bg-gradient-to-b from-[#f8fbf9] to-white dark:from-slate-900 dark:to-slate-950 relative overflow-hidden transition-colors">
       <!-- Glow Blobs -->
-      <div class="absolute top-10 left-10 w-24 h-24 bg-amber-100 rounded-full opacity-60 blur-xl pointer-events-none"></div>
-      <div class="absolute bottom-20 left-1/3 w-40 h-40 bg-[#4CAF50]/15 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
-      <div class="absolute top-1/4 right-10 w-36 h-36 bg-[#1976D2]/10 rounded-full opacity-60 blur-2xl pointer-events-none"></div>
+      <div class="absolute top-10 left-10 w-24 h-24 bg-amber-100 dark:bg-amber-900/20 rounded-full opacity-60 blur-xl pointer-events-none"></div>
+      <div class="absolute bottom-20 left-1/3 w-40 h-40 bg-[#4CAF50]/15 dark:bg-[#4CAF50]/10 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
+      <div class="absolute top-1/4 right-10 w-36 h-36 bg-[#1976D2]/10 dark:bg-[#1976D2]/10 rounded-full opacity-60 blur-2xl pointer-events-none"></div>
 
       <div class="max-w-6xl mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <!-- Left Column -->
           <div class="text-left space-y-6">
-            <div class="inline-flex items-center gap-2 bg-[#4CAF50]/10 border border-[#4CAF50]/30 px-3 py-1 rounded-[8px] text-xs font-bold text-[#388E3C] tracking-wider uppercase">
+            <div class="inline-flex items-center gap-2 bg-[#4CAF50]/10 border border-[#4CAF50]/30 dark:border-[#4CAF50]/40 px-3 py-1 rounded-[8px] text-xs font-bold text-[#388E3C] dark:text-emerald-400 tracking-wider uppercase">
               UAE'S SMART PARKING PLATFORM
             </div>
 
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
               Find Parking. <span class="text-[#4CAF50]">Book Instantly.</span> Park Smarter.
             </h1>
 
-            <p class="text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl">
+            <p class="text-lg md:text-xl text-gray-700 dark:text-slate-300 leading-relaxed max-w-xl">
               Yalla Park helps you discover, reserve and pay for parking spots across the UAE in seconds. Skip the circling, save time, and park with confidence.
             </p>
 
             <!-- Buttons -->
             <div class="flex flex-wrap gap-4 pt-2">
-              <button onclick="switchMainMode('driver')" class="bg-[#4CAF50] text-white hover:bg-[#43A047] text-base md:text-lg px-8 py-3.5 rounded-[8px] font-semibold shadow-md transition-all flex items-center gap-2">
+              <button onclick="if(!currentUser){openLogin('driver')}else{switchMainMode('driver')}" class="bg-[#4CAF50] text-white hover:bg-[#43A047] text-base md:text-lg px-8 py-3.5 rounded-[8px] font-semibold shadow-md transition-all flex items-center gap-2">
                 Find Parking
               </button>
-              <button onclick="switchMainMode('admin')" class="border-2 border-[#1976D2] text-[#1976D2] hover:bg-blue-50 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-semibold transition-all flex items-center gap-2">
+              <button onclick="if(!currentUser){openLogin('provider')}else{switchMainMode('admin')}" class="border-2 border-[#1976D2] dark:border-blue-400 text-[#1976D2] dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-semibold transition-all flex items-center gap-2">
                 List Your Spot
               </button>
             </div>
@@ -350,18 +345,18 @@
             <!-- Trust Badges -->
             <div class="mt-8 flex flex-wrap gap-6 pt-4">
               <div class="flex items-center gap-2.5">
-                <div class="bg-green-100 p-2.5 rounded-[8px] text-[#2E7D32] font-bold text-base w-10 h-10 flex items-center justify-center">P</div>
-                <span class="text-gray-700 font-semibold text-sm">5,000+ Parking Spots</span>
+                <div class="bg-green-100 dark:bg-emerald-950/60 p-2.5 rounded-[8px] text-[#2E7D32] dark:text-emerald-400 font-bold text-base w-10 h-10 flex items-center justify-center">P</div>
+                <span class="text-gray-700 dark:text-slate-300 font-semibold text-sm">5,000+ Parking Spots</span>
               </div>
 
               <div class="flex items-center gap-2.5">
-                <div class="bg-amber-100 p-2.5 rounded-[8px] text-[#B45309] flex items-center justify-center"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg></div>
-                <span class="text-gray-700 font-semibold text-sm">Book in under 30s</span>
+                <div class="bg-amber-100 dark:bg-amber-950/60 p-2.5 rounded-[8px] text-[#B45309] dark:text-amber-400 flex items-center justify-center"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg></div>
+                <span class="text-gray-700 dark:text-slate-300 font-semibold text-sm">Book in under 30s</span>
               </div>
 
               <div class="flex items-center gap-2.5">
-                <div class="bg-blue-100 p-2.5 rounded-[8px] text-[#1565C0] flex items-center justify-center"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                <span class="text-gray-700 font-semibold text-sm">Guaranteed Spot</span>
+                <div class="bg-blue-100 dark:bg-blue-950/60 p-2.5 rounded-[8px] text-[#1565C0] dark:text-blue-400 flex items-center justify-center"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <span class="text-gray-700 dark:text-slate-300 font-semibold text-sm">Guaranteed Spot</span>
               </div>
             </div>
           </div>
@@ -370,15 +365,15 @@
           <div class="relative">
             <div class="relative w-full h-[380px] md:h-[460px]">
               <div class="absolute top-0 right-0 w-5/6 h-5/6 bg-gradient-to-br from-[#66BB6A] to-[#42A5F5] rounded-[8px] transform rotate-2 opacity-90 shadow-lg"></div>
-              <div class="absolute top-6 right-6 w-full h-full bg-white rounded-[8px] shadow-2xl overflow-hidden border-4 border-white">
+              <div class="absolute top-6 right-6 w-full h-full bg-white dark:bg-slate-900 rounded-[8px] shadow-2xl overflow-hidden border-4 border-white dark:border-slate-800 transition-colors">
                 <img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
                      alt="Modern parking garage in the UAE" class="w-full h-full object-cover">
-                <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm p-3.5 rounded-[8px] shadow-lg border border-gray-100 flex items-center justify-between">
+                <div class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm p-3.5 rounded-[8px] shadow-lg border border-gray-100 dark:border-slate-800 flex items-center justify-between transition-colors">
                   <div>
-                    <div class="text-xs font-bold text-gray-900">Dubai Mall — Level B2</div>
-                    <div class="text-[11px] text-gray-500">12 spots available right now</div>
+                    <div class="text-xs font-bold text-gray-900 dark:text-white">Dubai Mall — Level B2</div>
+                    <div class="text-[11px] text-gray-500 dark:text-slate-400">12 spots available right now</div>
                   </div>
-                  <span class="bg-green-100 text-[#2E7D32] px-2.5 py-1 rounded-[8px] text-xs font-bold">AED 20/hr</span>
+                  <span class="bg-green-100 dark:bg-emerald-950/60 text-[#2E7D32] dark:text-emerald-300 px-2.5 py-1 rounded-[8px] text-xs font-bold">AED 20/hr</span>
                 </div>
               </div>
             </div>
@@ -388,77 +383,77 @@
     </section>
 
     <!-- SMART PARKING INTELLIGENCE (QO) -->
-    <section class="py-16 md:py-20 bg-gray-50">
+    <section class="py-16 md:py-20 bg-gray-50 dark:bg-slate-950 transition-colors">
       <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-12 space-y-3">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             Smart Parking <span class="text-[#4CAF50]">Intelligence</span>
           </h2>
-          <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+          <p class="text-gray-600 dark:text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
             Live occupancy analysis and predictive slot forecasts powered by computer vision and IoT telemetry.
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Best Spots Near You Card -->
-          <div class="bg-white rounded-[8px] p-6 shadow-sm border border-gray-100 space-y-4">
-            <div class="flex items-center gap-2 border-b border-gray-100 pb-3">
-              <svg class="w-5 h-5 text-[#1976D2]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
-              <h3 class="font-bold text-lg text-gray-900">Best Spots Near You</h3>
+          <div class="bg-white dark:bg-slate-900 rounded-[8px] p-6 shadow-sm border border-gray-100 dark:border-slate-800 space-y-4 transition-colors">
+            <div class="flex items-center gap-2 border-b border-gray-100 dark:border-slate-800 pb-3">
+              <svg class="w-5 h-5 text-[#1976D2] dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+              <h3 class="font-bold text-lg text-gray-900 dark:text-white">Best Spots Near You</h3>
             </div>
             <div class="space-y-3">
-              <div class="p-3.5 rounded-[8px] bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-start border border-gray-100">
+              <div class="p-3.5 rounded-[8px] bg-gray-50 dark:bg-slate-800/80 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors flex justify-between items-start border border-gray-100 dark:border-slate-700">
                 <div>
-                  <p class="font-semibold text-gray-900 text-sm">Dubai Mall — Level B2</p>
-                  <p class="text-xs text-gray-500">3 min walk • Covered & EV</p>
+                  <p class="font-semibold text-gray-900 dark:text-white text-sm">Dubai Mall — Level B2</p>
+                  <p class="text-xs text-gray-500 dark:text-slate-400">3 min walk • Covered & EV</p>
                 </div>
                 <div class="text-right">
-                  <span class="bg-green-100 text-[#2E7D32] px-2.5 py-1 rounded-[8px] text-xs font-bold">12 spots</span>
-                  <p class="text-xs text-[#1976D2] font-semibold mt-1">AED 20/hr</p>
+                  <span class="bg-green-100 dark:bg-emerald-950/60 text-[#2E7D32] dark:text-emerald-300 px-2.5 py-1 rounded-[8px] text-xs font-bold">12 spots</span>
+                  <p class="text-xs text-[#1976D2] dark:text-blue-400 font-semibold mt-1">AED 20/hr</p>
                 </div>
               </div>
 
-              <div class="p-3.5 rounded-[8px] bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-start border border-gray-100">
+              <div class="p-3.5 rounded-[8px] bg-gray-50 dark:bg-slate-800/80 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors flex justify-between items-start border border-gray-100 dark:border-slate-700">
                 <div>
-                  <p class="font-semibold text-gray-900 text-sm">DIFC Gate Village P3</p>
-                  <p class="text-xs text-gray-500">2 min walk • Financial Center</p>
+                  <p class="font-semibold text-gray-900 dark:text-white text-sm">DIFC Gate Village P3</p>
+                  <p class="text-xs text-gray-500 dark:text-slate-400">2 min walk • Financial Center</p>
                 </div>
                 <div class="text-right">
-                  <span class="bg-amber-100 text-[#B45309] px-2.5 py-1 rounded-[8px] text-xs font-bold">5 spots</span>
-                  <p class="text-xs text-[#1976D2] font-semibold mt-1">AED 25/hr</p>
+                  <span class="bg-amber-100 dark:bg-amber-950/60 text-[#B45309] dark:text-amber-400 px-2.5 py-1 rounded-[8px] text-xs font-bold">5 spots</span>
+                  <p class="text-xs text-[#1976D2] dark:text-blue-400 font-semibold mt-1">AED 25/hr</p>
                 </div>
               </div>
 
-              <div class="p-3.5 rounded-[8px] bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-start border border-gray-100">
+              <div class="p-3.5 rounded-[8px] bg-gray-50 dark:bg-slate-800/80 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors flex justify-between items-start border border-gray-100 dark:border-slate-700">
                 <div>
-                  <p class="font-semibold text-gray-900 text-sm">Mall of the Emirates P2</p>
-                  <p class="text-xs text-gray-500">4 min walk • Al Barsha Metro</p>
+                  <p class="font-semibold text-gray-900 dark:text-white text-sm">Mall of the Emirates P2</p>
+                  <p class="text-xs text-gray-500 dark:text-slate-400">4 min walk • Al Barsha Metro</p>
                 </div>
                 <div class="text-right">
-                  <span class="bg-green-100 text-[#2E7D32] px-2.5 py-1 rounded-[8px] text-xs font-bold">42 spots</span>
-                  <p class="text-xs text-[#1976D2] font-semibold mt-1">AED 20/hr</p>
+                  <span class="bg-green-100 dark:bg-emerald-950/60 text-[#2E7D32] dark:text-emerald-300 px-2.5 py-1 rounded-[8px] text-xs font-bold">42 spots</span>
+                  <p class="text-xs text-[#1976D2] dark:text-blue-400 font-semibold mt-1">AED 20/hr</p>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- AI Parking Insights Card -->
-          <div class="bg-white rounded-[8px] p-6 shadow-sm border border-gray-100 flex flex-col justify-between space-y-4">
+          <div class="bg-white dark:bg-slate-900 rounded-[8px] p-6 shadow-sm border border-gray-100 dark:border-slate-800 flex flex-col justify-between space-y-4 transition-colors">
             <div class="space-y-4">
-              <div class="flex items-center gap-2 border-b border-gray-100 pb-3">
+              <div class="flex items-center gap-2 border-b border-gray-100 dark:border-slate-800 pb-3">
                 <svg class="w-5 h-5 text-[#4CAF50]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                <h3 class="font-bold text-lg text-gray-900">AI Parking Insights</h3>
+                <h3 class="font-bold text-lg text-gray-900 dark:text-white">AI Parking Insights</h3>
               </div>
-              <div id="yallaAiInsightBox" class="p-4 rounded-[8px] bg-[#E3F2FD] text-[#0D47A1] text-sm leading-relaxed border border-[#BBDEFB]">
+              <div id="yallaAiInsightBox" class="p-4 rounded-[8px] bg-[#E3F2FD] dark:bg-blue-950/40 text-[#0D47A1] dark:text-blue-300 text-sm leading-relaxed border border-[#BBDEFB] dark:border-blue-800/50 transition-colors">
                 Based on your usual schedule, reserve parking at Dubai Mall by 6 PM Thursdays — availability drops 80% after 7 PM.
               </div>
-              <div class="space-y-2 text-xs text-gray-600">
+              <div class="space-y-2 text-xs text-gray-600 dark:text-slate-400">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-[#4CAF50]"></span>
                   <span>Live occupancy tracking active</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-[#1976D2]"></span>
+                  <span class="w-2 h-2 rounded-full bg-[#1976D2] dark:bg-blue-400"></span>
                   <span>Demand forecasting enabled</span>
                 </div>
               </div>
@@ -472,59 +467,59 @@
     </section>
 
     <!-- FIND AVAILABLE PARKING SPOTS & MAP (cB) -->
-    <section id="searchSection" class="py-16 md:py-20 bg-white">
+    <section id="searchSection" class="py-16 md:py-20 bg-white dark:bg-slate-900 transition-colors">
       <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">
           Find Available <span class="text-[#4CAF50]">Parking Spots</span>
         </h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Left Column: Search & List -->
           <div class="space-y-4">
-            <div class="bg-gray-50 p-5 rounded-[8px] border border-gray-200 space-y-3">
+            <div class="bg-gray-50 dark:bg-slate-800/80 p-5 rounded-[8px] border border-gray-200 dark:border-slate-700 space-y-3 transition-colors">
               <div class="flex items-center justify-between">
-                <span class="font-bold text-gray-900 text-sm">Search Parking</span>
-                <button onclick="toggleSatellitePreview()" id="btnSatToggle" class="text-xs font-semibold px-2.5 py-1 rounded-[8px] bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">
+                <span class="font-bold text-gray-900 dark:text-white text-sm">Search Parking</span>
+                <button onclick="toggleSatellitePreview()" id="btnSatToggle" class="text-xs font-semibold px-2.5 py-1 rounded-[8px] bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
                   Vector Mode
                 </button>
               </div>
 
               <div class="relative">
                 <input type="text" oninput="searchYallaSpots(this.value)" placeholder="Search locations..."
-                  class="w-full bg-white border border-gray-300 rounded-[8px] px-3.5 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#4CAF50]">
+                  class="w-full bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded-[8px] px-3.5 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#4CAF50] transition-colors">
               </div>
 
               <!-- Spot list items -->
               <div id="yallaSpotsContainer" class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
-                <div onclick="focusYallaSpot(0)" class="p-3 rounded-[8px] bg-white border border-gray-200 hover:border-[#4CAF50] cursor-pointer transition">
-                  <div class="font-semibold text-gray-900 text-sm">Dubai Mall P1</div>
-                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500">
-                    <span class="text-[#2E7D32] font-medium">45 spots available</span>
-                    <span class="font-semibold text-[#1976D2]">AED 20/hr</span>
+                <div onclick="focusYallaSpot(0)" class="p-3 rounded-[8px] bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-[#4CAF50] cursor-pointer transition shadow-sm">
+                  <div class="font-semibold text-gray-900 dark:text-white text-sm">Dubai Mall P1</div>
+                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500 dark:text-slate-400">
+                    <span class="text-[#2E7D32] dark:text-emerald-400 font-medium">45 spots available</span>
+                    <span class="font-semibold text-[#1976D2] dark:text-[#90CAF9]">AED 20/hr</span>
                   </div>
                 </div>
 
-                <div onclick="focusYallaSpot(1)" class="p-3 rounded-[8px] bg-white border border-gray-200 hover:border-[#4CAF50] cursor-pointer transition">
-                  <div class="font-semibold text-gray-900 text-sm">Marina Walk Promenade</div>
-                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500">
-                    <span class="text-[#2E7D32] font-medium">23 spots available</span>
-                    <span class="font-semibold text-[#1976D2]">AED 15/hr</span>
+                <div onclick="focusYallaSpot(1)" class="p-3 rounded-[8px] bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-[#4CAF50] cursor-pointer transition shadow-sm">
+                  <div class="font-semibold text-gray-900 dark:text-white text-sm">Marina Walk Promenade</div>
+                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500 dark:text-slate-400">
+                    <span class="text-[#2E7D32] dark:text-emerald-400 font-medium">23 spots available</span>
+                    <span class="font-semibold text-[#1976D2] dark:text-[#90CAF9]">AED 15/hr</span>
                   </div>
                 </div>
 
-                <div onclick="focusYallaSpot(2)" class="p-3 rounded-[8px] bg-white border border-gray-200 hover:border-[#4CAF50] cursor-pointer transition">
-                  <div class="font-semibold text-gray-900 text-sm">JBR The Walk Plaza</div>
-                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500">
-                    <span class="text-[#B45309] font-medium">12 spots available</span>
-                    <span class="font-semibold text-[#1976D2]">AED 25/hr</span>
+                <div onclick="focusYallaSpot(2)" class="p-3 rounded-[8px] bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-[#4CAF50] cursor-pointer transition shadow-sm">
+                  <div class="font-semibold text-gray-900 dark:text-white text-sm">JBR The Walk Plaza</div>
+                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500 dark:text-slate-400">
+                    <span class="text-[#B45309] dark:text-amber-400 font-medium">12 spots available</span>
+                    <span class="font-semibold text-[#1976D2] dark:text-[#90CAF9]">AED 25/hr</span>
                   </div>
                 </div>
 
-                <div onclick="focusYallaSpot(3)" class="p-3 rounded-[8px] bg-white border border-gray-200 hover:border-[#4CAF50] cursor-pointer transition">
-                  <div class="font-semibold text-gray-900 text-sm">Mall of the Emirates P2</div>
-                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500">
-                    <span class="text-[#2E7D32] font-medium">67 spots available</span>
-                    <span class="font-semibold text-[#1976D2]">AED 20/hr</span>
+                <div onclick="focusYallaSpot(3)" class="p-3 rounded-[8px] bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-[#4CAF50] cursor-pointer transition shadow-sm">
+                  <div class="font-semibold text-gray-900 dark:text-white text-sm">Mall of the Emirates P2</div>
+                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500 dark:text-slate-400">
+                    <span class="text-[#2E7D32] dark:text-emerald-400 font-medium">67 spots available</span>
+                    <span class="font-semibold text-[#1976D2] dark:text-[#90CAF9]">AED 20/hr</span>
                   </div>
                 </div>
               </div>
@@ -544,13 +539,13 @@
               </div>
 
               <div class="text-center space-y-1 z-10">
-                <div class="w-12 h-12 rounded-[8px] bg-[#4CAF50] text-white text-xl font-bold flex items-center justify-center mx-auto shadow-lg">P</div>
+                <img src="logo.png" alt="Y-Park Logo" class="w-12 h-12 object-contain mx-auto shadow-lg mb-1">
                 <h3 id="mapSpotName" class="text-base font-bold text-white">Dubai Mall P1</h3>
                 <p id="mapSpotDetail" class="text-xs text-blue-200">45 bays available • AED 20/hr • 3 min walk</p>
               </div>
 
               <div class="z-10 flex flex-col sm:flex-row gap-2">
-                <button onclick="switchMainMode('driver')" class="flex-1 py-2.5 rounded-[8px] bg-[#4CAF50] hover:bg-[#43A047] text-white font-bold text-xs shadow transition">
+                <button onclick="if(!currentUser){openLogin('driver')}else{switchMainMode('driver')}" class="flex-1 py-2.5 rounded-[8px] bg-[#4CAF50] hover:bg-[#43A047] text-white font-bold text-xs shadow transition">
                   Open in Driver App & Reserve Bay →
                 </button>
                 <a href="map.html" target="_blank" class="py-2.5 px-3.5 rounded-[8px] bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1.5 whitespace-nowrap">
@@ -564,62 +559,62 @@
     </section>
 
     <!-- EVERYTHING YOU NEED TO PARK SMARTER (JO) -->
-    <section id="featuresSection" class="py-16 md:py-24 bg-gray-50">
+    <section id="featuresSection" class="py-16 md:py-24 bg-gray-50 dark:bg-slate-950 transition-colors">
       <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-16 space-y-3">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             Everything you need to <span class="text-[#4CAF50]">park smarter</span>
           </h2>
-          <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
+          <p class="text-base md:text-lg text-gray-600 dark:text-slate-400 max-w-3xl mx-auto">
             Yalla Park puts every parking spot in the UAE at your fingertips — discover, reserve, navigate, and pay from a single app.
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-green-50 text-[#2E7D32] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg></div>
-            <h3 class="text-xl font-semibold text-gray-900">Real-Time Availability</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
+          <div class="bg-white dark:bg-slate-900 rounded-[8px] p-6 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-green-50 dark:bg-emerald-950/40 text-[#2E7D32] dark:text-emerald-400 flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg></div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Real-Time Availability</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-sm leading-relaxed">
               See live occupancy across malls, residential towers, and street parking before you even leave home.
             </p>
           </div>
 
-          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg></div>
-            <h3 class="text-xl font-semibold text-gray-900">Reserve in Advance</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
+          <div class="bg-white dark:bg-slate-900 rounded-[8px] p-6 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 dark:bg-blue-950/40 text-[#1565C0] dark:text-blue-400 flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg></div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Reserve in Advance</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-sm leading-relaxed">
               Book your spot hours or days ahead. Your space is guaranteed when you arrive — no more circling.
             </p>
           </div>
 
-          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-green-50 text-[#2E7D32] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12 2 15 9 12 11 9 9" fill="currentColor"/><polygon points="12 22 9 15 12 13 15 15" fill="currentColor"/></svg></div>
-            <h3 class="text-xl font-semibold text-gray-900">Turn-by-Turn Guidance</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
+          <div class="bg-white dark:bg-slate-900 rounded-[8px] p-6 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-green-50 dark:bg-emerald-950/40 text-[#2E7D32] dark:text-emerald-400 flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12 2 15 9 12 11 9 9" fill="currentColor"/><polygon points="12 22 9 15 12 13 15 15" fill="currentColor"/></svg></div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Turn-by-Turn Guidance</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-sm leading-relaxed">
               Get directed straight to your reserved bay with in-app navigation and indoor wayfinding.
             </p>
           </div>
 
-          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path stroke-linecap="round" d="M2 10h20"/><path stroke-linecap="round" d="M6 15h4"/></svg></div>
-            <h3 class="text-xl font-semibold text-gray-900">Cashless Payments</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
+          <div class="bg-white dark:bg-slate-900 rounded-[8px] p-6 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 dark:bg-blue-950/40 text-[#1565C0] dark:text-blue-400 flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path stroke-linecap="round" d="M2 10h20"/><path stroke-linecap="round" d="M6 15h4"/></svg></div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Cashless Payments</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-sm leading-relaxed">
               Pay seamlessly with Apple Pay, card, or wallet. Receipts and VAT invoices delivered instantly.
             </p>
           </div>
 
-          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-amber-50 text-[#B45309] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <h3 class="text-xl font-semibold text-gray-900">Secure & Verified</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
+          <div class="bg-white dark:bg-slate-900 rounded-[8px] p-6 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-amber-50 dark:bg-amber-950/40 text-[#B45309] dark:text-amber-400 flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Secure & Verified</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-sm leading-relaxed">
               Every listed spot is verified, monitored, and covered by our parking protection guarantee.
             </p>
           </div>
 
-          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
-            <h3 class="text-xl font-semibold text-gray-900">UAE-Wide Coverage</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
+          <div class="bg-white dark:bg-slate-900 rounded-[8px] p-6 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 dark:bg-blue-950/40 text-[#1565C0] dark:text-blue-400 flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">UAE-Wide Coverage</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-sm leading-relaxed">
               From Dubai Marina to Abu Dhabi Corniche and Sharjah — thousands of spots in one app.
             </p>
           </div>
@@ -628,46 +623,46 @@
     </section>
 
     <!-- HOW YALLA PARK WORKS (tB) -->
-    <section id="howItWorksSection" class="py-16 md:py-24 bg-white">
+    <section id="howItWorksSection" class="py-16 md:py-24 bg-white dark:bg-slate-900 transition-colors">
       <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-16 space-y-3">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             How Yalla Park Works
           </h2>
-          <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+          <p class="text-base md:text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
             From searching to parking, the entire experience takes under a minute. Here's how easy it is.
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="bg-gray-50 rounded-[8px] p-6 border border-gray-100 space-y-3">
+          <div class="bg-gray-50 dark:bg-slate-800/80 rounded-[8px] p-6 border border-gray-100 dark:border-slate-700 space-y-3 transition-colors">
             <div class="w-10 h-10 rounded-[8px] bg-[#1976D2] text-white flex items-center justify-center font-bold text-base">1</div>
-            <h3 class="text-lg font-bold text-gray-900">Search destination</h3>
-            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Search destination</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-xs md:text-sm leading-relaxed">
               Type where you're headed — a mall, office, restaurant, or address — and we'll show every nearby parking option.
             </p>
           </div>
 
-          <div class="bg-gray-50 rounded-[8px] p-6 border border-gray-100 space-y-3">
+          <div class="bg-gray-50 dark:bg-slate-800/80 rounded-[8px] p-6 border border-gray-100 dark:border-slate-700 space-y-3 transition-colors">
             <div class="w-10 h-10 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center font-bold text-base">2</div>
-            <h3 class="text-lg font-bold text-gray-900">Pick the spot</h3>
-            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Pick the spot</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-xs md:text-sm leading-relaxed">
               Compare live availability, hourly rates, covered vs. open bays, EV chargers, and walking distance.
             </p>
           </div>
 
-          <div class="bg-gray-50 rounded-[8px] p-6 border border-gray-100 space-y-3">
+          <div class="bg-gray-50 dark:bg-slate-800/80 rounded-[8px] p-6 border border-gray-100 dark:border-slate-700 space-y-3 transition-colors">
             <div class="w-10 h-10 rounded-[8px] bg-[#F59E0B] text-white flex items-center justify-center font-bold text-base">3</div>
-            <h3 class="text-lg font-bold text-gray-900">Reserve & navigate</h3>
-            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Reserve & navigate</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-xs md:text-sm leading-relaxed">
               Lock in your bay in seconds and follow turn-by-turn directions straight to it. No more endless circling.
             </p>
           </div>
 
-          <div class="bg-gray-50 rounded-[8px] p-6 border border-gray-100 space-y-3">
+          <div class="bg-gray-50 dark:bg-slate-800/80 rounded-[8px] p-6 border border-gray-100 dark:border-slate-700 space-y-3 transition-colors">
             <div class="w-10 h-10 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center font-bold text-base">4</div>
-            <h3 class="text-lg font-bold text-gray-900">Park & pay seamlessly</h3>
-            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Park & pay seamlessly</h3>
+            <p class="text-gray-600 dark:text-slate-400 text-xs md:text-sm leading-relaxed">
               Scan in, park, and pay automatically. Extend your stay from the app whenever you need more time.
             </p>
           </div>
@@ -714,49 +709,49 @@
     </section>
 
     <!-- BUR DUBAI PARKING CARD (kC) -->
-    <section id="burDubaiSection" class="py-8 md:py-12 bg-white border-t border-gray-100">
+    <section id="burDubaiSection" class="py-8 md:py-12 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 transition-colors">
       <div class="max-w-6xl mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div class="order-2 lg:order-1">
-            <div class="bg-white rounded-[8px] p-6 shadow-sm border border-gray-100">
+            <div class="bg-white dark:bg-slate-800 rounded-[8px] p-6 shadow-sm border border-gray-100 dark:border-slate-700 transition-colors">
               <div class="flex justify-between items-start">
                 <div>
-                  <div class="text-[11px] font-bold text-teal-400 uppercase tracking-wide">Bur Dubai</div>
-                  <h3 class="text-base font-bold text-white">Al Fahidi Heritage Public Parking</h3>
-                  <p class="text-xs text-slate-400">Al Fahidi St, Near Dubai Museum</p>
+                  <div class="text-[11px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wide">Bur Dubai</div>
+                  <h3 class="text-base font-bold text-slate-900 dark:text-white">Al Fahidi Heritage Public Parking</h3>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Al Fahidi St, Near Dubai Museum</p>
                 </div>
                 <div class="text-right">
-                  <div class="text-base font-black text-white">AED 4/h</div>
-                  <div class="text-[10px] text-teal-300 font-semibold">RTA Zone</div>
+                  <div class="text-base font-black text-slate-900 dark:text-white">AED 4/h</div>
+                  <div class="text-[10px] text-teal-600 dark:text-teal-300 font-semibold">RTA Zone</div>
                 </div>
               </div>
               <div class="mt-3 flex justify-between text-xs mb-1">
-                <span class="text-slate-400">38/60 Occupied</span>
-                <span class="text-amber-400">Moderate (22 open)</span>
+                <span class="text-slate-500 dark:text-slate-400">38/60 Occupied</span>
+                <span class="text-amber-600 dark:text-amber-400 font-semibold">Moderate (22 open)</span>
               </div>
-              <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden my-2">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden my-2">
                 <div class="bg-amber-500 h-full rounded-full" style="width: 63%"></div>
               </div>
               <div class="flex gap-1.5 flex-wrap pt-1 text-[10px] font-semibold">
-                <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-0.5 rounded">POD: 2</span>
-                <span class="bg-pink-500/20 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded">Pink: 4</span>
-                <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded">Delivery: 4</span>
+                <span class="bg-blue-50 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30 px-2 py-0.5 rounded">POD: 2</span>
+                <span class="bg-pink-50 dark:bg-pink-500/20 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-500/30 px-2 py-0.5 rounded">Pink: 4</span>
+                <span class="bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 px-2 py-0.5 rounded">Delivery: 4</span>
               </div>
             </div>
           </div>
           <div class="order-1 lg:order-2">
-            <div class="bg-white rounded-[8px] p-6 shadow-sm border border-gray-100">
+            <div class="bg-white dark:bg-slate-800 rounded-[8px] p-6 shadow-sm border border-gray-100 dark:border-slate-700 transition-colors">
               <div class="h-[280px] md:h-[340px] relative overflow-hidden rounded-[8x]">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-[#4CAF50]/15 rounded-full opacity-60 blur-xl pointer-events-none"></div>
                 <div class="absolute bottom-0 left-0 w-48 h-48 bg-[#1976D2]/10 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
                 <img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                      alt="Al Fahidi Historical Neighbourhood Dubai" class="w-full h-full object-cover">
-                <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm p-4 rounded-[8px] border border-gray-100 flex items-center justify-between">
+                <div class="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm p-4 rounded-[8px] border border-gray-100 dark:border-slate-800 flex items-center justify-between transition-colors">
                   <div>
-                    <div class="text-xs font-bold text-gray-900">Heritage Area</div>
-                    <div class="text-[10px] text-gray-500">Cultural District</div>
+                    <div class="text-xs font-bold text-gray-900 dark:text-white">Heritage Area</div>
+                    <div class="text-[10px] text-gray-500 dark:text-slate-400">Cultural District</div>
                   </div>
-                  <span class="bg-teal-100 text-[#2E7D32] px-2.5 py-1 rounded-[8px] text-xs font-bold">AED 4/hr</span>
+                  <span class="bg-teal-100 dark:bg-teal-900/40 text-[#2E7D32] dark:text-emerald-300 px-2.5 py-1 rounded-[8px] text-xs font-bold">AED 4/hr</span>
                 </div>
               </div>
             </div>
@@ -766,56 +761,56 @@
     </section>
 
     <!-- LOVED BY UAE DRIVERS - TESTIMONIALS (iB) -->
-    <section id="testimonials" class="py-16 md:py-24 bg-white">
+    <section id="testimonials" class="py-16 md:py-24 bg-white dark:bg-slate-900 transition-colors">
       <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-16 space-y-3">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             Loved by UAE Drivers
           </h2>
-          <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+          <p class="text-base md:text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
             Tens of thousands of drivers across Dubai, Abu Dhabi, and Sharjah park smarter with Yalla Park.
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="bg-gray-50 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 space-y-4">
+          <div class="bg-gray-50 dark:bg-slate-800/80 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-slate-700 space-y-4">
             <div class="flex items-center gap-4">
               <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ahmad Al Falasi" class="w-14 h-14 rounded-[8px] object-cover">
               <div>
-                <h4 class="font-semibold text-base text-gray-900">Ahmad Al Falasi</h4>
-                <p class="text-xs text-gray-500">Downtown Dubai Commuter</p>
+                <h4 class="font-semibold text-base text-gray-900 dark:text-white">Ahmad Al Falasi</h4>
+                <p class="text-xs text-gray-500 dark:text-slate-400">Downtown Dubai Commuter</p>
               </div>
             </div>
-            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 font-bold border border-amber-500/20">5.0 / 5.0 Rating</span></div>
-            <p class="text-gray-700 italic text-sm leading-relaxed">
+            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold border border-amber-500/20 dark:border-amber-500/30">5.0 / 5.0 Rating</span></div>
+            <p class="text-gray-700 dark:text-slate-300 italic text-sm leading-relaxed">
               "I used to spend 20 minutes hunting for parking near DIFC. With Yalla Park I reserve my bay before I leave home — drive straight in, done."
             </p>
           </div>
 
-          <div class="bg-gray-50 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 space-y-4">
+          <div class="bg-gray-50 dark:bg-slate-800/80 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-slate-700 space-y-4">
             <div class="flex items-center gap-4">
               <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="w-14 h-14 rounded-[8px] object-cover">
               <div>
-                <h4 class="font-semibold text-base text-gray-900">Sarah Johnson</h4>
-                <p class="text-xs text-gray-500">Dubai Mall Regular</p>
+                <h4 class="font-semibold text-base text-gray-900 dark:text-white">Sarah Johnson</h4>
+                <p class="text-xs text-gray-500 dark:text-slate-400">Dubai Mall Regular</p>
               </div>
             </div>
-            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 font-bold border border-amber-500/20">5.0 / 5.0 Rating</span></div>
-            <p class="text-gray-700 italic text-sm leading-relaxed">
+            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold border border-amber-500/20 dark:border-amber-500/30">5.0 / 5.0 Rating</span></div>
+            <p class="text-gray-700 dark:text-slate-300 italic text-sm leading-relaxed">
               "The live availability is a lifesaver on weekends. I can see exactly which level has space before I even reach the entrance."
             </p>
           </div>
 
-          <div class="bg-gray-50 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 space-y-4">
+          <div class="bg-gray-50 dark:bg-slate-800/80 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-slate-700 space-y-4">
             <div class="flex items-center gap-4">
               <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Rajiv Mehta" class="w-14 h-14 rounded-[8px] object-cover">
               <div>
-                <h4 class="font-semibold text-base text-gray-900">Rajiv Mehta</h4>
-                <p class="text-xs text-gray-500">Marina Resident</p>
+                <h4 class="font-semibold text-base text-gray-900 dark:text-white">Rajiv Mehta</h4>
+                <p class="text-xs text-gray-500 dark:text-slate-400">Marina Resident</p>
               </div>
             </div>
-            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 font-bold border border-amber-500/20">4.8 / 5.0 Rating</span></div>
-            <p class="text-gray-700 italic text-sm leading-relaxed">
+            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold border border-amber-500/20 dark:border-amber-500/30">4.8 / 5.0 Rating</span></div>
+            <p class="text-gray-700 dark:text-slate-300 italic text-sm leading-relaxed">
               "I list my building's spare visitor bay on Yalla Park and earn extra income every month. Setup took five minutes."
             </p>
           </div>
@@ -834,10 +829,10 @@
         </div>
 
         <div class="flex flex-wrap justify-center gap-4">
-          <button onclick="switchMainMode('driver')" class="bg-white text-[#2E7D32] hover:bg-gray-100 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-bold shadow-md transition">
+          <button onclick="if(!currentUser){openLogin('driver')}else{switchMainMode('driver')}" class="bg-white text-[#2E7D32] hover:bg-gray-100 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-bold shadow-md transition">
             Get the App
           </button>
-          <button onclick="switchMainMode('admin')" class="border-2 border-white text-white hover:bg-white/20 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-bold transition">
+          <button onclick="if(!currentUser){openLogin('provider')}else{switchMainMode('admin')}" class="border-2 border-white text-white hover:bg-white/20 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-bold transition">
             List Your Spot
           </button>
         </div>
@@ -865,7 +860,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center font-bold text-sm">P</div>
+              <img src="logo.png" alt="Y-Park Logo" class="w-7 h-7 object-contain">
               <span class="font-bold text-xl text-white">Yalla<span class="text-[#4CAF50]">Park</span></span>
             </div>
             <p class="mt-4 text-gray-400 text-sm leading-relaxed">
@@ -877,8 +872,8 @@
             <h3 class="font-semibold text-base mb-4">Navigation</h3>
             <ul class="space-y-2 text-gray-400 text-sm">
               <li><a href="#" onclick="switchMainMode('home'); return false;" class="hover:text-[#4CAF50]">Home</a></li>
-              <li><a href="#" onclick="switchMainMode('driver'); return false;" class="hover:text-[#4CAF50]">Find Parking</a></li>
-              <li><a href="#" onclick="switchMainMode('admin'); return false;" class="hover:text-[#4CAF50]">List Your Spot</a></li>
+              <li><a href="#" onclick="if(!currentUser){openLogin('driver')}else{switchMainMode('driver')}; return false;" class="hover:text-[#4CAF50]">Find Parking</a></li>
+              <li><a href="#" onclick="if(!currentUser){openLogin('provider')}else{switchMainMode('admin')}; return false;" class="hover:text-[#4CAF50]">List Your Spot</a></li>
               <li><a href="#howItWorksSection" class="hover:text-[#4CAF50]">How It Works</a></li>
             </ul>
           </div>
@@ -914,51 +909,52 @@
   <main id="loginView" class="hidden flex-1 max-w-xl w-full mx-auto p-4 md:p-6 space-y-6">
     <!-- Back to Home -->
     <div class="flex items-center justify-between">
-      <button onclick="switchMainMode('home')" class="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1">
+      <button onclick="switchMainMode('home')" class="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition-colors">
         ← Back to Home
       </button>
-      <span class="text-[10px] uppercase font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40 px-2.5 py-0.5 rounded-full">
+      <span class="text-[10px] uppercase font-bold bg-teal-500/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/30 px-2.5 py-0.5 rounded-full">
         YallaPark Auth
       </span>
     </div>
 
     <div class="text-center space-y-1.5">
-      <h2 class="text-2xl md:text-3xl font-black text-white">Sign In to YallaPark</h2>
-      <p class="text-xs text-slate-400">Select your account type to access personalized parking services or facility management.</p>
+      <img src="logo.png" alt="Y-Park Logo" class="w-16 h-16 object-contain mx-auto mb-1">
+      <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">Sign In to YallaPark</h2>
+      <p class="text-xs text-slate-500 dark:text-slate-400">Select your account type to access personalized parking services or facility management.</p>
     </div>
 
     <!-- Two-Option Tab Selector -->
-    <div class="bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700 grid grid-cols-2 gap-1.5">
+    <div class="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-700 grid grid-cols-2 gap-1.5">
       <button id="loginTabDriver" onclick="setLoginTab('driver')" class="py-2.5 rounded-xl text-xs font-bold transition-all bg-teal-500 text-white shadow flex items-center justify-center gap-1.5">
         Driver
       </button>
-      <button id="loginTabProvider" onclick="setLoginTab('provider')" class="py-2.5 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+      <button id="loginTabProvider" onclick="setLoginTab('provider')" class="py-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center justify-center gap-1.5">
         Provider (Govt / Org)
       </button>
     </div>
 
     <!-- DRIVER LOGIN FORM CONTAINER -->
-    <div id="loginFormDriver" class="bg-slate-800 rounded-2xl border border-teal-700/50 p-6 space-y-5 shadow-xl">
-      <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
-        <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center"><svg class="w-5 h-5 text-teal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 17a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 11l2-6h14l2 6v6h-2a2 2 0 01-4 0H9a2 2 0 01-4 0H3v-6z"/></svg></div>
+    <div id="loginFormDriver" class="bg-white dark:bg-slate-800 rounded-2xl border border-teal-500/30 dark:border-teal-700/50 p-6 space-y-5 shadow-xl transition-colors">
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-200 dark:border-slate-700">
+        <div class="w-10 h-10 rounded-xl bg-teal-500/10 dark:bg-teal-500/20 text-teal-600 dark:text-teal-300 flex items-center justify-center"><svg class="w-5 h-5 text-teal-600 dark:text-teal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 17a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 11l2-6h14l2 6v6h-2a2 2 0 01-4 0H9a2 2 0 01-4 0H3v-6z"/></svg></div>
         <div>
-          <h3 class="text-sm font-bold text-white">Motorist & Driver Login</h3>
-          <p class="text-[11px] text-teal-300/80">Guaranteed hold, predictive ETA & NOL payment</p>
+          <h3 class="text-sm font-bold text-slate-900 dark:text-white">Motorist & Driver Login</h3>
+          <p class="text-[11px] text-teal-700 dark:text-teal-300/80">Guaranteed hold, predictive ETA & NOL payment</p>
         </div>
       </div>
 
       <form onsubmit="handleDriverLoginSubmit(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Full Name</label>
-          <input id="loginDriverName" type="text" value="Ahmed Al-Mansoor" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-teal-400" required />
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
+          <input id="loginDriverName" type="text" value="Ahmed Al-Mansoor" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors" required />
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Mobile Number (UAE +971)</label>
-          <input id="loginDriverPhone" type="tel" value="+971 50 123 4567" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-teal-400" required />
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Mobile Number (UAE +971)</label>
+          <input id="loginDriverPhone" type="tel" value="+971 50 123 4567" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors" required />
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Dubai Vehicle Plate Number</label>
-          <input id="loginDriverPlate" type="text" value="DXB A 48291" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white uppercase focus:outline-none focus:border-teal-400" required />
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Dubai Vehicle Plate Number</label>
+          <input id="loginDriverPlate" type="text" value="DXB A 48291" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white uppercase placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors" required />
         </div>
 
         <button type="submit" class="w-full py-3 bg-teal-500 hover:bg-teal-400 text-white rounded-xl text-xs font-bold shadow-lg shadow-teal-500/20 transition-all">
@@ -967,53 +963,53 @@
       </form>
 
       <!-- 1-Click Demo Accounts for Driver -->
-      <div class="pt-3 border-t border-slate-700 space-y-2">
-        <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Quick 1-Click Demo Accounts</span>
+      <div class="pt-3 border-t border-slate-200 dark:border-slate-700 space-y-2">
+        <span class="text-[10px] font-extrabold uppercase text-slate-500 dark:text-slate-400 tracking-wider">Quick 1-Click Demo Accounts</span>
         <div class="grid grid-cols-1 gap-2">
-          <button onclick="demoLoginDriver('Ahmed Al-Mansoor', 'DXB A 48291', '+971 50 123 4567')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
+          <button onclick="demoLoginDriver('Ahmed Al-Mansoor', 'DXB A 48291', '+971 50 123 4567')" class="text-left bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
             <div>
-              <div class="text-xs font-bold text-white">Ahmed Al-Mansoor</div>
-              <div class="text-[10px] text-slate-400">Plate: DXB A 48291 • Downtown Regular</div>
+              <div class="text-xs font-bold text-slate-900 dark:text-white">Ahmed Al-Mansoor</div>
+              <div class="text-[10px] text-slate-500 dark:text-slate-400">Plate: DXB A 48291 • Downtown Regular</div>
             </div>
-            <span class="text-xs text-teal-400 font-bold">Use →</span>
+            <span class="text-xs text-teal-600 dark:text-teal-400 font-bold">Use →</span>
           </button>
-          <button onclick="demoLoginDriver('Sara Al-Qasimi', 'DXB K 19024', '+971 55 987 6543')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
+          <button onclick="demoLoginDriver('Sara Al-Qasimi', 'DXB K 19024', '+971 55 987 6543')" class="text-left bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
             <div>
-              <div class="text-xs font-bold text-white">Sara Al-Qasimi</div>
-              <div class="text-[10px] text-slate-400">Plate: DXB K 19024 • Bur Dubai Resident</div>
+              <div class="text-xs font-bold text-slate-900 dark:text-white">Sara Al-Qasimi</div>
+              <div class="text-[10px] text-slate-500 dark:text-slate-400">Plate: DXB K 19024 • Bur Dubai Resident</div>
             </div>
-            <span class="text-xs text-teal-400 font-bold">Use →</span>
+            <span class="text-xs text-teal-600 dark:text-teal-400 font-bold">Use →</span>
           </button>
         </div>
       </div>
     </div>
 
     <!-- PROVIDER LOGIN FORM CONTAINER -->
-    <div id="loginFormProvider" class="hidden bg-slate-800 rounded-2xl border border-amber-700/50 p-6 space-y-5 shadow-xl">
-      <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center"><svg class="w-5 h-5 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
+    <div id="loginFormProvider" class="hidden bg-white dark:bg-slate-800 rounded-2xl border border-amber-500/30 dark:border-amber-700/50 p-6 space-y-5 shadow-xl transition-colors">
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-200 dark:border-slate-700">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-300 flex items-center justify-center"><svg class="w-5 h-5 text-amber-600 dark:text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
         <div>
-          <h3 class="text-sm font-bold text-white">Parking Provider Console (Way 2)</h3>
-          <p class="text-[11px] text-amber-300/80">Government authority & facility operator management</p>
+          <h3 class="text-sm font-bold text-slate-900 dark:text-white">Parking Provider Console (Way 2)</h3>
+          <p class="text-[11px] text-amber-700 dark:text-amber-300/80">Government authority & facility operator management</p>
         </div>
       </div>
 
       <form onsubmit="handleProviderLoginSubmit(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Representative Name</label>
-          <input id="loginProviderName" type="text" value="Eng. Fatima Al-Hashimi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400" required />
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Representative Name</label>
+          <input id="loginProviderName" type="text" value="Eng. Fatima Al-Hashimi" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors" required />
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Organization / Authority Name</label>
-          <input id="loginProviderOrg" type="text" value="Roads and Transport Authority (RTA)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400" required />
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Organization / Authority Name</label>
+          <input id="loginProviderOrg" type="text" value="Roads and Transport Authority (RTA)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors" required />
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Government ID / Trade License No.</label>
-          <input id="loginProviderGovId" type="text" value="RTA-GOV-9824" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white uppercase focus:outline-none focus:border-amber-400" required />
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Government ID / Trade License No.</label>
+          <input id="loginProviderGovId" type="text" value="RTA-GOV-9824" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white uppercase placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors" required />
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Provider Role</label>
-          <select id="loginProviderRole" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Provider Role</label>
+          <select id="loginProviderRole" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500 transition-colors">
             <option value="RTA Public Authority">RTA Public Authority (Municipal Regulation)</option>
             <option value="Mawaqif Zone Operator">Mawaqif Operator (Zone Enforcement)</option>
             <option value="Commercial Operator">Commercial Garage Operator (Private Garages)</option>
@@ -1026,22 +1022,22 @@
       </form>
 
       <!-- 1-Click Demo Accounts for Provider -->
-      <div class="pt-3 border-t border-slate-700 space-y-2">
-        <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Quick 1-Click Demo Accounts</span>
+      <div class="pt-3 border-t border-slate-200 dark:border-slate-700 space-y-2">
+        <span class="text-[10px] font-extrabold uppercase text-slate-500 dark:text-slate-400 tracking-wider">Quick 1-Click Demo Accounts</span>
         <div class="grid grid-cols-1 gap-2">
-          <button onclick="demoLoginProvider('Eng. Fatima Al-Hashimi', 'Roads and Transport Authority (RTA)', 'RTA-GOV-9824', 'RTA Public Authority')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
+          <button onclick="demoLoginProvider('Eng. Fatima Al-Hashimi', 'Roads and Transport Authority (RTA)', 'RTA-GOV-9824', 'RTA Public Authority')" class="text-left bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
             <div>
-              <div class="text-xs font-bold text-white">Eng. Fatima Al-Hashimi</div>
-              <div class="text-[10px] text-slate-400">RTA Dubai Public Authority • Full Regulatory Control</div>
+              <div class="text-xs font-bold text-slate-900 dark:text-white">Eng. Fatima Al-Hashimi</div>
+              <div class="text-[10px] text-slate-500 dark:text-slate-400">RTA Dubai Public Authority • Full Regulatory Control</div>
             </div>
-            <span class="text-xs text-amber-400 font-bold">Use →</span>
+            <span class="text-xs text-amber-600 dark:text-amber-400 font-bold">Use →</span>
           </button>
-          <button onclick="demoLoginProvider('Majid Properties Garages', 'Majid Al Futtaim Properties', 'DED-COM-5519', 'Commercial Operator')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
+          <button onclick="demoLoginProvider('Majid Properties Garages', 'Majid Al Futtaim Properties', 'DED-COM-5519', 'Commercial Operator')" class="text-left bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/80 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
             <div>
-              <div class="text-xs font-bold text-white">Majid Properties Garages</div>
-              <div class="text-[10px] text-slate-400">Commercial Garage Operator • Mall & Private Garages</div>
+              <div class="text-xs font-bold text-slate-900 dark:text-white">Majid Properties Garages</div>
+              <div class="text-[10px] text-slate-500 dark:text-slate-400">Commercial Garage Operator • Mall & Private Garages</div>
             </div>
-            <span class="text-xs text-amber-400 font-bold">Use →</span>
+            <span class="text-xs text-amber-600 dark:text-amber-400 font-bold">Use →</span>
           </button>
         </div>
       </div>
@@ -1052,23 +1048,23 @@
   <main id="driverView" class="hidden flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 space-y-6">
     
     <!-- Navigation Tabs for Driver -->
-    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 transition-colors">
       <div class="flex gap-2">
-        <button onclick="setDriverTab('map')" id="tabMap" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5">
+        <button onclick="setDriverTab('map')" id="tabMap" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5 border border-teal-500">
           Explore Lots
         </button>
-        <button onclick="setDriverTab('pass')" id="tabPass" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
+        <button onclick="setDriverTab('pass')" id="tabPass" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition-colors">
           Active Pass <span id="passBadge" class="hidden w-2 h-2 bg-emerald-400 rounded-full"></span>
         </button>
-        <button onclick="setDriverTab('ai')" id="tabAi" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
+        <button onclick="setDriverTab('ai')" id="tabAi" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition-colors">
           AI Concierge
         </button>
-        <button onclick="setDriverTab('rewards')" id="tabRewards" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
+        <button onclick="setDriverTab('rewards')" id="tabRewards" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition-colors">
           Eco-Rewards
         </button>
       </div>
 
-      <div class="hidden sm:flex items-center gap-2 text-xs text-slate-400">
+      <div class="hidden sm:flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         Live RTA Telemetry Synced
       </div>
@@ -1077,47 +1073,47 @@
     <!-- TAB 1: EXPLORE MAP & LOTS -->
     <div id="driverTabExplore" class="space-y-6">
       <!-- Search & Zone Filters -->
-      <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-3">
+      <div class="bg-white dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-3 shadow-sm transition-colors">
         <div class="flex flex-col md:flex-row gap-3">
           <div class="relative flex-1">
             <svg class="w-4 h-4 absolute left-3.5 top-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="11" cy="11" r="8" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M21 21l-4.35-4.35"/></svg>
             <input id="searchInput" oninput="filterLots()" type="text" placeholder="Search facilities, streets, or landmarks (e.g. Al Fahidi, Karama, Souq)..." 
-              class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-teal-400" />
+              class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors" />
           </div>
           <!-- Zone Pills -->
           <div class="flex gap-2 overflow-x-auto scrollbar-hide py-1">
-            <button onclick="selectZone(null)" class="zone-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-teal-500 text-white" data-zone="all">All Dubai</button>
-            <button onclick="selectZone('BUR_DUBAI')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600" data-zone="BUR_DUBAI">Bur Dubai</button>
-            <button onclick="selectZone('KARAMA')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600" data-zone="KARAMA">Al Karama</button>
-            <button onclick="selectZone('DEIRA')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600" data-zone="DEIRA">Deira</button>
-            <button onclick="selectZone('DOWNTOWN')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600" data-zone="DOWNTOWN">Downtown</button>
+            <button onclick="selectZone(null)" class="zone-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-teal-500 text-white shadow-sm" data-zone="all">All Dubai</button>
+            <button onclick="selectZone('BUR_DUBAI')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 transition-colors" data-zone="BUR_DUBAI">Bur Dubai</button>
+            <button onclick="selectZone('KARAMA')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 transition-colors" data-zone="KARAMA">Al Karama</button>
+            <button onclick="selectZone('DEIRA')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 transition-colors" data-zone="DEIRA">Deira</button>
+            <button onclick="selectZone('DOWNTOWN')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 transition-colors" data-zone="DOWNTOWN">Downtown</button>
           </div>
         </div>
 
         <!-- Specialized Bay Category Filters -->
-        <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-700/60 items-center">
-          <span class="text-xs text-slate-400 font-semibold mr-1">Filter Bays:</span>
-          <button onclick="selectCategory('ALL')" class="cat-btn active px-2.5 py-1 rounded-md text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40" data-cat="ALL">All Bays</button>
-          <button onclick="selectCategory('POD')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-blue-300 border border-blue-500/30 hover:bg-blue-900/30" data-cat="POD">POD Accessible</button>
-          <button onclick="selectCategory('PINK')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-pink-300 border border-pink-500/30 hover:bg-pink-900/30" data-cat="PINK">Women-Only Pink</button>
-          <button onclick="selectCategory('DELIVERY')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-amber-300 border border-amber-500/30 hover:bg-amber-900/30" data-cat="DELIVERY">Delivery Quick Bays</button>
-          <button onclick="selectCategory('EV')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-900/30" data-cat="EV">EV Charging</button>
+        <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-200 dark:border-slate-700/60 items-center">
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-semibold mr-1">Filter Bays:</span>
+          <button onclick="selectCategory('ALL')" class="cat-btn active px-2.5 py-1 rounded-md text-xs font-bold bg-teal-500/15 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/40" data-cat="ALL">All Bays</button>
+          <button onclick="selectCategory('POD')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 dark:bg-slate-700/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors" data-cat="POD">POD Accessible</button>
+          <button onclick="selectCategory('PINK')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-pink-50 dark:bg-slate-700/60 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-500/30 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors" data-cat="PINK">Women-Only Pink</button>
+          <button onclick="selectCategory('DELIVERY')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-amber-50 dark:bg-slate-700/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors" data-cat="DELIVERY">Delivery Quick Bays</button>
+          <button onclick="selectCategory('EV')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 dark:bg-slate-700/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors" data-cat="EV">EV Charging</button>
         </div>
       </div>
 
       <!-- Dubai Smart Mobility Map Component (OpenLayers Live GIS & Vector Canvas) -->
-      <div class="bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden shadow-xl">
-        <div class="p-3 bg-slate-850 border-b border-slate-700 flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-xl transition-colors">
+        <div class="p-3 bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-2 text-xs transition-colors">
           <div class="flex flex-wrap items-center gap-2">
-            <div class="flex items-center gap-2 font-bold text-teal-300 mr-1">
+            <div class="flex items-center gap-2 font-bold text-teal-600 dark:text-teal-300 mr-1">
               DUBAI SMART MOBILITY MAP
             </div>
             <!-- Mode Switcher Tabs -->
-            <div class="flex bg-slate-900/80 p-0.5 rounded-lg border border-slate-700">
+            <div class="flex bg-slate-100 dark:bg-slate-900/80 p-0.5 rounded-lg border border-slate-200 dark:border-slate-700">
               <button id="btnMapModeOL" onclick="switchMapMode('openlayers')" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-500 text-white shadow-sm transition">
                 OpenLayers Live (Real Tiles & OSRM)
               </button>
-              <button id="btnMapModeCanvas" onclick="switchMapMode('canvas')" class="px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
+              <button id="btnMapModeCanvas" onclick="switchMapMode('canvas')" class="px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition">
                 Compose Vector Canvas
               </button>
             </div>
@@ -1126,7 +1122,7 @@
             <a href="map.html" target="_blank" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-blue-600 hover:bg-blue-500 text-white flex items-center gap-1 shadow transition">
               <span>↗</span> Fullscreen Map
             </a>
-            <div class="hidden sm:flex items-center gap-2 text-[11px]">
+            <div class="hidden sm:flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-300">
               <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Available</span>
               <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Occupied</span>
             </div>
@@ -1147,7 +1143,7 @@
 
       <!-- Facility Cards Grid -->
       <div class="space-y-3">
-        <div class="flex items-center justify-between text-xs text-slate-400 font-bold uppercase tracking-wider">
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
           <span id="lotsCountLabel">PARKING FACILITIES IN DUBAI (6)</span>
           <span>Click facility to view bays & predict arrival</span>
         </div>
@@ -1159,142 +1155,142 @@
 
     <!-- TAB 2: ACTIVE DIGITAL PASS -->
     <div id="driverTabPass" class="hidden max-w-xl mx-auto space-y-4">
-      <div id="noPassNotice" class="bg-slate-800 border border-slate-700 rounded-2xl p-8 text-center space-y-3">
-        <div class="w-16 h-16 rounded-2xl bg-teal-500/20 text-teal-400 text-3xl font-black flex items-center justify-center mx-auto">P</div>
-        <h3 class="text-lg font-bold">No Active Parking Session</h3>
-        <p class="text-xs text-slate-400">You do not have a reserved space yet. Browse the map and lock your space with 15-minute guaranteed hold.</p>
-        <button onclick="setDriverTab('map')" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white">Find Parking</button>
+      <div id="noPassNotice" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-8 text-center space-y-3 shadow-sm transition-colors">
+        <div class="w-16 h-16 rounded-2xl bg-teal-500/20 text-teal-600 dark:text-teal-400 text-3xl font-black flex items-center justify-center mx-auto">P</div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white">No Active Parking Session</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">You do not have a reserved space yet. Browse the map and lock your space with 15-minute guaranteed hold.</p>
+        <button onclick="setDriverTab('map')" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 hover:bg-teal-400 text-white shadow transition-colors">Find Parking</button>
       </div>
 
-      <div id="activePassCard" class="hidden bg-gradient-to-b from-teal-900 to-slate-900 border-2 border-teal-500 rounded-3xl p-6 shadow-2xl space-y-6">
+      <div id="activePassCard" class="hidden bg-gradient-to-b from-teal-50 to-white dark:from-teal-900 dark:to-slate-900 border-2 border-teal-500 rounded-3xl p-6 shadow-2xl space-y-6 transition-colors">
         <div class="flex justify-between items-start">
           <div>
-            <span class="text-[10px] uppercase tracking-widest font-extrabold text-amber-400">YallaPark Digital Pass</span>
-            <h2 id="passLotName" class="text-xl font-black text-white">Al Fahidi Heritage Lot</h2>
-            <p id="passZoneName" class="text-xs text-teal-200">Bur Dubai • Ground Floor</p>
+            <span class="text-[10px] uppercase tracking-widest font-extrabold text-amber-600 dark:text-amber-400">YallaPark Digital Pass</span>
+            <h2 id="passLotName" class="text-xl font-black text-slate-900 dark:text-white">Al Fahidi Heritage Lot</h2>
+            <p id="passZoneName" class="text-xs text-teal-700 dark:text-teal-200">Bur Dubai • Ground Floor</p>
           </div>
-          <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-2.5 py-1 rounded-full font-bold animate-pulse">
+          <span class="bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 text-xs px-2.5 py-1 rounded-full font-bold animate-pulse">
             ACTIVE PARKED
           </span>
         </div>
 
-        <div class="bg-slate-950/80 border border-teal-600/40 rounded-2xl p-6 text-center space-y-2">
-          <div class="text-xs text-slate-400 uppercase font-semibold">Your Dedicated Bay</div>
-          <div id="passBayNumber" class="text-4xl font-black tracking-tight text-amber-400">BF-P2</div>
-          <div id="passBayType" class="text-xs font-bold text-pink-300">Women-Only Pink Bay</div>
+        <div class="bg-slate-50 dark:bg-slate-950/80 border border-teal-200 dark:border-teal-600/40 rounded-2xl p-6 text-center space-y-2 transition-colors">
+          <div class="text-xs text-slate-500 dark:text-slate-400 uppercase font-semibold">Your Dedicated Bay</div>
+          <div id="passBayNumber" class="text-4xl font-black tracking-tight text-amber-500 dark:text-amber-400">BF-P2</div>
+          <div id="passBayType" class="text-xs font-bold text-pink-600 dark:text-pink-300">Women-Only Pink Bay</div>
         </div>
 
         <!-- QR Gate Pass -->
-        <div class="bg-white rounded-2xl p-4 flex items-center justify-between text-slate-900">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 flex items-center justify-between text-slate-900 dark:text-white shadow-sm transition-colors">
           <div>
-            <div class="text-[10px] uppercase font-black text-teal-800">ANPR Smart Gate Pass</div>
-            <div id="passQrCode" class="font-mono text-sm font-black">YP-BF2-8291</div>
-            <div class="text-[11px] text-slate-600">Plate: <span id="passPlate" class="font-bold">DXB A 48291</span></div>
+            <div class="text-[10px] uppercase font-black text-teal-700 dark:text-teal-400">ANPR Smart Gate Pass</div>
+            <div id="passQrCode" class="font-mono text-sm font-black text-slate-900 dark:text-white">YP-BF2-8291</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400">Plate: <span id="passPlate" class="font-bold text-slate-900 dark:text-white">DXB A 48291</span></div>
           </div>
-          <div class="w-14 h-14 bg-slate-900 text-white rounded-lg flex items-center justify-center font-bold"><svg class="w-7 h-7 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg></div>
+          <div class="w-14 h-14 bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg flex items-center justify-center font-bold border border-slate-200 dark:border-slate-700"><svg class="w-7 h-7 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg></div>
         </div>
 
         <!-- Timer & Extension -->
-        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 space-y-3">
+        <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 space-y-3 shadow-sm transition-colors">
           <div class="flex justify-between items-center text-xs">
-            <span class="text-slate-400">Session Remaining:</span>
-            <span id="countdownTimer" class="font-mono font-bold text-base text-emerald-400">--</span>
+            <span class="text-slate-500 dark:text-slate-400">Session Remaining:</span>
+            <span id="countdownTimer" class="font-mono font-bold text-base text-emerald-600 dark:text-emerald-400">--</span>
           </div>
-          <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
-            <div class="bg-teal-400 h-full w-3/4 rounded-full"></div>
+          <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+            <div class="bg-teal-500 h-full w-3/4 rounded-full"></div>
           </div>
           
-          <div class="pt-2 border-t border-slate-700">
-            <div class="text-xs text-slate-300 font-semibold mb-2">1-Click Remote Extension:</div>
+          <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
+            <div class="text-xs text-slate-700 dark:text-slate-300 font-semibold mb-2">1-Click Remote Extension:</div>
             <div class="grid grid-cols-3 gap-2">
-              <button onclick="extendSession(15)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-700 hover:bg-slate-600 text-teal-300">+15m (AED 1)</button>
-              <button onclick="extendSession(30)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-700 hover:bg-slate-600 text-teal-300">+30m (AED 2)</button>
-              <button onclick="extendSession(60)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-700 hover:bg-slate-600 text-teal-300">+1h (AED 4)</button>
+              <button onclick="extendSession(15)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-teal-700 dark:text-teal-300 border border-slate-200 dark:border-slate-600 transition-colors">+15m (AED 1)</button>
+              <button onclick="extendSession(30)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-teal-700 dark:text-teal-300 border border-slate-200 dark:border-slate-600 transition-colors">+30m (AED 2)</button>
+              <button onclick="extendSession(60)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-teal-700 dark:text-teal-300 border border-slate-200 dark:border-slate-600 transition-colors">+1h (AED 4)</button>
             </div>
           </div>
         </div>
 
-        <button onclick="vacateBay()" class="w-full py-3 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition-all">
+        <button onclick="vacateBay()" class="w-full py-3 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition-all shadow-md">
           Vacate Bay & Release
         </button>
       </div>
     </div>
 
     <!-- TAB 3: YALLAPARK AI CONCIERGE -->
-    <div id="driverTabAi" class="hidden max-w-2xl mx-auto bg-slate-800 border border-slate-700 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[520px]">
-      <div class="p-4 bg-slate-850 border-b border-slate-700 flex items-center justify-between">
+    <div id="driverTabAi" class="hidden max-w-2xl mx-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[520px] transition-colors">
+      <div class="p-4 bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between transition-colors">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center text-xs font-black">AI</div>
+          <div class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center text-xs font-black">AI</div>
           <div>
-            <h3 class="text-sm font-bold">YallaPark AI Concierge</h3>
-            <p class="text-[11px] text-teal-300">Connected to OpenRouter (openai/gpt-4o-mini)</p>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">YallaPark AI Concierge</h3>
+            <p class="text-[11px] text-teal-600 dark:text-teal-300">Connected to OpenRouter (openai/gpt-4o-mini)</p>
           </div>
         </div>
-        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Dubai Mobility Grounded</span>
+        <span class="text-[10px] bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">Dubai Mobility Grounded</span>
       </div>
 
       <!-- Chat History -->
       <div id="chatHistory" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs">
-        <div class="bg-slate-900 border border-slate-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200">
+        <div class="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-800 dark:text-slate-200">
           Marhaba! I'm <strong>YallaPark AI</strong>. How can I help you find or reserve parking in Dubai today? You can ask about Women-Only Pink bays, People of Determination (POD) spaces, or delivery rider bays.
         </div>
       </div>
 
       <!-- Quick prompts -->
-      <div class="p-2 bg-slate-850 border-t border-slate-700/80 flex gap-1.5 overflow-x-auto scrollbar-hide text-[11px]">
-        <button onclick="sendQuickAi('Find Pink Bays in Karama')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-pink-300 whitespace-nowrap">Pink Bays in Karama</button>
-        <button onclick="sendQuickAi('POD Parking in Bur Dubai')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-blue-300 whitespace-nowrap">POD in Bur Dubai</button>
-        <button onclick="sendQuickAi('Delivery Rider quick bays')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-300 whitespace-nowrap">Courier Quick Bays</button>
+      <div class="p-2 bg-slate-50 dark:bg-slate-850 border-t border-slate-200 dark:border-slate-700/80 flex gap-1.5 overflow-x-auto scrollbar-hide text-[11px] transition-colors">
+        <button onclick="sendQuickAi('Find Pink Bays in Karama')" class="px-2.5 py-1 rounded-full bg-pink-50 hover:bg-pink-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-500/30 whitespace-nowrap transition-colors">Pink Bays in Karama</button>
+        <button onclick="sendQuickAi('POD Parking in Bur Dubai')" class="px-2.5 py-1 rounded-full bg-blue-50 hover:bg-blue-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30 whitespace-nowrap transition-colors">POD in Bur Dubai</button>
+        <button onclick="sendQuickAi('Delivery Rider quick bays')" class="px-2.5 py-1 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 whitespace-nowrap transition-colors">Courier Quick Bays</button>
       </div>
 
       <!-- Chat Input -->
-      <div class="p-3 bg-slate-900 border-t border-slate-700 flex gap-2">
+      <div class="p-3 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 flex gap-2 transition-colors">
         <input id="aiChatInput" type="text" placeholder="Ask about Dubai parking, tariffs, or POD access..." 
           onkeydown="if(event.key==='Enter') sendAiMessage()"
-          class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-400" />
-        <button onclick="sendAiMessage()" class="px-4 py-2 bg-teal-500 hover:bg-teal-400 text-white rounded-xl text-xs font-bold">Send</button>
+          class="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors" />
+        <button onclick="sendAiMessage()" class="px-4 py-2 bg-teal-500 hover:bg-teal-400 text-white rounded-xl text-xs font-bold shadow transition-colors">Send</button>
       </div>
     </div>
 
     <!-- TAB 4: REWARDS & ECO MOBILITY -->
     <div id="driverTabRewards" class="hidden max-w-2xl mx-auto space-y-4">
-      <div class="bg-gradient-to-r from-teal-900 via-slate-800 to-emerald-950 p-6 rounded-3xl border border-teal-500/40 shadow-xl space-y-4">
+      <div class="bg-gradient-to-r from-teal-50 via-white to-emerald-50 dark:from-teal-900 dark:via-slate-800 dark:to-emerald-950 p-6 rounded-3xl border border-teal-200 dark:border-teal-500/40 shadow-xl space-y-4 transition-colors">
         <div class="flex justify-between items-center">
-          <span class="text-xs font-extrabold text-amber-300 uppercase tracking-wider">Green Commuter Level 2</span>
-          <span class="text-2xl font-black text-white">340 Points</span>
+          <span class="text-xs font-extrabold text-amber-600 dark:text-amber-300 uppercase tracking-wider">Green Commuter Level 2</span>
+          <span class="text-2xl font-black text-slate-900 dark:text-white">340 Points</span>
         </div>
         <div class="grid grid-cols-2 gap-3 pt-2">
-          <div class="bg-slate-900/60 p-3 rounded-xl border border-teal-700/30">
-            <div class="text-[11px] text-slate-400">CO₂ Prevented</div>
-            <div class="text-lg font-black text-emerald-400">4.8 kg CO₂</div>
-            <div class="text-[10px] text-slate-500">Zero circling loop</div>
+          <div class="bg-white/80 dark:bg-slate-900/60 p-3 rounded-xl border border-teal-200 dark:border-teal-700/30 transition-colors">
+            <div class="text-[11px] text-slate-500 dark:text-slate-400">CO₂ Prevented</div>
+            <div class="text-lg font-black text-emerald-600 dark:text-emerald-400">4.8 kg CO₂</div>
+            <div class="text-[10px] text-slate-400 dark:text-slate-500">Zero circling loop</div>
           </div>
-          <div class="bg-slate-900/60 p-3 rounded-xl border border-teal-700/30">
-            <div class="text-[11px] text-slate-400">Search Time Saved</div>
-            <div class="text-lg font-black text-teal-300">38 Minutes</div>
-            <div class="text-[10px] text-slate-500">Guaranteed bay hold</div>
+          <div class="bg-white/80 dark:bg-slate-900/60 p-3 rounded-xl border border-teal-200 dark:border-teal-700/30 transition-colors">
+            <div class="text-[11px] text-slate-500 dark:text-slate-400">Search Time Saved</div>
+            <div class="text-lg font-black text-teal-600 dark:text-teal-300">38 Minutes</div>
+            <div class="text-[10px] text-slate-400 dark:text-slate-500">Guaranteed bay hold</div>
           </div>
         </div>
       </div>
 
       <div class="space-y-2">
-        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Redeemable Dubai Merchant Perks</h4>
+        <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Redeemable Dubai Merchant Perks</h4>
         <div class="space-y-2">
-          <div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl flex justify-between items-center">
+          <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl flex justify-between items-center shadow-sm transition-colors">
             <div>
-              <div class="text-sm font-bold text-white">Arabica Specialty Coffee</div>
-              <div class="text-xs text-slate-400">Al Fahidi Heritage, Bur Dubai • 25% Off Hand Drip</div>
-              <div class="text-xs font-mono font-bold text-teal-400 mt-1">Code: BUR-ECO25</div>
+              <div class="text-sm font-bold text-slate-900 dark:text-white">Arabica Specialty Coffee</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400">Al Fahidi Heritage, Bur Dubai • 25% Off Hand Drip</div>
+              <div class="text-xs font-mono font-bold text-teal-600 dark:text-teal-400 mt-1">Code: BUR-ECO25</div>
             </div>
-            <button class="px-3 py-1.5 bg-teal-500 text-white rounded-lg text-xs font-bold">120 Pts</button>
+            <button class="px-3 py-1.5 bg-teal-500 hover:bg-teal-400 text-white rounded-lg text-xs font-bold shadow-sm transition-colors">120 Pts</button>
           </div>
-          <div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl flex justify-between items-center">
+          <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl flex justify-between items-center shadow-sm transition-colors">
             <div>
-              <div class="text-sm font-bold text-white">Karama Spice House</div>
-              <div class="text-xs text-slate-400">18B Street, Al Karama • AED 15 Grocery Cashback</div>
-              <div class="text-xs font-mono font-bold text-teal-400 mt-1">Code: KRM-SPICE15</div>
+              <div class="text-sm font-bold text-slate-900 dark:text-white">Karama Spice House</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400">18B Street, Al Karama • AED 15 Grocery Cashback</div>
+              <div class="text-xs font-mono font-bold text-teal-600 dark:text-teal-400 mt-1">Code: KRM-SPICE15</div>
             </div>
-            <button class="px-3 py-1.5 bg-teal-500 text-white rounded-lg text-xs font-bold">180 Pts</button>
+            <button class="px-3 py-1.5 bg-teal-500 hover:bg-teal-400 text-white rounded-lg text-xs font-bold shadow-sm transition-colors">180 Pts</button>
           </div>
         </div>
       </div>
@@ -1677,39 +1673,62 @@
 
     // ================= MODE & ROUTING SWITCHING =================
     function switchMainMode(mode) {
+      if (mode === 'driver' && (!currentUser || currentUser.type !== 'driver')) {
+        openLogin('driver');
+        return;
+      }
+      if (mode === 'admin' && (!currentUser || currentUser.type !== 'provider')) {
+        openLogin('provider');
+        return;
+      }
+
       const views = ['homeView', 'loginView', 'driverView', 'adminView'];
       views.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.add('hidden');
       });
 
-      const btnHome = document.getElementById('btnNavHome');
-      const btnDriver = document.getElementById('btnModeDriver');
-      const btnAdmin = document.getElementById('btnModeAdmin');
-
-      if (btnHome) btnHome.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-teal-200 hover:text-white hover:bg-teal-800/50 flex items-center gap-1';
-      if (btnDriver) btnDriver.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all text-teal-200 hover:text-white';
-      if (btnAdmin) btnAdmin.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all text-teal-200 hover:text-white';
+      const btnActive = document.getElementById('btnActiveApp');
 
       if (mode === 'home') {
         const hView = document.getElementById('homeView');
         if (hView) hView.classList.remove('hidden');
-        if (btnHome) btnHome.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-teal-800/70 text-white flex items-center gap-1 shadow';
+        if (btnActive && currentUser) {
+          btnActive.classList.remove('hidden');
+          if (currentUser.type === 'driver') {
+            btnActive.textContent = 'Driver App';
+            btnActive.className = 'px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all bg-[#4CAF50] text-white hover:bg-[#43A047] shadow-sm';
+          } else {
+            btnActive.textContent = 'Provider Console';
+            btnActive.className = 'px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-[#1976D2] text-[#1976D2] hover:bg-blue-50 dark:hover:bg-blue-950/40 shadow-sm';
+          }
+        }
       } else if (mode === 'login') {
         const lView = document.getElementById('loginView');
         if (lView) lView.classList.remove('hidden');
+        if (btnActive) btnActive.classList.add('hidden');
       } else if (mode === 'driver') {
         const dView = document.getElementById('driverView');
         if (dView) dView.classList.remove('hidden');
-        if (btnDriver) btnDriver.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-white text-teal-950 shadow';
+        if (btnActive) btnActive.classList.add('hidden');
         renderLots();
         drawMap();
       } else if (mode === 'admin') {
         const aView = document.getElementById('adminView');
         if (aView) aView.classList.remove('hidden');
-        if (btnAdmin) btnAdmin.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-white text-teal-950 shadow';
+        if (btnActive) btnActive.classList.add('hidden');
         renderAdminList();
         updateKpis();
+      }
+    }
+
+    function returnToActiveApp() {
+      if (!currentUser) {
+        openLogin('driver');
+      } else if (currentUser.type === 'driver') {
+        switchMainMode('driver');
+      } else {
+        switchMainMode('admin');
       }
     }
 
@@ -1729,12 +1748,12 @@
 
       if (tab === 'driver') {
         tabDriver.className = 'py-2.5 rounded-xl text-xs font-bold transition-all bg-teal-500 text-white shadow flex items-center justify-center gap-1.5';
-        tabProvider.className = 'py-2.5 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+        tabProvider.className = 'py-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center justify-center gap-1.5';
         formDriver.classList.remove('hidden');
         formProvider.classList.add('hidden');
       } else {
         tabProvider.className = 'py-2.5 rounded-xl text-xs font-bold transition-all bg-amber-600 text-white shadow flex items-center justify-center gap-1.5';
-        tabDriver.className = 'py-2.5 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+        tabDriver.className = 'py-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center justify-center gap-1.5';
         formProvider.classList.remove('hidden');
         formDriver.classList.add('hidden');
       }
@@ -1745,20 +1764,22 @@
       const btnLogin = document.getElementById('btnNavLogin');
       const chip = document.getElementById('userProfileChip');
       const avatarText = document.getElementById('userAvatarText');
+      const btnActive = document.getElementById('btnActiveApp');
 
       if (user) {
         if (btnLogin) btnLogin.classList.add('hidden');
         if (chip) chip.classList.remove('hidden');
         if (avatarText) {
           if (user.type === 'driver') {
-            avatarText.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-teal-500/30 text-teal-300 text-[10px] font-bold mr-1">DRIVER</span><span class="font-bold">${user.name}</span> <span class="text-teal-300 text-[10px]">(${user.plate})</span>`;
+            avatarText.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-teal-500/30 text-teal-800 dark:text-teal-300 text-[10px] font-bold mr-1">DRIVER</span><span class="font-bold">${user.name}</span> <span class="text-teal-600 dark:text-teal-300 text-[10px]">(${user.plate})</span>`;
           } else {
-            avatarText.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-amber-500/30 text-amber-300 text-[10px] font-bold mr-1">PROVIDER</span><span class="font-bold">${user.name}</span> <span class="text-amber-300 text-[10px]">(${user.role})</span>`;
+            avatarText.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-amber-500/30 text-amber-800 dark:text-amber-300 text-[10px] font-bold mr-1">PROVIDER</span><span class="font-bold">${user.name}</span> <span class="text-amber-600 dark:text-amber-300 text-[10px]">(${user.role})</span>`;
           }
         }
       } else {
         if (btnLogin) btnLogin.classList.remove('hidden');
         if (chip) chip.classList.add('hidden');
+        if (btnActive) btnActive.classList.add('hidden');
       }
     }
 
@@ -1810,23 +1831,23 @@
         document.getElementById(id).classList.add('hidden');
       });
       ['tabMap', 'tabPass', 'tabAi', 'tabRewards'].forEach(id => {
-        document.getElementById(id).className = 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5';
+        document.getElementById(id).className = 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition-colors';
       });
 
       if (tab === 'map') {
         document.getElementById('driverTabExplore').classList.remove('hidden');
-        document.getElementById('tabMap').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5';
+        document.getElementById('tabMap').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5 border border-teal-500';
         drawMap();
       } else if (tab === 'pass') {
         document.getElementById('driverTabPass').classList.remove('hidden');
-        document.getElementById('tabPass').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5';
+        document.getElementById('tabPass').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5 border border-teal-500';
         renderActivePass();
       } else if (tab === 'ai') {
         document.getElementById('driverTabAi').classList.remove('hidden');
-        document.getElementById('tabAi').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5';
+        document.getElementById('tabAi').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5 border border-teal-500';
       } else if (tab === 'rewards') {
         document.getElementById('driverTabRewards').classList.remove('hidden');
-        document.getElementById('tabRewards').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5';
+        document.getElementById('tabRewards').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5 border border-teal-500';
       }
     }
 
@@ -1835,9 +1856,9 @@
       selectedZone = zone;
       document.querySelectorAll('.zone-btn').forEach(btn => {
         if ((zone === null && btn.dataset.zone === 'all') || btn.dataset.zone === zone) {
-          btn.className = 'zone-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-teal-500 text-white';
+          btn.className = 'zone-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-teal-500 text-white shadow-sm';
         } else {
-          btn.className = 'zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600';
+          btn.className = 'zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 transition-colors';
         }
       });
       renderLots();
@@ -1848,9 +1869,9 @@
       selectedCategory = cat;
       document.querySelectorAll('.cat-btn').forEach(btn => {
         if (btn.dataset.cat === cat) {
-          btn.className = 'cat-btn active px-2.5 py-1 rounded-md text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40';
+          btn.className = 'cat-btn active px-2.5 py-1 rounded-md text-xs font-bold bg-teal-500/15 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/40';
         } else {
-          btn.className = 'cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-slate-300 border border-slate-700 hover:bg-slate-700';
+          btn.className = 'cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-700/60 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors';
         }
       });
       renderLots();
@@ -1881,13 +1902,13 @@
         const occRatio = (lot.capacity - lot.available) / lot.capacity;
         const occPct = Math.round(occRatio * 100);
         let barColor = 'bg-emerald-500';
-        let statusBadge = `<span class="text-emerald-400">Spacious (${lot.available} open)</span>`;
+        let statusBadge = `<span class="text-emerald-600 dark:text-emerald-400 font-semibold">Spacious (${lot.available} open)</span>`;
         if (occPct >= 85) {
           barColor = 'bg-rose-500';
-          statusBadge = `<span class="text-rose-400">Busy (${lot.available} open)</span>`;
+          statusBadge = `<span class="text-rose-600 dark:text-rose-400 font-semibold">Busy (${lot.available} open)</span>`;
         } else if (occPct >= 50) {
           barColor = 'bg-amber-500';
-          statusBadge = `<span class="text-amber-400">Moderate (${lot.available} open)</span>`;
+          statusBadge = `<span class="text-amber-600 dark:text-amber-400 font-semibold">Moderate (${lot.available} open)</span>`;
         }
 
         const podAvail = lot.bays.filter(b => b.type === 'POD' && b.status === 'AVAILABLE').length;
@@ -1895,35 +1916,35 @@
         const delAvail = lot.bays.filter(b => b.type === 'DELIVERY' && b.status === 'AVAILABLE').length;
 
         const card = document.createElement('div');
-        card.className = 'bg-slate-800 hover:border-teal-500 border border-slate-700 p-4 rounded-2xl cursor-pointer transition-all shadow-md space-y-3';
+        card.className = 'bg-white dark:bg-slate-800 hover:border-teal-500 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl cursor-pointer transition-all shadow-md space-y-3';
         card.onclick = () => openLotDetail(lot.id);
         card.innerHTML = `
           <div class="flex justify-between items-start">
             <div>
-              <div class="text-[11px] font-bold text-teal-400 uppercase tracking-wide">${lot.zoneName}</div>
-              <h3 class="text-base font-bold text-white">${lot.name}</h3>
-              <p class="text-xs text-slate-400">${lot.address}</p>
+              <div class="text-[11px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wide">${lot.zoneName}</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">${lot.name}</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">${lot.address}</p>
             </div>
             <div class="text-right">
-              <div class="text-base font-black text-white">AED ${lot.rate.toFixed(0)}/h</div>
-              <div class="text-[10px] text-teal-300 font-semibold">${lot.isRta ? 'RTA Zone' : 'Commercial'}</div>
+              <div class="text-base font-black text-slate-900 dark:text-white">AED ${lot.rate.toFixed(0)}/h</div>
+              <div class="text-[10px] text-teal-600 dark:text-teal-300 font-semibold">${lot.isRta ? 'RTA Zone' : 'Commercial'}</div>
             </div>
           </div>
 
           <div>
             <div class="flex justify-between text-xs mb-1">
-              <span class="text-slate-400">${lot.capacity - lot.available}/${lot.capacity} Occupied</span>
+              <span class="text-slate-500 dark:text-slate-400">${lot.capacity - lot.available}/${lot.capacity} Occupied</span>
               ${statusBadge}
             </div>
-            <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+            <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
               <div class="${barColor} h-full rounded-full" style="width: ${occPct}%"></div>
             </div>
           </div>
 
           <div class="flex gap-1.5 flex-wrap pt-1 text-[10px] font-semibold">
-            ${podAvail > 0 ? `<span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-0.5 rounded">POD: ${podAvail}</span>` : ''}
-            ${pinkAvail > 0 ? `<span class="bg-pink-500/20 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded">Pink: ${pinkAvail}</span>` : ''}
-            ${delAvail > 0 ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded">Delivery: ${delAvail}</span>` : ''}
+            ${podAvail > 0 ? `<span class="bg-blue-50 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30 px-2 py-0.5 rounded">POD: ${podAvail}</span>` : ''}
+            ${pinkAvail > 0 ? `<span class="bg-pink-50 dark:bg-pink-500/20 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-500/30 px-2 py-0.5 rounded">Pink: ${pinkAvail}</span>` : ''}
+            ${delAvail > 0 ? `<span class="bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 px-2 py-0.5 rounded">Delivery: ${delAvail}</span>` : ''}
           </div>
         `;
         grid.appendChild(card);
@@ -1943,12 +1964,12 @@
         if (olContainer) olContainer.classList.remove('hidden');
         if (canvasContainer) canvasContainer.classList.add('hidden');
         if (btnOL) btnOL.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-500 text-white shadow-sm transition';
-        if (btnCanvas) btnCanvas.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-slate-200 transition';
+        if (btnCanvas) btnCanvas.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition';
       } else {
         if (olContainer) olContainer.classList.add('hidden');
         if (canvasContainer) canvasContainer.classList.remove('hidden');
         if (btnCanvas) btnCanvas.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-500 text-white shadow-sm transition';
-        if (btnOL) btnOL.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-slate-200 transition';
+        if (btnOL) btnOL.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition';
         resizeCanvas();
         drawMap();
       }
@@ -2095,13 +2116,13 @@
 
       badge.innerText = `${prob}% Open`;
       if (prob >= 70) {
-        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40';
         rec.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-emerald-200 dark:bg-emerald-800 text-[10px] font-bold text-emerald-800 dark:text-emerald-200 uppercase">Tip</span> <span>Optimal availability expected upon arrival at ${currentLot.zoneName}.</span>`;
       } else if (prob >= 40) {
-        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/40';
+        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/10 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40';
         rec.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-amber-200 dark:bg-amber-800 text-[10px] font-bold text-amber-800 dark:text-amber-200 uppercase">Notice</span> <span>Moderate turnover. Lock your bay now to guarantee parking upon arrival.</span>`;
       } else {
-        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/40';
+        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-rose-500/10 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/40';
         rec.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-rose-200 dark:bg-rose-800 text-[10px] font-bold text-rose-800 dark:text-rose-200 uppercase">Alert</span> <span>Critical parking density expected. Pre-booking strongly advised.</span>`;
       }
     }
@@ -2159,9 +2180,9 @@
       bookingDuration = dur;
       document.querySelectorAll('.duration-btn').forEach(b => {
         if (parseInt(b.dataset.dur) === dur) {
-          b.className = 'duration-btn active py-2 rounded-lg border border-teal-500 bg-teal-500/20 text-teal-300 font-bold';
+          b.className = 'duration-btn active py-2 rounded-lg border border-teal-500 bg-teal-500/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 font-bold transition-colors';
         } else {
-          b.className = 'duration-btn py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 font-bold';
+          b.className = 'duration-btn py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold transition-colors';
         }
       });
       updateBookingCost();
@@ -2430,7 +2451,7 @@
       const bubble = document.createElement('div');
       bubble.className = isUser
         ? 'bg-teal-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[85%] ml-auto text-slate-100 font-medium'
-        : 'bg-slate-900 border border-slate-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200';
+        : 'bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-800 dark:text-slate-200 shadow-sm';
       bubble.innerHTML = msg.replace(/\n/g, '<br/>');
       history.appendChild(bubble);
       history.scrollTop = history.scrollHeight;
@@ -2491,18 +2512,18 @@
     if (!container) return;
     const filtered = yallaSpotsData.filter(s => s.name.toLowerCase().includes(q.toLowerCase()) || s.area.toLowerCase().includes(q.toLowerCase()));
     if (filtered.length === 0) {
-      container.innerHTML = '<div class="col-span-3 p-4 text-center text-xs text-slate-400">No parking locations matching "' + q + '"</div>';
+      container.innerHTML = '<div class="col-span-3 p-4 text-center text-xs text-slate-500 dark:text-slate-400">No parking locations matching "' + q + '"</div>';
       return;
     }
     container.innerHTML = filtered.map((spot, i) => `
-      <div onclick="focusYallaSpot(${yallaSpotsData.indexOf(spot)})" class="p-3.5 rounded-[8px] bg-slate-800/80 border border-slate-700 hover:border-[#4CAF50] cursor-pointer transition">
+      <div onclick="focusYallaSpot(${yallaSpotsData.indexOf(spot)})" class="p-3.5 rounded-[8px] bg-white dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700 hover:border-[#4CAF50] cursor-pointer transition shadow-sm">
         <div class="flex justify-between items-start">
-          <div class="text-sm font-bold text-white">${spot.name}</div>
-          <span class="text-xs font-bold ${spot.available > 20 ? 'text-[#81C784] bg-[#4CAF50]/15' : 'text-amber-300 bg-amber-500/15'} px-2 py-0.5 rounded-[8px]">${spot.available} spots</span>
+          <div class="text-sm font-bold text-gray-900 dark:text-white">${spot.name}</div>
+          <span class="text-xs font-bold ${spot.available > 20 ? 'text-[#81C784] bg-[#4CAF50]/15' : 'text-amber-600 dark:text-amber-300 bg-amber-500/15'} px-2 py-0.5 rounded-[8px]">${spot.available} spots</span>
         </div>
-        <div class="flex justify-between items-center text-xs text-slate-400 mt-2">
+        <div class="flex justify-between items-center text-xs text-gray-500 dark:text-slate-400 mt-2">
           <span>${spot.area}</span>
-          <span class="font-semibold text-[#90CAF9]">${spot.rate}</span>
+          <span class="font-semibold text-blue-600 dark:text-[#90CAF9]">${spot.rate}</span>
         </div>
       </div>
     `).join('');
@@ -2524,19 +2545,13 @@
   const MOON_SVG = '<svg class="w-4 h-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
 
   function updateThemeUi(isDark) {
-    const icon = document.getElementById('themeToggleIcon');
-    const text = document.getElementById('themeToggleText');
     const floatIcon = document.getElementById('floatingThemeIcon');
     const floatText = document.getElementById('floatingThemeText');
 
     if (isDark) {
-      if (icon) icon.innerHTML = SUN_SVG;
-      if (text) text.textContent = 'Light Mode';
       if (floatIcon) floatIcon.innerHTML = SUN_SVG;
       if (floatText) floatText.textContent = 'Switch to Light Mode';
     } else {
-      if (icon) icon.innerHTML = MOON_SVG;
-      if (text) text.textContent = 'Dark Mode';
       if (floatIcon) floatIcon.innerHTML = MOON_SVG;
       if (floatText) floatText.textContent = 'Switch to Dark Mode';
     }

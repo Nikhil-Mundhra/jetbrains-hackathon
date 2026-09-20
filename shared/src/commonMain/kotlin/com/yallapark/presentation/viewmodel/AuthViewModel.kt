@@ -1,6 +1,5 @@
 package com.yallapark.presentation.viewmodel
 
-import androidx.lifecycle.ViewModel
 import com.yallapark.domain.model.AccountType
 import com.yallapark.domain.model.UserRole
 import com.yallapark.domain.model.UserSession

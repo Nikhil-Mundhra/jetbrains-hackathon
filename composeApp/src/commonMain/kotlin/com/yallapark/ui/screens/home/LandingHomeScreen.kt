@@ -139,7 +139,29 @@ fun LandingHomeScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB)
+        containerColor = Color(0xFFF9FAFB),
+        floatingActionButton = {
+            Surface(
+                onClick = onToggleDarkMode,
+                shape = RoundedCornerShape(8.dp),
+                color = if (isDarkMode) Color.White else Color(0xFF0F172A),
+                contentColor = if (isDarkMode) Color(0xFF0F172A) else Color.White,
+                shadowElevation = 8.dp,
+                border = BorderStroke(1.dp, if (isDarkMode) Color(0xFFE2E8F0) else Color(0xFF334155))
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = if (isDarkMode) "Switch to Light Mode" else "Switch to Dark Mode",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
@@ -188,54 +210,15 @@ fun LandingHomeScreen(
                             )
                         }
 
-                        // Actions: Theme Toggle + Dual Gateways
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        // Right Actions: Sign In
+                        Button(
+                            onClick = onLoginAsDriverClick,
+                            shape = RoundedCornerShape(8.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = EcoGreen500),
+                            contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
+                            modifier = Modifier.height(36.dp)
                         ) {
-                            // Theme Toggle Chip
-                            Box(
-                                modifier = Modifier
-                                    .background(
-                                        if (isDarkMode) Color(0xFF1E293B) else Color(0xFFF3F4F6),
-                                        RoundedCornerShape(8.dp)
-                                    )
-                                    .border(
-                                        1.dp,
-                                        if (isDarkMode) Color(0xFF334155) else Color(0xFFE5E7EB),
-                                        RoundedCornerShape(8.dp)
-                                    )
-                                    .clickable { onToggleDarkMode() }
-                                    .padding(horizontal = 10.dp, vertical = 7.dp)
-                            ) {
-                                Text(
-                                    text = if (isDarkMode) "Light Mode" else "Dark Mode",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (isDarkMode) Color.White else Color(0xFF1F2937)
-                                )
-                            }
-
-                            OutlinedButton(
-                                onClick = onLoginAsProviderClick,
-                                shape = RoundedCornerShape(8.dp),
-                                colors = ButtonDefaults.outlinedButtonColors(contentColor = TechBlue600),
-                                border = BorderStroke(1.dp, TechBlue500),
-                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                                modifier = Modifier.height(36.dp)
-                            ) {
-                                Text("Provider", fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                            }
-
-                            Button(
-                                onClick = onLoginAsDriverClick,
-                                shape = RoundedCornerShape(8.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = EcoGreen500),
-                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                                modifier = Modifier.height(36.dp)
-                            ) {
-                                Text("Driver App", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                            }
+                            Text("Sign In", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White)
                         }
                     }
                 }

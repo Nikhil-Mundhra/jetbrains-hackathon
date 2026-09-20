@@ -348,7 +348,85 @@ YallaPark integrates with **MongoDB Atlas** for central cloud persistence and te
 
 ---
 
-## 10. Repository & Package Structure Map
+## 10. Tri-Partite Integration Architecture: Geo API, MongoDB Atlas & LLM Agent
+
+The operational backbone of YallaPark connects real-world geographic data, cloud persistence, and conversational AI into a unified driver and operator ecosystem:
+
+```mermaid
+flowchart TD
+    subgraph GeoPipeline["1. Geo API & Aerial Spatial Pipeline (Way 1: python-pipeline/)"]
+        direction TB
+        OSM["OpenStreetMap Overpass API\n(https://overpass-api.de/api/interpreter)"] -->|"Overpass QL [s,w,n,e]"| FetchOSM["fetch_osm_lots.py\n(Node & Polygon Extractor)"]
+        FetchOSM -->|"Closed Coordinate Rings"| RayCast["detect_occupancy.py\n(Ray-Casting / Shapely Engine)"]
+        AerialFeed["Aerial Imagery / Drone Telemetry"] -->|"High-Res Video / Frame Capture"| YoloOBB["YOLO-OBB Vehicle Detector\n(yolov8n-obb.pt)"]
+        YoloOBB -->|"Vehicle Coordinates (x, y)"| RayCast
+        RayCast -->|"Occupancy & Specialized Bay Ratios"| Exporter["export_to_yallapark.py\n(Data Exporter & Cloud Bridge)"]
+    end
+
+    subgraph CloudAtlas["2. Cloud Persistence & Telemetry Layer (MongoDB Atlas)"]
+        direction TB
+        Exporter -->|"Bulk Upsert (pymongo.UpdateOne)"| AtlasLots[("Collection: parking_lots\nGeoJSON Points, Live Bays, Tariffs")]
+        Exporter -->|"Local Sync Export"| LiveJSON["dubai_parking_live.json\n(970 Real Extracted Lots)"]
+        AtlasLots <-->|"State Sync & Tele-Control"| AtlasRes[("Collection: reservations\n15-Min Locks, Passes, Payments")]
+    end
+
+    subgraph SharedCore["3. Shared KMP Core Layer (shared/)"]
+        direction TB
+        Repo["YallaParkRepositoryImpl\n(Reactive StateFlow Telemetry)"]
+        PredEngine["PredictiveOccupancyEngine\n(Slot Decay Mathematical Model)"]
+        ResMachine["Reservation State Machine\n(15-Min Guaranteed Hold & ANPR Pass)"]
+        AdminOps["AdminRepository (Way 2)\n(Dynamic Tariffs & Sensor Toggles)"]
+        
+        LiveJSON -.->|"Pilot Baseline Seed"| Repo
+        Repo <--> PredEngine
+        Repo <--> ResMachine
+        AdminOps -->|"Mutation Telemetry"| AtlasLots
+    end
+
+    subgraph AIAgent["4. AI Smart Mobility Concierge (shared/ai/ & composeApp/)"]
+        direction TB
+        DriverQuery["Driver Natural Language Query\n('Find pink bays in Karama')"] --> AiVM["YallaAiViewModel\n(Conversation History)"]
+        AiVM --> KtorClient["OpenRouterClient (Ktor HTTP)"]
+        KtorClient -->|"POST /api/v1/chat/completions\n(openai/gpt-4o-mini)"| OpenRouterAPI["OpenRouter AI Service\n(Domain Grounded: RTA Tariffs, POD, Pink, Delivery)"]
+        OpenRouterAPI -->|"Structured Parking Advisory"| AiVM
+        KtorClient -.->|"Network Timeout / Offline"| SmartFallback["Deterministic Fallback Engine\n(Built-in Knowledge Base)"]
+    end
+
+    subgraph Presentation["5. Driver & Admin Presentation (composeApp/)"]
+        direction TB
+        MapCanvas["DubaiZoneMap.kt\n(Vector Projection Canvas)"]
+        SliderWidget["PredictiveSlider.kt\n(ETA Decay Probability Display)"]
+        CheckoutFlow["BookingFlowScreen.kt\n(NOL Card / Tokenized Checkout)"]
+        ActivePassView["ActiveSessionScreen.kt\n(Digital QR Pass & 1-Click Extension)"]
+        AdminConsole["AdminDashboardScreen.kt\n(Way 2 Municipal & Operator Console)"]
+        
+        Repo --> MapCanvas
+        PredEngine --> SliderWidget
+        ResMachine --> CheckoutFlow
+        CheckoutFlow --> ActivePassView
+        ActivePassView -.->|"Persist Session"| AtlasRes
+        AdminConsole --> AdminOps
+        AiVM -->|"Actionable Routing Advice"| MapCanvas
+    end
+
+    %% Cross-subgraph linkages
+    RayCast -.->|"Computed Lot Densities"| Repo
+    AtlasLots -.->|"Cloud Refresh"| Repo
+```
+
+### 10.1 Functional Role Matrix
+
+| Component | Responsibility in YallaPark Ecosystem | Primary Files & Endpoints |
+|---|---|---|
+| **Geo API** | Queries OpenStreetMap bounding boxes for Bur Dubai, Karama, Deira, Downtown; parses closed polygons; calculates point-in-polygon vehicle containment via ray-casting. | [`fetch_osm_lots.py`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/python-pipeline/fetch_osm_lots.py), [`detect_occupancy.py`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/python-pipeline/detect_occupancy.py) |
+| **MongoDB Atlas** | Central cloud persistence for 970+ parking lot records with GeoJSON geometry, specialized bay allocations, dynamic tariffs, and driver reservation passes. | [`export_to_yallapark.py`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/python-pipeline/export_to_yallapark.py), cluster `jetbrains.tzw6r2y.mongodb.net` |
+| **LLM Agent** | Grounded AI concierge answering queries on Dubai parking rules, specialized bays (POD, Pink, Courier), tariffs, and predictive pre-booking advisories. | [`OpenRouterClient.kt`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/shared/src/commonMain/kotlin/com/yallapark/ai/OpenRouterClient.kt), [`YallaAiScreen.kt`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/composeApp/src/commonMain/kotlin/com/yallapark/ui/screens/ai/YallaAiScreen.kt) |
+| **KMP Core** | Shared business logic, predictive vacancy decay model ($N_{\text{open}}(t_{\text{ETA}})$), 15-minute reservation hold state machine, and reactive StateFlow telemetry. | [`PredictiveOccupancyEngine.kt`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/shared/src/commonMain/kotlin/com/yallapark/data/engine/PredictiveOccupancyEngine.kt), [`YallaParkRepositoryImpl.kt`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/shared/src/commonMain/kotlin/com/yallapark/data/repository/YallaParkRepositoryImpl.kt) |
+| **Compose UI** | Cross-platform Material 3 user interfaces with custom vector canvas map rendering, interactive predictive ETA sliders, and dual motorist/admin workflows. | [`DubaiZoneMap.kt`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/composeApp/src/commonMain/kotlin/com/yallapark/ui/components/DubaiZoneMap.kt), [`App.kt`](file:///Users/nikhilmundhra/Documents/Github/jetbrains-hackathon/github/composeApp/src/commonMain/kotlin/com/yallapark/App.kt) |
+
+---
+
+## 11. Repository & Package Structure Map
 
 ```
 jetbrains-hackathon/

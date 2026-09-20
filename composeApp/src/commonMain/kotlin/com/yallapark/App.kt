@@ -141,7 +141,7 @@ fun App() {
                             }
                         }
 
-                        // Right Actions: User status / Mode Switcher / Home
+                        // Right Actions: User status / Navigation / Sign Out
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -156,17 +156,40 @@ fun App() {
                                 }
                             }
 
-                            // User Profile Chip or Sign In
+                            // User Profile Chip & Actions or Sign In
                             if (currentUser != null) {
                                 val user = currentUser!!
+
+                                // Resume Active Console/App when viewing Landing
+                                if (currentScreen == ScreenState.HOME_LANDING) {
+                                    Button(
+                                        onClick = {
+                                            if (user.accountType == AccountType.MOTORIST_DRIVER) {
+                                                isAdminMode = false
+                                                currentScreen = ScreenState.DRIVER_FEED
+                                            } else {
+                                                isAdminMode = true
+                                                currentScreen = ScreenState.ADMIN_DASHBOARD
+                                            }
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = YallaTealPrimary),
+                                        shape = RoundedCornerShape(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
+                                        modifier = Modifier.height(32.dp)
+                                    ) {
+                                        Text(
+                                            text = if (user.accountType == AccountType.MOTORIST_DRIVER) "Driver App" else "Provider Console",
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                }
+
+                                // User Profile Chip
                                 Box(
                                     modifier = Modifier
                                         .background(Color(0x3300897B), RoundedCornerShape(8.dp))
                                         .border(1.dp, YallaTealPrimary.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                                        .clickable {
-                                            initialLoginAccountType = user.accountType
-                                            currentScreen = ScreenState.LOGIN
-                                        }
                                         .padding(horizontal = 10.dp, vertical = 5.dp)
                                 ) {
                                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -182,7 +205,36 @@ fun App() {
                                             fontSize = 11.sp,
                                             fontWeight = FontWeight.Bold
                                         )
+                                        Box(
+                                            modifier = Modifier
+                                                .background(
+                                                    if (user.accountType == AccountType.MOTORIST_DRIVER) Color(0x332DD4BF) else Color(0x33F59E0B),
+                                                    RoundedCornerShape(4.dp)
+                                                )
+                                                .padding(horizontal = 4.dp, vertical = 1.dp)
+                                        ) {
+                                            Text(
+                                                text = if (user.accountType == AccountType.MOTORIST_DRIVER) "DRIVER" else "PROVIDER",
+                                                color = if (user.accountType == AccountType.MOTORIST_DRIVER) YallaTealLight else YallaGoldSecondary,
+                                                fontSize = 9.sp,
+                                                fontWeight = FontWeight.ExtraBold
+                                            )
+                                        }
                                     }
+                                }
+
+                                // Sign Out Button
+                                TextButton(
+                                    onClick = {
+                                        authViewModel.logout()
+                                        isAdminMode = false
+                                        currentScreen = ScreenState.HOME_LANDING
+                                    },
+                                    colors = ButtonDefaults.textButtonColors(contentColor = Color(0xFFF87171)),
+                                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                                    modifier = Modifier.height(32.dp)
+                                ) {
+                                    Text("Sign Out", fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                                 }
                             } else {
                                 Button(
@@ -196,55 +248,6 @@ fun App() {
                                     modifier = Modifier.height(32.dp)
                                 ) {
                                     Text("Sign In", fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                                }
-                            }
-
-                            // Mode Switcher Toggle (Motorist vs. Operator Admin)
-                            Row(
-                                modifier = Modifier
-                                    .background(Color(0x33FFFFFF), RoundedCornerShape(8.dp))
-                                    .padding(3.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .background(
-                                            color = if (!isAdminMode && (currentScreen != ScreenState.HOME_LANDING && currentScreen != ScreenState.LOGIN)) Color.White else Color.Transparent,
-                                            shape = RoundedCornerShape(8.dp)
-                                        )
-                                        .clickable {
-                                            isAdminMode = false
-                                            if (currentScreen == ScreenState.HOME_LANDING || currentScreen == ScreenState.LOGIN || currentScreen == ScreenState.ADMIN_DASHBOARD || currentScreen == ScreenState.ADMIN_ADD_LOT || currentScreen == ScreenState.ADMIN_BAY_CONFIG) {
-                                                currentScreen = ScreenState.DRIVER_FEED
-                                            }
-                                        }
-                                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                                ) {
-                                    Text(
-                                        text = "Driver",
-                                        fontSize = 10.sp,
-                                        fontWeight = if (!isAdminMode) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (!isAdminMode && (currentScreen != ScreenState.HOME_LANDING && currentScreen != ScreenState.LOGIN)) YallaTealDark else Color.White
-                                    )
-                                }
-                                Box(
-                                    modifier = Modifier
-                                        .background(
-                                            color = if (isAdminMode && (currentScreen != ScreenState.HOME_LANDING && currentScreen != ScreenState.LOGIN)) Color.White else Color.Transparent,
-                                            shape = RoundedCornerShape(8.dp)
-                                        )
-                                        .clickable {
-                                            isAdminMode = true
-                                            currentScreen = ScreenState.ADMIN_DASHBOARD
-                                        }
-                                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                                ) {
-                                    Text(
-                                        text = "Provider",
-                                        fontSize = 10.sp,
-                                        fontWeight = if (isAdminMode) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (isAdminMode && (currentScreen != ScreenState.HOME_LANDING && currentScreen != ScreenState.LOGIN)) YallaTealDark else Color.White
-                                    )
                                 }
                             }
                         }
@@ -302,12 +305,22 @@ fun App() {
                     ScreenState.HOME_LANDING -> {
                         LandingHomeScreen(
                             onLoginAsDriverClick = {
-                                initialLoginAccountType = AccountType.MOTORIST_DRIVER
-                                currentScreen = ScreenState.LOGIN
+                                if (currentUser != null && currentUser?.accountType == AccountType.MOTORIST_DRIVER) {
+                                    isAdminMode = false
+                                    currentScreen = ScreenState.DRIVER_FEED
+                                } else {
+                                    initialLoginAccountType = AccountType.MOTORIST_DRIVER
+                                    currentScreen = ScreenState.LOGIN
+                                }
                             },
                             onLoginAsProviderClick = {
-                                initialLoginAccountType = AccountType.PARKING_PROVIDER
-                                currentScreen = ScreenState.LOGIN
+                                if (currentUser != null && currentUser?.accountType == AccountType.PARKING_PROVIDER) {
+                                    isAdminMode = true
+                                    currentScreen = ScreenState.ADMIN_DASHBOARD
+                                } else {
+                                    initialLoginAccountType = AccountType.PARKING_PROVIDER
+                                    currentScreen = ScreenState.LOGIN
+                                }
                             },
                             isDarkMode = isDarkMode,
                             onToggleDarkMode = { isDarkMode = !isDarkMode }
@@ -334,90 +347,120 @@ fun App() {
                     }
 
                     ScreenState.ADMIN_DASHBOARD -> {
-                        AdminDashboardScreen(
-                            viewModel = adminViewModel,
-                            onNavigateToAddLot = { currentScreen = ScreenState.ADMIN_ADD_LOT },
-                            onNavigateToBayConfig = { lot ->
-                                viewingLot = lot
-                                currentScreen = ScreenState.ADMIN_BAY_CONFIG
-                            }
-                        )
+                        if (currentUser == null || currentUser?.accountType != AccountType.PARKING_PROVIDER) {
+                            initialLoginAccountType = AccountType.PARKING_PROVIDER
+                            currentScreen = ScreenState.LOGIN
+                        } else {
+                            AdminDashboardScreen(
+                                viewModel = adminViewModel,
+                                onNavigateToAddLot = { currentScreen = ScreenState.ADMIN_ADD_LOT },
+                                onNavigateToBayConfig = { lot ->
+                                    viewingLot = lot
+                                    currentScreen = ScreenState.ADMIN_BAY_CONFIG
+                                }
+                            )
+                        }
                     }
 
                     ScreenState.ADMIN_ADD_LOT -> {
-                        ManageLotsScreen(
-                            viewModel = adminViewModel,
-                            onBackClick = { currentScreen = ScreenState.ADMIN_DASHBOARD },
-                            onLotAdded = { currentScreen = ScreenState.ADMIN_DASHBOARD }
-                        )
+                        if (currentUser == null || currentUser?.accountType != AccountType.PARKING_PROVIDER) {
+                            initialLoginAccountType = AccountType.PARKING_PROVIDER
+                            currentScreen = ScreenState.LOGIN
+                        } else {
+                            ManageLotsScreen(
+                                viewModel = adminViewModel,
+                                onBackClick = { currentScreen = ScreenState.ADMIN_DASHBOARD },
+                                onLotAdded = { currentScreen = ScreenState.ADMIN_DASHBOARD }
+                            )
+                        }
                     }
 
                     ScreenState.ADMIN_BAY_CONFIG -> {
-                        viewingLot?.let { lot ->
-                            BayConfigScreen(
-                                lot = lot,
-                                viewModel = adminViewModel,
-                                onBackClick = { currentScreen = ScreenState.ADMIN_DASHBOARD }
-                            )
-                        } ?: run {
-                            currentScreen = ScreenState.ADMIN_DASHBOARD
+                        if (currentUser == null || currentUser?.accountType != AccountType.PARKING_PROVIDER) {
+                            initialLoginAccountType = AccountType.PARKING_PROVIDER
+                            currentScreen = ScreenState.LOGIN
+                        } else {
+                            viewingLot?.let { lot ->
+                                BayConfigScreen(
+                                    lot = lot,
+                                    viewModel = adminViewModel,
+                                    onBackClick = { currentScreen = ScreenState.ADMIN_DASHBOARD }
+                                )
+                            } ?: run {
+                                currentScreen = ScreenState.ADMIN_DASHBOARD
+                            }
                         }
                     }
 
                     ScreenState.DRIVER_FEED -> {
-                        when (currentDriverTab) {
-                            DriverTab.MAP -> {
-                                MapExplorerScreen(
-                                    viewModel = mapViewModel,
-                                    onLotClick = { lot ->
-                                        viewingLot = lot
-                                        currentScreen = ScreenState.LOT_DETAIL
-                                    }
-                                )
-                            }
-                            DriverTab.ACTIVE -> {
-                                ActiveSessionScreen(
-                                    reservation = activeReservation,
-                                    viewModel = bookingViewModel,
-                                    onFindAnotherLot = { currentDriverTab = DriverTab.MAP }
-                                )
-                            }
-                            DriverTab.AI -> {
-                                YallaAiScreen(viewModel = aiViewModel)
-                            }
-                            DriverTab.REWARDS -> {
-                                RewardsScreen()
+                        if (currentUser == null || currentUser?.accountType != AccountType.MOTORIST_DRIVER) {
+                            initialLoginAccountType = AccountType.MOTORIST_DRIVER
+                            currentScreen = ScreenState.LOGIN
+                        } else {
+                            when (currentDriverTab) {
+                                DriverTab.MAP -> {
+                                    MapExplorerScreen(
+                                        viewModel = mapViewModel,
+                                        onLotClick = { lot ->
+                                            viewingLot = lot
+                                            currentScreen = ScreenState.LOT_DETAIL
+                                        }
+                                    )
+                                }
+                                DriverTab.ACTIVE -> {
+                                    ActiveSessionScreen(
+                                        reservation = activeReservation,
+                                        viewModel = bookingViewModel,
+                                        onFindAnotherLot = { currentDriverTab = DriverTab.MAP }
+                                    )
+                                }
+                                DriverTab.AI -> {
+                                    YallaAiScreen(viewModel = aiViewModel)
+                                }
+                                DriverTab.REWARDS -> {
+                                    RewardsScreen()
+                                }
                             }
                         }
                     }
 
                     ScreenState.LOT_DETAIL -> {
-                        viewingLot?.let { lot ->
-                            LotDetailScreen(
-                                lot = lot,
-                                mapViewModel = mapViewModel,
-                                bookingViewModel = bookingViewModel,
-                                onBackClick = { currentScreen = ScreenState.DRIVER_FEED },
-                                onProceedToBook = { currentScreen = ScreenState.BOOKING_FLOW }
-                            )
-                        } ?: run {
-                            currentScreen = ScreenState.DRIVER_FEED
+                        if (currentUser == null) {
+                            initialLoginAccountType = AccountType.MOTORIST_DRIVER
+                            currentScreen = ScreenState.LOGIN
+                        } else {
+                            viewingLot?.let { lot ->
+                                LotDetailScreen(
+                                    lot = lot,
+                                    mapViewModel = mapViewModel,
+                                    bookingViewModel = bookingViewModel,
+                                    onBackClick = { currentScreen = ScreenState.DRIVER_FEED },
+                                    onProceedToBook = { currentScreen = ScreenState.BOOKING_FLOW }
+                                )
+                            } ?: run {
+                                currentScreen = ScreenState.DRIVER_FEED
+                            }
                         }
                     }
 
                     ScreenState.BOOKING_FLOW -> {
-                        viewingLot?.let { lot ->
-                            BookingFlowScreen(
-                                lot = lot,
-                                viewModel = bookingViewModel,
-                                onBackClick = { currentScreen = ScreenState.LOT_DETAIL },
-                                onBookingSuccess = {
-                                    currentScreen = ScreenState.DRIVER_FEED
-                                    currentDriverTab = DriverTab.ACTIVE
-                                }
-                            )
-                        } ?: run {
-                            currentScreen = ScreenState.DRIVER_FEED
+                        if (currentUser == null) {
+                            initialLoginAccountType = AccountType.MOTORIST_DRIVER
+                            currentScreen = ScreenState.LOGIN
+                        } else {
+                            viewingLot?.let { lot ->
+                                BookingFlowScreen(
+                                    lot = lot,
+                                    viewModel = bookingViewModel,
+                                    onBackClick = { currentScreen = ScreenState.LOT_DETAIL },
+                                    onBookingSuccess = {
+                                        currentScreen = ScreenState.DRIVER_FEED
+                                        currentDriverTab = DriverTab.ACTIVE
+                                    }
+                                )
+                            } ?: run {
+                                currentScreen = ScreenState.DRIVER_FEED
+                            }
                         }
                     }
                 }

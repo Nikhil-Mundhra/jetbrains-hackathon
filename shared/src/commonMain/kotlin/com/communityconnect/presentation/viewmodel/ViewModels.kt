@@ -1,7 +1,6 @@
 package com.communityconnect.presentation.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.yallapark.presentation.viewmodel.ViewModel
 import com.communityconnect.data.repository.MockCommunityRepository
 import com.communityconnect.data.repository.MockPostRepository
 import com.communityconnect.data.repository.MockResponseRepository

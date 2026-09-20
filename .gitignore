@@ -76,3 +76,6 @@ coverage/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Kotlin JS Store
+kotlin-js-store/
