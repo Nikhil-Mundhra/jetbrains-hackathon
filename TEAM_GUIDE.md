@@ -1,5 +1,10 @@
 # Team Collaboration Guide
 
+## Team Members
+- **Nikhil Mundhra**
+- **Sashini Manikandan**
+- **Parth Sanjay Badgujar**
+
 ## Quick Start for Team Members
 
 ### 1. Clone & Setup (5 min)

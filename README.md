@@ -192,7 +192,12 @@ docker compose --profile pipeline up --build -d
 
 ## Hackathon Team
 
-- **Platform Architect & Lead**: Kotlin Multiplatform & Compose Multiplatform
+- **Nikhil Mundhra**
+- **Sashini Manikandan**
+- **Parth Sanjay Badgujar**
+
+### Key Focus Areas
+- **Platform Architecture & Lead**: Kotlin Multiplatform & Compose Multiplatform
 - **Database & Cloud**: MongoDB Atlas Integration
 - **AI & Mobility Intelligence**: OpenRouter LLM Integration
 - **Way 1 Vision Pipeline**: YOLO-OBB & OpenStreetMap Spatial Analytics
