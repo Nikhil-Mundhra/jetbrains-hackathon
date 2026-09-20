@@ -132,6 +132,34 @@ jetbrains-hackathon/
 
 ---
 
+## Containerized development and public preview
+
+Start the browser preview and public development tunnel:
+
+```bash
+docker compose up -d
+```
+
+The app is available locally at `http://localhost:8080`. The `tunnel` service
+uses a Cloudflare Quick Tunnel, so no account or token is required for a
+temporary demo URL. After the container starts, retrieve that URL with:
+
+```bash
+./scripts/tunnel-url.sh
+```
+
+Quick Tunnel addresses are temporary and change whenever the tunnel is
+recreated. Stop the stack with `docker compose down`.
+
+The vision pipeline has large PyTorch/YOLO dependencies and is a one-shot job.
+Run it alongside the preview when a fresh telemetry export is needed:
+
+```bash
+docker compose --profile pipeline up --build -d
+```
+
+---
+
 ## Features (MVP Walkthrough)
 
 1. **Map Exploration & Filters**:

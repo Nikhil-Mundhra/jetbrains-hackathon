@@ -1,3 +1,5 @@
+@file:OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose.multiplatform)
@@ -20,11 +22,6 @@ kotlin {
     val isMacArm64 = hostOs.startsWith("Mac OS X") && System.getProperty("os.arch") == "aarch64"
     val isLinuxX64 = hostOs.startsWith("Linux") && System.getProperty("os.arch") == "x86_64"
     val isLinuxArm64 = hostOs.startsWith("Linux") && System.getProperty("os.arch") == "aarch64"
-
-    val iosTargets = listOf(iosX64(), iosArm64(), iosSimulatorArm64())
-    val desktopTargets = listOf(jvm("desktop"))
-    val wasmTargets = listOf(wasmJs("wasm"))
-
 
     sourceSets {
         val commonMain by getting {
@@ -52,7 +49,7 @@ kotlin {
                 implementation(libs.decompose)
             }
         }
-        val wasmJsMain by getting {
+        val wasmMain by getting {
             dependencies {
                 implementation(libs.compose.web.core)
                 implementation(libs.compose.web.dom)
@@ -87,7 +84,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.6.10"
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1,LICENSE,NOTICE}"
         }
@@ -95,13 +92,8 @@ android {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
-    }
-}
-
-compose {
-    plugins {
-        id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
     }
 }

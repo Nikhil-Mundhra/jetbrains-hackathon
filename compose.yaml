@@ -1,0 +1,35 @@
+name: yallapark
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    volumes:
+      # The checked-in browser preview is served directly, so changes are visible
+      # on refresh without rebuilding an image.
+      - ./web-preview:/usr/share/nginx/html:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  pipeline:
+    profiles: ["pipeline"]
+    build:
+      context: ./python-pipeline
+    # The vision prototype is intentionally one-shot: its JSON output is mounted
+    # into the repository for the web and native apps to consume.
+    volumes:
+      - ./dubai_parking_live.json:/app/dubai_parking_live.json
+    restart: "no"
+
+  tunnel:
+    image: cloudflare/cloudflared:2025.2.1
+    command: tunnel --no-autoupdate --url http://web:80
+    depends_on:
+      web:
+        condition: service_healthy
+    restart: unless-stopped

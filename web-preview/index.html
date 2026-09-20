@@ -1198,7 +1198,7 @@
         <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 space-y-3">
           <div class="flex justify-between items-center text-xs">
             <span class="text-slate-400">Session Remaining:</span>
-            <span id="countdownTimer" class="font-mono font-bold text-base text-emerald-400">44m 28s</span>
+            <span id="countdownTimer" class="font-mono font-bold text-base text-emerald-400">--</span>
           </div>
           <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
             <div class="bg-teal-400 h-full w-3/4 rounded-full"></div>
@@ -2198,6 +2198,7 @@
         document.getElementById('noPassNotice').classList.remove('hidden');
         document.getElementById('activePassCard').classList.add('hidden');
         document.getElementById('passBadge').classList.add('hidden');
+        stopCountdown();
         return;
       }
 
@@ -2211,12 +2212,45 @@
       document.getElementById('passBayType').innerText = `${activeReservation.bay.type} Designated Bay`;
       document.getElementById('passQrCode').innerText = activeReservation.qr;
       document.getElementById('passPlate').innerText = activeReservation.plate;
+
+      startCountdown();
+    }
+
+    let countdownInterval = null;
+
+    function startCountdown() {
+      stopCountdown();
+      if (!activeReservation || !activeReservation.endTime) return;
+
+      const timer = document.getElementById('countdownTimer');
+      const update = () => {
+        const diff = activeReservation.endTime - Date.now();
+        if (diff <= 0) {
+          timer.textContent = 'Expired';
+          timer.classList.replace('text-emerald-400', 'text-rose-400');
+          stopCountdown();
+          return;
+        }
+        const mins = Math.floor(diff / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        timer.textContent = `${mins}m ${secs}s`;
+      };
+      update();
+      countdownInterval = setInterval(update, 1000);
+    }
+
+    function stopCountdown() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
     }
 
     function extendSession(mins) {
       if (!activeReservation) return;
       activeReservation.duration += mins;
       activeReservation.endTime += mins * 60 * 1000;
+      startCountdown();
       alert(`Session extended by ${mins} minutes! Barrier hold refreshed.`);
     }
 

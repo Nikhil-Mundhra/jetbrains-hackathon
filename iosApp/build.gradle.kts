@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.multiplatform)
-    id("com.apple.xcode") version "1.0.0"
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -26,12 +26,6 @@ kotlin {
                 transitiveExport = true
             }
         }
-    }
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
 }
 

@@ -1,4 +1,7 @@
+@file:OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+
 plugins {
+    id("com.android.library")
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
@@ -20,11 +23,6 @@ kotlin {
     val isLinuxX64 = hostOs.startsWith("Linux") && System.getProperty("os.arch") == "x86_64"
     val isLinuxArm64 = hostOs.startsWith("Linux") && System.getProperty("os.arch") == "aarch64"
 
-    val iosTargets = listOf(iosX64(), iosArm64(), iosSimulatorArm64())
-    val desktopTargets = listOf(jvm("desktop"))
-    val wasmTargets = listOf(wasmJs("wasm"))
-
-
     sourceSets {
 val commonMain by getting {
             dependencies {
@@ -32,19 +30,19 @@ val commonMain by getting {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.contentNegotiation)
+                implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.client.logging)
-                implementation(libs.ktor.serialization.kotlinxJson)
+                implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.ktor.client.cio)
                 implementation(libs.kermit)
                 implementation(libs.coil.compose)
                 implementation(libs.room.runtime)
                 implementation(libs.room.compiler)
-                implementation(libs.sqlDelight.runtime)
-                implementation(libs.sqlDelight.coroutines)
+                implementation(libs.sql.delight.runtime)
+                implementation(libs.sql.delight.coroutines)
                 implementation(libs.decompose)
-                implementation(libs.mokoResources)
-                implementation(libs.mokoResourcesCompose)
+                implementation(libs.moko.resources)
+                implementation(libs.moko.resources.compose)
                 implementation(libs.koog.agents)
                 implementation(libs.koog.agents.additions)
                 implementation(libs.koog.openai)
@@ -66,7 +64,7 @@ val commonMain by getting {
                 implementation(libs.location)
             }
         }
-        val iosMain by getting {
+        val iosMain by creating {
             dependencies {
                 implementation(libs.ktor.client.darwin)
             }
@@ -76,7 +74,7 @@ val commonMain by getting {
                 implementation(libs.ktor.client.jvm)
             }
         }
-        val wasmJsMain by getting {
+        val wasmMain by getting {
             dependencies {
                 implementation(libs.ktor.client.js)
                 implementation(libs.compose.web.core)
@@ -96,13 +94,8 @@ android {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
-    }
-}
-
-compose {
-    plugins {
-        id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
     }
 }
