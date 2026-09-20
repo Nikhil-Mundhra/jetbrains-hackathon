@@ -38,8 +38,14 @@ Free satellite imagery (Sentinel-2 at 10m, Landsat at 30m) is too coarse for 2.5
 ```bash
 # Run Way 1 Pipeline
 cd python-pipeline
-python3 -m pip install -r requirements.txt  # Optional: shapely, ultralytics, pymongo
+python3 -m pip install -r requirements.txt  # Lightweight simulator pipeline
 python3 run_prototype.py
+```
+
+For real YOLO-OBB image inference, install the optional heavyweight dependency set instead:
+
+```bash
+python3 -m pip install -r requirements-yolo.txt
 ```
 
 ### Way 2: Government & Facility Operator Admin Console (`composeApp/admin`)
