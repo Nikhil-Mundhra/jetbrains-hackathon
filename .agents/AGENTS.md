@@ -20,6 +20,7 @@ When assigned multiple features or bugs in a single request, you MUST decide bet
 2.  **Plan:** Formulate a minimal-impact execution plan.
 3.  **Execute:** Implement the changes. Do not leave placeholder comments (e.g., "TODO" or "insert logic here"). Write the complete implementation.
 4.  **Verify:** Run the project's type-checker, linter, or build command to ensure your changes did not break the repository.
+5. **Commit & Push:** After user confirmation, commit & push code to remote github repo. 
 
 ## 4. Code Standards
 
