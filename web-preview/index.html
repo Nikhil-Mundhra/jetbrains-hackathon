@@ -26,6 +26,13 @@
     }
   </script>
   <link rel="icon" type="image/png" href="logo.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d9488">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="YallaPark">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -2584,5 +2591,70 @@
   </button>
 </div>
 
+<!-- PWA Service Worker & Install Prompt Banner -->
+<div id="pwaInstallBanner" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden max-w-sm w-full px-4">
+  <div class="bg-slate-900/95 dark:bg-slate-800/95 backdrop-blur-md text-white border border-teal-500/40 rounded-[8px] p-3 shadow-2xl flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2.5">
+      <img src="icon-192.png" alt="YallaPark" class="w-9 h-9 rounded-[8px] border border-teal-500/30" />
+      <div>
+        <div class="text-xs font-bold leading-tight">Install YallaPark App</div>
+        <div class="text-[11px] text-slate-300">Fast access from your home screen</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="pwaInstallBtn" class="bg-teal-600 hover:bg-teal-500 active:scale-95 text-white text-xs font-semibold px-3 py-1.5 rounded-[8px] transition-all cursor-pointer">
+        Install
+      </button>
+      <button id="pwaDismissBtn" class="text-slate-400 hover:text-white p-1 rounded-[6px] transition-colors cursor-pointer" title="Dismiss">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .catch(() => {});
+    });
+  }
+
+  let deferredPrompt = null;
+  const pwaBanner = document.getElementById('pwaInstallBanner');
+  const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+  const pwaDismissBtn = document.getElementById('pwaDismissBtn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (pwaBanner) {
+      pwaBanner.classList.remove('hidden');
+    }
+  });
+
+  if (pwaInstallBtn) {
+    pwaInstallBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if (pwaBanner) pwaBanner.classList.add('hidden');
+    });
+  }
+
+  if (pwaDismissBtn) {
+    pwaDismissBtn.addEventListener('click', () => {
+      if (pwaBanner) pwaBanner.classList.add('hidden');
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (pwaBanner) pwaBanner.classList.add('hidden');
+    deferredPrompt = null;
+  });
+</script>
+
 </body>
 </html>
+

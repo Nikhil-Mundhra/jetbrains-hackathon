@@ -1,6 +1,7 @@
 @file:OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
 
 plugins {
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
@@ -8,7 +9,7 @@ plugins {
 }
 
 kotlin {
-
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -46,12 +47,30 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
+            }
+        }
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
             }
         }
         val wasmJsMain by getting
+    }
+}
+
+android {
+    namespace = "com.communityconnect.composeapp"
+    compileSdk = 34
+    defaultConfig {
+        minSdk = 24
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
