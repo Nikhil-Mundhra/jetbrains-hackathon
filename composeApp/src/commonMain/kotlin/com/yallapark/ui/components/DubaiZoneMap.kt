@@ -46,8 +46,8 @@ fun DubaiZoneMap(
                     .fillMaxSize()
                     .pointerInput(lots) {
                         detectTapGestures { offset ->
-                            val width = size.width
-                            val height = size.height
+                            val width = size.width.toFloat()
+                            val height = size.height.toFloat()
 
                             // Check if a lot pin was clicked
                             for (lot in lots) {

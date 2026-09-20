@@ -10,6 +10,7 @@ val YallaTealLight = Color(0xFF4DB6AC)
 // Accent Warm Gold / Sand (UAE desert inspiration)
 val YallaGoldSecondary = Color(0xFFFFB300)
 val YallaGoldLight = Color(0xFFFFD54F)
+val YallaGoldDark = Color(0xFFB45309)
 
 // Inclusivity Category Accents
 val PinkWomenBay = Color(0xFFE91E63)

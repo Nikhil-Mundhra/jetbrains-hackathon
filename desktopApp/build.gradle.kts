@@ -6,13 +6,8 @@ plugins {
 }
 
 kotlin {
-    jvm("desktop") {
-        binaries {
-            executable {
-                mainClass.set("com.communityconnect.MainKt")
-            }
-        }
-    }
+    jvm("desktop")
+
 
     sourceSets {
         val desktopMain by getting {
@@ -20,6 +15,12 @@ kotlin {
                 implementation(project(":composeApp"))
             }
         }
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.communityconnect.MainKt"
     }
 }
 

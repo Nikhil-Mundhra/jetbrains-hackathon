@@ -66,8 +66,8 @@ class YallaParkRepositoryImpl : ParkingRepository, ReservationRepository, AdminR
         }
 
         val now = currentTimeMillis()
-        val durationMs = durationMinutes * 60 * 1000L
-        val lockHoldMs = 15 * 60 * 1000L // 15-minute guaranteed arrival lock
+        val durationMs = durationMinutes.toLong() * 60_000L
+        val lockHoldMs = 900_000L // 15-minute guaranteed arrival lock
         val totalCost = (durationMinutes / 60.0) * lot.hourlyRateAed
 
         val reservation = Reservation(
@@ -115,7 +115,7 @@ class YallaParkRepositoryImpl : ParkingRepository, ReservationRepository, AdminR
             return Result.failure(IllegalArgumentException("Reservation ID mismatch"))
         }
 
-        val addMs = additionalMinutes * 60 * 1000L
+        val addMs = additionalMinutes.toLong() * 60_000L
         val addCost = (additionalMinutes / 60.0) * current.hourlyRateAed
 
         val extended = current.copy(
