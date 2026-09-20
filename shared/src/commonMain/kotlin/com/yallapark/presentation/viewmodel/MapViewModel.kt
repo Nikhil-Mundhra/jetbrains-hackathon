@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 
 enum class BayFilterCategory(val label: String) {
     ALL("All Bays"),
-    POD("♿ POD Accessible"),
-    WOMEN_PINK("🌸 Women-Only"),
-    DELIVERY("🛵 Delivery Rider"),
-    EV("⚡ EV Charging")
+    POD("POD Accessible"),
+    WOMEN_PINK("Women-Only"),
+    DELIVERY("Delivery Rider"),
+    EV("EV Charging")
 }
 
 class MapViewModel(
