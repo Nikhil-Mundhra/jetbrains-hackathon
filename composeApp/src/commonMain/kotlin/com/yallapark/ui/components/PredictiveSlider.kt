@@ -98,7 +98,13 @@ fun PredictiveSlider(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    Text(text = "💡", fontSize = 14.sp)
+                    Box(
+                        modifier = Modifier
+                            .background(YallaGoldSecondary.copy(alpha = 0.2f), RoundedCornerShape(4.dp))
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
+                    ) {
+                        Text("TIP", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = YallaGoldDark)
+                    }
                     Text(
                         text = it.recommendation,
                         fontSize = 11.sp,
