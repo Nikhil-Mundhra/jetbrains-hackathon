@@ -141,27 +141,11 @@ fun App() {
                             }
                         }
 
-                        // Right Actions: Theme Toggle / User status / Mode Switcher / Home
+                        // Right Actions: User status / Mode Switcher / Home
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            // Dark / Light Mode Global Toggle Chip
-                            Box(
-                                modifier = Modifier
-                                    .background(if (isDarkMode) Color(0xFF334155) else Color(0x33FFFFFF), RoundedCornerShape(8.dp))
-                                    .border(1.dp, if (isDarkMode) Color(0xFF475569) else Color(0x33FFFFFF), RoundedCornerShape(8.dp))
-                                    .clickable { isDarkMode = !isDarkMode }
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
-                                Text(
-                                    text = if (isDarkMode) "Light Mode" else "Dark Mode",
-                                    fontSize = 10.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                            }
-
                             // Home Shortcut button
                             if (currentScreen != ScreenState.HOME_LANDING) {
                                 TextButton(
