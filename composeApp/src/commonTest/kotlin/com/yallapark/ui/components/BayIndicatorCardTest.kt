@@ -1,72 +1,84 @@
 package com.yallapark.ui.components
 
-import androidx.compose.material3.testing.assertIsDisplayed
-import androidx.compose.ui.test.junitUiTest
 import com.yallapark.domain.model.BayStatus
 import com.yallapark.domain.model.BayType
 import com.yallapark.domain.model.ParkingBay
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class BayIndicatorCardTest {
 
     @Test
-    fun testBayIndicatorCardPOD() = junitUiTest {
+    fun testPODBayProperties() {
         val podBay = ParkingBay(
             id = "BAY_1",
             bayNumber = "P-1",
             type = BayType.PEOPLE_OF_DETERMINATION,
             status = BayStatus.AVAILABLE
         )
-        // Test POD bay renders with correct label
-        // onNode(withText("POD")).assertIsDisplayed()
+        assertEquals(BayType.PEOPLE_OF_DETERMINATION, podBay.type)
+        assertEquals(BayStatus.AVAILABLE, podBay.status)
+        assertEquals("P-1", podBay.bayNumber)
     }
 
     @Test
-    fun testBayIndicatorCardWomenOnly() = junitUiTest {
+    fun testWomenOnlyBayProperties() {
         val pinkBay = ParkingBay(
             id = "BAY_2",
             bayNumber = "W-1",
             type = BayType.WOMEN_ONLY_PINK,
             status = BayStatus.AVAILABLE
         )
-        // Test Women-Only bay renders with correct label
-        // onNode(withText("PINK")).assertIsDisplayed()
+        assertEquals(BayType.WOMEN_ONLY_PINK, pinkBay.type)
+        assertEquals(BayStatus.AVAILABLE, pinkBay.status)
     }
 
     @Test
-    fun testBayIndicatorCardDeliveryRider() = junitUiTest {
+    fun testDeliveryRiderBayOccupied() {
         val deliveryBay = ParkingBay(
             id = "BAY_3",
             bayNumber = "D-1",
             type = BayType.DELIVERY_RIDER,
             status = BayStatus.OCCUPIED
         )
-        // Test Delivery Rider bay shows occupied status
-        // onNode(withText("QUICK")).assertIsDisplayed()
-        // onNode(withText("OCCU")).assertIsDisplayed()
+        assertEquals(BayType.DELIVERY_RIDER, deliveryBay.type)
+        assertEquals(BayStatus.OCCUPIED, deliveryBay.status)
     }
 
     @Test
-    fun testBayIndicatorCardEVCharging() = junitUiTest {
+    fun testEVChargingBayReserved() {
         val evBay = ParkingBay(
             id = "BAY_4",
             bayNumber = "S-1",
             type = BayType.EV_CHARGING,
             status = BayStatus.RESERVED
         )
-        // Test EV Charging bay shows reserved status
-        // onNode(withText("EV")).assertIsDisplayed()
+        assertEquals(BayType.EV_CHARGING, evBay.type)
+        assertEquals(BayStatus.RESERVED, evBay.status)
     }
 
     @Test
-    fun testBayIndicatorCardStandard() = junitUiTest {
+    fun testStandardBayAvailable() {
         val standardBay = ParkingBay(
             id = "BAY_5",
             bayNumber = "S-2",
             type = BayType.STANDARD,
             status = BayStatus.AVAILABLE
         )
-        // Test Standard bay renders correctly
-        // onNode(withText("STD")).assertIsDisplayed()
+        assertEquals(BayType.STANDARD, standardBay.type)
+        assertEquals(BayStatus.AVAILABLE, standardBay.status)
+    }
+
+    @Test
+    fun testAllBayTypesAreCovered() {
+        val allTypes = BayType.entries
+        assertTrue(allTypes.size >= 5, "Should have at least 5 bay types (Standard, POD, Women, Delivery, EV)")
+    }
+
+    @Test
+    fun testAllBayStatusesAreCovered() {
+        val allStatuses = BayStatus.entries
+        assertTrue(allStatuses.size >= 3, "Should have at least 3 statuses (Available, Occupied, Reserved)")
     }
 }

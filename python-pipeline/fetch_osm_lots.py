@@ -121,7 +121,7 @@ def get_pilot_fallback_lots(bbox: List[float]) -> List[Dict[str, Any]]:
             "id": 10103,
             "tags": {"name": "Downtown Boulevard Smart Garage", "parking": "multi-storey", "capacity": "150"},
             "geometry": [
-                {"lat": 25.1960, "lon": 25.1960},
+                {"lat": 25.1960, "lon": 55.2750},
                 {"lat": 25.1975, "lon": 55.2750},
                 {"lat": 25.1975, "lon": 55.2770},
                 {"lat": 25.1960, "lon": 55.2770}

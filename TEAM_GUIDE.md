@@ -17,9 +17,9 @@ cd jetbrains-hackathon
 ### 3. Run Configurations
 | Platform | How to Run |
 |----------|------------|
-| Android | ▶️ `composeApp` run config → Device/Emulator |
+| Android | Run `composeApp` run config → Device/Emulator |
 | iOS | Open `iosApp/iosApp.xcodeproj` in Xcode → Run |
-| Desktop | ▶️ `desktopApp` run config → `MainKt` |
+| Desktop | Run `desktopApp` run config → `MainKt` |
 | Web | `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` → localhost:8080 |
 
 ---
