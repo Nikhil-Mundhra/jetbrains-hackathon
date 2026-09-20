@@ -83,6 +83,12 @@ class AerialOccupancyDetector:
         """
         Runs YOLO-OBB inference and returns list of (center_x, center_y, class_name).
         """
+        # The prototype has no image acquisition step.  Do not pass ``None`` to
+        # YOLO when a model happens to be installed: that used to turn every
+        # demo run into an empty occupancy feed instead of using the simulator.
+        if image_source is None:
+            return self._simulated_detections()
+
         if self.model is not None:
             try:
                 results = self.model(image_source, imgsz=img_size)[0]
@@ -96,15 +102,18 @@ class AerialOccupancyDetector:
             except Exception as err:
                 logging.error(f"Inference error: {err}")
                 return []
-        else:
-            # Fallback simulated aerial vehicle detections for testing/demo
-            import random
-            random.seed(42)
-            # Generate 35 detected vehicles across a 1024x1024 frame
-            return [
-                (random.uniform(100, 900), random.uniform(100, 900), "small vehicle")
-                for _ in range(35)
-            ]
+        return self._simulated_detections()
+
+    @staticmethod
+    def _simulated_detections() -> List[Tuple[float, float, str]]:
+        """Deterministic demo detections used only when no aerial image is supplied."""
+        import random
+
+        random.seed(42)
+        return [
+            (random.uniform(100, 900), random.uniform(100, 900), "small vehicle")
+            for _ in range(35)
+        ]
 
     def compute_lot_occupancy(
         self,

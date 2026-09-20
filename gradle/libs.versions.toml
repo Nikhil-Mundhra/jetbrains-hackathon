@@ -7,7 +7,7 @@ coroutines = "1.8.0"
 serialization = "1.6.3"
 ktor = "3.0.3"
 datetime = "0.6.0"
-kermit = "2.2.1"
+kermit = "2.2.0"
 coil = "2.6.0"
 room = "2.6.1"
 sqlDelight = "2.0.1"
@@ -16,8 +16,8 @@ mokoResources = "0.23.0"
 lifecycle = "2.8.0"
 navigation = "2.7.7"
 activity = "1.9.0"
-maps = "3.4.0"
-location = "2.1.0"
+maps = "6.12.2"
+location = "21.4.0"
 junit = "4.13.2"
 junitJupiter = "5.10.2"
 kotlinxTest = "1.7.0"
@@ -29,6 +29,7 @@ androidxTest = "1.5.2"
 androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.2"
 koog = "1.2.0"
+koogAdditions = "1.2.0-beta"
 
 [libraries]
 # Kotlin & Compose
@@ -56,7 +57,7 @@ ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 
 # Logging
-kermit = { module = "com.slack.kermit:kermit", version.ref = "kermit" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 # Image Loading
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
@@ -64,7 +65,7 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 # Database
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-sql-delight-runtime = { module = "app.cash.sqldelight:sql-delight-runtime", version.ref = "sqlDelight" }
+sql-delight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
 sql-delight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 
 # Navigation & Architecture
@@ -87,8 +88,8 @@ compose-web-dom = { module = "org.jetbrains.compose.web:compose-web-dom-wasm", v
 
 # Koog (AI Agents)
 koog-agents = { module = "ai.koog:koog-agents", version.ref = "koog" }
-koog-agents-additions = { module = "ai.koog:koog-agents-additions", version.ref = "koog" }
-koog-openai = { module = "ai.koog:koog-openai", version.ref = "koog" }
+koog-agents-additions = { module = "ai.koog:koog-agents-additions", version.ref = "koogAdditions" }
+koog-openai = { module = "ai.koog:prompt-executor-openai-client", version.ref = "koog" }
 
 # Testing
 junit = { module = "junit:junit", version.ref = "junit" }

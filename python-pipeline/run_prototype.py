@@ -56,7 +56,8 @@ def run_pipeline():
             pod_bays = max(2, int(cap * 0.05))
             pink_bays = max(2, int(cap * 0.08))
             delivery_bays = max(3, int(cap * 0.10))
-            standard_bays = cap - pod_bays - pink_bays - delivery_bays
+            # Never publish an invalid allocation for small lots.
+            standard_bays = max(0, cap - pod_bays - pink_bays - delivery_bays)
 
             lot_payload = {
                 "lot_id": f"LOT_{lot['osm_id']}",
