@@ -38,17 +38,17 @@ enum class PostType {
 
 @Serializable
 enum class Category {
-    FOOD("🍽️", "Food & Meals"),
-    TOOLS("🔧", "Tools & Equipment"),
-    SKILLS("🛠️", "Skills & Services"),
-    TRANSPORT("🚗", "Transportation"),
-    CHILDCARE("👶", "Childcare"),
-    ELDERCARE("👵", "Elder Care"),
-    TECHNOLOGY("💻", "Technology Help"),
-    LANGUAGE("🌐", "Language & Translation"),
-    EMERGENCY("🚨", "Emergency"),
-    COMMUNITY("🤝", "Community Events"),
-    OTHER("📦", "Other")
+    FOOD("FOOD", "Food & Meals"),
+    TOOLS("TOOLS", "Tools & Equipment"),
+    SKILLS("SKILLS", "Skills & Services"),
+    TRANSPORT("TRANS", "Transportation"),
+    CHILDCARE("CHILD", "Childcare"),
+    ELDERCARE("ELDER", "Elder Care"),
+    TECHNOLOGY("TECH", "Technology Help"),
+    LANGUAGE("LANG", "Language & Translation"),
+    EMERGENCY("EMERG", "Emergency"),
+    COMMUNITY("COMM", "Community Events"),
+    OTHER("OTHER", "Other")
 
     val icon: String
     val label: String
@@ -56,10 +56,10 @@ enum class Category {
 
 @Serializable
 enum class Urgency {
-    LOW("Low", "🟢"),
-    MEDIUM("Medium", "🟡"),
-    HIGH("High", "🟠"),
-    CRITICAL("Critical", "🔴")
+    LOW("Low", "LOW"),
+    MEDIUM("Medium", "MED"),
+    HIGH("High", "HIGH"),
+    CRITICAL("Critical", "CRIT")
 
     val label: String
     val icon: String
