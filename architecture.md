@@ -249,19 +249,19 @@ YallaPark prioritizes urban inclusivity through first-class support for speciali
 ├───────────────────┬───────────────────┬────────────────────────────────┤
 │ Category          │ Visual Indicator  │ Placement & Regulatory Rules   │
 ├───────────────────┼───────────────────┼────────────────────────────────┤
-│ ♿ POD Accessible  │ Blue (#1976D2)    │ Ground floor, adjacent to      │
+│ POD Accessible    │ Blue (#1976D2)    │ Ground floor, adjacent to      │
 │ (Determination)   │                   │ ramps & elevators; extra width │
 ├───────────────────┼───────────────────┼────────────────────────────────┤
-│ 🌸 Women-Only     │ Pink (#E91E63)    │ Well-lit ground floor bays     │
+│ Women-Only        │ Pink (#E91E63)    │ Well-lit ground floor bays     │
 │ (Pink Bays)       │                   │ near active CCTV & exits       │
 ├───────────────────┼───────────────────┼────────────────────────────────┤
-│ 🛵 Delivery Rider │ Amber (#FF6F00)   │ Street-level 15–20 min bays    │
+│ Delivery Rider    │ Amber (#FF6F00)   │ Street-level 15–20 min bays    │
 │ (Quick Bays)      │                   │ to eliminate double parking    │
 ├───────────────────┼───────────────────┼────────────────────────────────┤
-│ ⚡ EV Charging    │ Green (#388E3C)   │ Integrated with DEWA Green     │
+│ EV Charging       │ Green (#388E3C)   │ Integrated with DEWA Green     │
 │                   │                   │ Charger network                │
 ├───────────────────┼───────────────────┼────────────────────────────────┤
-│ 🅿️ Standard Bay   │ Gray / White      │ Standard multi-story & surface │
+│ Standard Bay      │ Gray / White      │ Standard multi-story & surface │
 └───────────────────┴───────────────────┴────────────────────────────────┘
 ```
 

@@ -4,7 +4,7 @@ An advanced smart urban mobility and predictive parking platform engineered to s
 
 ---
 
-## 🌟 Problem & Strategic Vision
+## Problem & Strategic Vision
 
 ### The Urban Challenge in Dubai
 In high-density commercial corridors like **Bur Dubai, Al Karama, Deira Gold Souq, and Downtown**, motorists spend excessive time circling blocks in search of open parking bays:
@@ -18,15 +18,15 @@ YallaPark replaces the traditional "circle and search" with a **guaranteed, pred
 - **Predictive Slot Availability**: Machine-learning-based slot decay model calculates the probability of open parking upon arrival at the driver's estimated time of arrival (ETA).
 - **Guaranteed Pre-Booking & Hold**: 15-minute guaranteed slot hold backed by digital payments (Apple Pay, Google Pay, Dubai RTA NOL card, credit/debit card).
 - **Inclusivity & Specialized Bays**: Dedicated mapping, filters, and turn-by-turn routing for:
-  - ♿ **People of Determination (POD)** accessibility bays.
-  - 🌸 **Women-Only (Pink)** designated parking spaces in well-lit, secure areas.
-  - 🛵 **Delivery Rider Quick Bays** (15–20 min short stays) to prevent double-parking.
-  - ⚡ **EV Charging Bays** integrated with DEWA green charging networks.
+  - **People of Determination (POD)** accessibility bays.
+  - **Women-Only (Pink)** designated parking spaces in well-lit, secure areas.
+  - **Delivery Rider Quick Bays** (15–20 min short stays) to prevent double-parking.
+  - **EV Charging Bays** integrated with DEWA green charging networks.
 - **Gamified Eco-Rewards**: Drivers earn green mobility points for booking off-peak or using park-and-ride facilities, redeemable for discounts at local Dubai merchants.
 
 ---
 
-## 🚀 Two Pathways for Finding & Managing Parking Spaces
+## Two Pathways for Finding & Managing Parking Spaces
 
 ### Way 1: Automated Aerial / Satellite & Drone Detection Pipeline (`python-pipeline/`)
 Free satellite imagery (Sentinel-2 at 10m, Landsat at 30m) is too coarse for 2.5m x 5m parking bays. YallaPark provides a working prototype pipeline using high-resolution spatial data and computer vision:
@@ -52,7 +52,7 @@ An enterprise console enabling the **Roads and Transport Authority (RTA)**, **Ma
 
 ---
 
-## 🤖 YallaPark AI Concierge (OpenRouter Integration)
+## YallaPark AI Concierge (OpenRouter Integration)
 
 An intelligent conversational parking assistant powered by OpenRouter API (`openai/gpt-4o-mini`):
 - Answers Dubai-specific mobility questions (e.g. *“Where can I find pink parking bays in Karama?”* or *“What is the tariff near Deira Gold Souq?”*).
@@ -60,7 +60,7 @@ An intelligent conversational parking assistant powered by OpenRouter API (`open
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 jetbrains-hackathon/
@@ -82,27 +82,42 @@ jetbrains-hackathon/
 ├── shared/                                     # Core KMP Business Logic
 │   ├── commonMain/kotlin/com/yallapark/
 │   │   ├── domain/model/                       # ParkingLot, ParkingBay, Reservation, Forecast, UserRole
-│   │   ├── domain/repository/                  # ParkingRepository, ReservationRepository, AdminRepository
-│   │   ├── data/
-│   │   │   ├── repository/                     # YallaParkRepositoryImpl (Dubai pilot seed + live telemetry)
-│   │   │   └── engine/                         # PredictiveOccupancyEngine (slot decay algorithm)
-│   │   ├── ai/                                 # OpenRouterClient (Ktor) & YallaAiViewModel
-│   │   └── presentation/viewmodel/             # MapViewModel, BookingViewModel, AdminViewModel
-│   └── commonTest/kotlin/com/yallapark/        # Unit tests for prediction math & reservation lifecycle
-├── python-pipeline/                            # Way 1: Aerial & Satellite CV Prototype
-│   ├── fetch_osm_lots.py                       # Overpass API parser for Dubai & Abu Dhabi
-│   ├── detect_occupancy.py                     # YOLO-OBB vehicle detector & polygon engine
-│   ├── export_to_yallapark.py                  # Local JSON & MongoDB Atlas exporter
-│   └── run_prototype.py                        # Full end-to-end Way 1 runner
-├── androidApp/                                 # Android entry point
-├── iosApp/                                     # iOS Xcode project entry point
-├── desktopApp/                                 # Desktop (JVM) runner
+│   │   │   │   │   ├── driver/
+│   │   │   │   │   │   ├── MapExplorerScreen.kt # Live search, zone pills, interactive map
+│   │   │   │   │   │   ├── LotDetailScreen.kt  # Bay selection matrix & decay prediction
+│   │   │   │   │   │   ├── BookingFlowScreen.kt # Payment methods (NOL, Apple Pay, GPay)
+│   │   │   │   │   │   ├── ActiveSessionScreen.kt # Active pass, ANPR QR, remote extension
+│   │   │   │   │   │   └── RewardsScreen.kt    # Gamified eco-mobility reward ledger
+│   │   │   │   │   ├── admin/
+│   │   │   │   │   │   ├── AdminDashboardScreen.kt # Citywide occupancy KPIs & telemetry
+│   │   │   │   │   │   ├── ManageLotsScreen.kt # Add/remove parking facilities
+│   │   │   │   │   │   └── BayConfigScreen.kt  # Interactive bay matrix & sensor simulator
+│   │   │   │   │   └── ai/
+│   │   │   │   │       └── YallaAiScreen.kt    # OpenRouter conversational assistant
+│   │   │   │   └── theme/                      # Dubai RTA-aligned typography & design system
+│   │   │   └── com/communityconnect/               # Base infrastructure
+│   │   ├── androidMain/                            # Android entry point
+│   │   ├── iosMain/                                # iOS entry point (SwiftUI bridge)
+│   │   └── desktopMain/                            # Desktop JVM runner
+├── shared/                                     # Business Logic & Core Models
+│   └── commonMain/kotlin/
+│       ├── com/yallapark/
+│       │   ├── domain/model/                   # ParkingLot, ParkingBay, Zone, BayType, Session
+│       │   ├── presentation/viewmodel/         # MapViewModel, AdminViewModel
+│       │   └── ai/                             # OpenRouterClient & YallaAiViewModel
+│       └── com/communityconnect/
+├── python-pipeline/                            # Way 1 Prototype (Automated Aerial/CV Pipeline)
+│   ├── fetch_osm_lots.py                       # Extracts Dubai parking polygons via OSM API
+│   ├── detect_occupancy.py                     # YOLO-OBB detection & polygon containment
+│   ├── export_to_yallapark.py                  # Exports occupancy to JSON & MongoDB Atlas
+│   └── run_prototype.py                        # End-to-end Way 1 simulation script
+├── server/                                     # Unified Ktor Backend & MongoDB Gateway
 └── wasmJsApp/                                  # Web (WASM) runner
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technology |
 |---|---|
@@ -117,7 +132,7 @@ jetbrains-hackathon/
 
 ---
 
-## 📱 Features (MVP Walkthrough)
+## Features (MVP Walkthrough)
 
 1. **Map Exploration & Filters**:
    - Filter by Dubai Zone: **Bur Dubai, Al Karama, Deira, Downtown Dubai**.
@@ -141,7 +156,7 @@ jetbrains-hackathon/
 
 ---
 
-## 👥 Hackathon Team
+## Hackathon Team
 
 - **Platform Architect & Lead**: Kotlin Multiplatform & Compose Multiplatform
 - **Database & Cloud**: MongoDB Atlas Integration

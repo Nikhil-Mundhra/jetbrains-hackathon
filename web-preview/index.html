@@ -219,9 +219,7 @@
     <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
       <!-- Brand Logo (navigates to Home) -->
       <a href="#" onclick="switchMainMode('home'); return false;" class="flex items-center gap-2 cursor-pointer">
-        <div class="w-8 h-8 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center text-base font-black shadow-sm">
-          🅿️
-        </div>
+        <div class="w-8 h-8 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center text-base font-black shadow-sm">P</div>
         <span class="font-bold text-xl text-[#1976D2]">Yalla<span class="text-[#4CAF50]">Park</span></span>
       </a>
 
@@ -237,16 +235,16 @@
       <div class="flex items-center gap-2.5">
         <!-- Prominent Dark / Light Mode Toggle Button -->
         <button id="btnThemeToggle" onclick="toggleTheme()" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-1.5 shadow-sm cursor-pointer" title="Toggle Light / Dark Mode">
-          <span id="themeToggleIcon">🌙</span> <span id="themeToggleText">Dark Mode</span>
+          <span id="themeToggleIcon" class="inline-flex items-center"></span> <span id="themeToggleText">Dark Mode</span>
         </button>
         <a href="map.html" target="_blank" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-blue-500/40 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 flex items-center gap-1 shadow-sm" title="Open OpenLayers Smart Mobility Map">
-          🗺️ Live Map ↗
+          Live Map ↗
         </a>
         <button id="btnModeAdmin" onclick="switchMainMode('admin')" class="px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-[#1976D2] text-[#1976D2] hover:bg-blue-50">
-          🏛️ Provider Console
+          Provider Console
         </button>
         <button id="btnModeDriver" onclick="switchMainMode('driver')" class="px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all bg-[#4CAF50] text-white hover:bg-[#43A047] shadow-sm">
-          🚗 Driver App
+          Driver App
         </button>
         <button id="btnNavLogin" onclick="openLogin('driver')" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-gray-300 text-gray-700 hover:bg-gray-100">
           Sign In
@@ -273,7 +271,7 @@
           <!-- Left Column -->
           <div class="text-left space-y-6">
             <div class="inline-flex items-center gap-2 bg-[#4CAF50]/10 border border-[#4CAF50]/30 px-3 py-1 rounded-[8px] text-xs font-bold text-[#388E3C] tracking-wider uppercase">
-              🇦🇪 UAE'S SMART PARKING PLATFORM
+              UAE'S SMART PARKING PLATFORM
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight">
@@ -297,23 +295,17 @@
             <!-- Trust Badges -->
             <div class="mt-8 flex flex-wrap gap-6 pt-4">
               <div class="flex items-center gap-2.5">
-                <div class="bg-green-100 p-2.5 rounded-[8px] text-[#2E7D32]">
-                  🅿️
-                </div>
+                <div class="bg-green-100 p-2.5 rounded-[8px] text-[#2E7D32] font-bold text-base w-10 h-10 flex items-center justify-center">P</div>
                 <span class="text-gray-700 font-semibold text-sm">5,000+ Parking Spots</span>
               </div>
 
               <div class="flex items-center gap-2.5">
-                <div class="bg-amber-100 p-2.5 rounded-[8px] text-[#B45309]">
-                  ⏱️
-                </div>
+                <div class="bg-amber-100 p-2.5 rounded-[8px] text-[#B45309] flex items-center justify-center"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg></div>
                 <span class="text-gray-700 font-semibold text-sm">Book in under 30s</span>
               </div>
 
               <div class="flex items-center gap-2.5">
-                <div class="bg-blue-100 p-2.5 rounded-[8px] text-[#1565C0]">
-                  🛡️
-                </div>
+                <div class="bg-blue-100 p-2.5 rounded-[8px] text-[#1565C0] flex items-center justify-center"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                 <span class="text-gray-700 font-semibold text-sm">Guaranteed Spot</span>
               </div>
             </div>
@@ -356,7 +348,7 @@
           <!-- Best Spots Near You Card -->
           <div class="bg-white rounded-[8px] p-6 shadow-sm border border-gray-100 space-y-4">
             <div class="flex items-center gap-2 border-b border-gray-100 pb-3">
-              <span class="text-lg">📍</span>
+              <svg class="w-5 h-5 text-[#1976D2]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
               <h3 class="font-bold text-lg text-gray-900">Best Spots Near You</h3>
             </div>
             <div class="space-y-3">
@@ -399,7 +391,7 @@
           <div class="bg-white rounded-[8px] p-6 shadow-sm border border-gray-100 flex flex-col justify-between space-y-4">
             <div class="space-y-4">
               <div class="flex items-center gap-2 border-b border-gray-100 pb-3">
-                <span class="text-lg">🤖</span>
+                <svg class="w-5 h-5 text-[#4CAF50]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 <h3 class="font-bold text-lg text-gray-900">AI Parking Insights</h3>
               </div>
               <div id="yallaAiInsightBox" class="p-4 rounded-[8px] bg-[#E3F2FD] text-[#0D47A1] text-sm leading-relaxed border border-[#BBDEFB]">
@@ -438,7 +430,7 @@
               <div class="flex items-center justify-between">
                 <span class="font-bold text-gray-900 text-sm">Search Parking</span>
                 <button onclick="toggleSatellitePreview()" id="btnSatToggle" class="text-xs font-semibold px-2.5 py-1 rounded-[8px] bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">
-                  🗺️ Vector Mode
+                  Vector Mode
                 </button>
               </div>
 
@@ -489,7 +481,7 @@
             <div id="yallaMapBox" class="w-full h-[400px] rounded-[8px] bg-slate-900 border border-gray-200 relative overflow-hidden flex flex-col justify-between p-5 text-white shadow-sm">
               <div class="flex justify-between items-center z-10">
                 <span id="mapBadgeMode" class="bg-black/60 px-3 py-1 rounded-[8px] text-xs font-semibold backdrop-blur-sm">
-                  🗺️ UAE Interactive Map • Center (25.2048° N, 55.2708° E)
+                  UAE Interactive Map • Center (25.2048° N, 55.2708° E)
                 </span>
                 <span class="bg-[#4CAF50] text-white px-3 py-1 rounded-[8px] text-xs font-bold shadow">
                   Live Sensor Sync
@@ -497,9 +489,7 @@
               </div>
 
               <div class="text-center space-y-1 z-10">
-                <div class="w-12 h-12 rounded-[8px] bg-[#4CAF50] text-white text-xl font-bold flex items-center justify-center mx-auto shadow-lg">
-                  🅿️
-                </div>
+                <div class="w-12 h-12 rounded-[8px] bg-[#4CAF50] text-white text-xl font-bold flex items-center justify-center mx-auto shadow-lg">P</div>
                 <h3 id="mapSpotName" class="text-base font-bold text-white">Dubai Mall P1</h3>
                 <p id="mapSpotDetail" class="text-xs text-blue-200">45 bays available • AED 20/hr • 3 min walk</p>
               </div>
@@ -509,7 +499,7 @@
                   Open in Driver App & Reserve Bay →
                 </button>
                 <a href="map.html" target="_blank" class="py-2.5 px-3.5 rounded-[8px] bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1.5 whitespace-nowrap">
-                  <span>🗺️</span> OpenLayers Live Map ↗
+                  OpenLayers Live Map ↗
                 </a>
               </div>
             </div>
@@ -532,9 +522,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-green-50 text-[#2E7D32] flex items-center justify-center text-2xl">
-              📡
-            </div>
+            <div class="w-12 h-12 rounded-[8px] bg-green-50 text-[#2E7D32] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg></div>
             <h3 class="text-xl font-semibold text-gray-900">Real-Time Availability</h3>
             <p class="text-gray-600 text-sm leading-relaxed">
               See live occupancy across malls, residential towers, and street parking before you even leave home.
@@ -542,9 +530,7 @@
           </div>
 
           <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center text-2xl">
-              ⏰
-            </div>
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg></div>
             <h3 class="text-xl font-semibold text-gray-900">Reserve in Advance</h3>
             <p class="text-gray-600 text-sm leading-relaxed">
               Book your spot hours or days ahead. Your space is guaranteed when you arrive — no more circling.
@@ -552,9 +538,7 @@
           </div>
 
           <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-green-50 text-[#2E7D32] flex items-center justify-center text-2xl">
-              🧭
-            </div>
+            <div class="w-12 h-12 rounded-[8px] bg-green-50 text-[#2E7D32] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12 2 15 9 12 11 9 9" fill="currentColor"/><polygon points="12 22 9 15 12 13 15 15" fill="currentColor"/></svg></div>
             <h3 class="text-xl font-semibold text-gray-900">Turn-by-Turn Guidance</h3>
             <p class="text-gray-600 text-sm leading-relaxed">
               Get directed straight to your reserved bay with in-app navigation and indoor wayfinding.
@@ -562,9 +546,7 @@
           </div>
 
           <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center text-2xl">
-              💳
-            </div>
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path stroke-linecap="round" d="M2 10h20"/><path stroke-linecap="round" d="M6 15h4"/></svg></div>
             <h3 class="text-xl font-semibold text-gray-900">Cashless Payments</h3>
             <p class="text-gray-600 text-sm leading-relaxed">
               Pay seamlessly with Apple Pay, card, or wallet. Receipts and VAT invoices delivered instantly.
@@ -572,9 +554,7 @@
           </div>
 
           <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-amber-50 text-[#B45309] flex items-center justify-center text-2xl">
-              🛡️
-            </div>
+            <div class="w-12 h-12 rounded-[8px] bg-amber-50 text-[#B45309] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
             <h3 class="text-xl font-semibold text-gray-900">Secure & Verified</h3>
             <p class="text-gray-600 text-sm leading-relaxed">
               Every listed spot is verified, monitored, and covered by our parking protection guarantee.
@@ -582,9 +562,7 @@
           </div>
 
           <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
-            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center text-2xl">
-              📍
-            </div>
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
             <h3 class="text-xl font-semibold text-gray-900">UAE-Wide Coverage</h3>
             <p class="text-gray-600 text-sm leading-relaxed">
               From Dubai Marina to Abu Dhabi Corniche and Sharjah — thousands of spots in one app.
@@ -654,25 +632,25 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div class="bg-white/10 backdrop-blur-sm rounded-[8px] p-6 text-center hover:bg-white/20 transition-all space-y-2">
-            <div class="text-2xl mb-1">🅿️</div>
+            <div class="w-8 h-8 rounded-[6px] bg-white/20 text-white font-bold flex items-center justify-center mx-auto mb-1 text-base">P</div>
             <div class="text-3xl md:text-4xl font-bold">5,000+</div>
             <div class="text-sm opacity-80">Parking Spots</div>
           </div>
 
           <div class="bg-white/10 backdrop-blur-sm rounded-[8px] p-6 text-center hover:bg-white/20 transition-all space-y-2">
-            <div class="text-2xl mb-1">📍</div>
+            <div class="flex justify-center mb-1"><svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
             <div class="text-3xl md:text-4xl font-bold">120+</div>
             <div class="text-sm opacity-80">Locations Across UAE</div>
           </div>
 
           <div class="bg-white/10 backdrop-blur-sm rounded-[8px] p-6 text-center hover:bg-white/20 transition-all space-y-2">
-            <div class="text-2xl mb-1">⏱️</div>
+            <div class="flex justify-center mb-1"><svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg></div>
             <div class="text-3xl md:text-4xl font-bold">12 min</div>
             <div class="text-sm opacity-80">Avg. Time Saved</div>
           </div>
 
           <div class="bg-white/10 backdrop-blur-sm rounded-[8px] p-6 text-center hover:bg-white/20 transition-all space-y-2">
-            <div class="text-2xl mb-1">⭐</div>
+            <div class="flex justify-center mb-1"><svg class="w-7 h-7 text-amber-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
             <div class="text-3xl md:text-4xl font-bold">99.2%</div>
             <div class="text-sm opacity-80">Customer Satisfaction</div>
           </div>
@@ -701,7 +679,7 @@
                 <p class="text-xs text-gray-500">Downtown Dubai Commuter</p>
               </div>
             </div>
-            <div class="text-amber-500 text-sm">★★★★★</div>
+            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 font-bold border border-amber-500/20">5.0 / 5.0 Rating</span></div>
             <p class="text-gray-700 italic text-sm leading-relaxed">
               "I used to spend 20 minutes hunting for parking near DIFC. With Yalla Park I reserve my bay before I leave home — drive straight in, done."
             </p>
@@ -715,7 +693,7 @@
                 <p class="text-xs text-gray-500">Dubai Mall Regular</p>
               </div>
             </div>
-            <div class="text-amber-500 text-sm">★★★★★</div>
+            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 font-bold border border-amber-500/20">5.0 / 5.0 Rating</span></div>
             <p class="text-gray-700 italic text-sm leading-relaxed">
               "The live availability is a lifesaver on weekends. I can see exactly which level has space before I even reach the entrance."
             </p>
@@ -729,7 +707,7 @@
                 <p class="text-xs text-gray-500">Marina Resident</p>
               </div>
             </div>
-            <div class="text-amber-500 text-sm">★★★★☆</div>
+            <div class="flex items-center gap-1 text-amber-500 text-xs font-bold"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 font-bold border border-amber-500/20">4.8 / 5.0 Rating</span></div>
             <p class="text-gray-700 italic text-sm leading-relaxed">
               "I list my building's spare visitor bay on Yalla Park and earn extra income every month. Setup took five minutes."
             </p>
@@ -780,7 +758,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center font-bold text-sm">🅿️</div>
+              <div class="w-7 h-7 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center font-bold text-sm">P</div>
               <span class="font-bold text-xl text-white">Yalla<span class="text-[#4CAF50]">Park</span></span>
             </div>
             <p class="mt-4 text-gray-400 text-sm leading-relaxed">
@@ -845,19 +823,17 @@
     <!-- Two-Option Tab Selector -->
     <div class="bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700 grid grid-cols-2 gap-1.5">
       <button id="loginTabDriver" onclick="setLoginTab('driver')" class="py-2.5 rounded-xl text-xs font-bold transition-all bg-teal-500 text-white shadow flex items-center justify-center gap-1.5">
-        🚗 End User (Driver)
+        Driver
       </button>
       <button id="loginTabProvider" onclick="setLoginTab('provider')" class="py-2.5 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
-        🏛️ Provider (Govt / Org)
+        Provider (Govt / Org)
       </button>
     </div>
 
     <!-- DRIVER LOGIN FORM CONTAINER -->
     <div id="loginFormDriver" class="bg-slate-800 rounded-2xl border border-teal-700/50 p-6 space-y-5 shadow-xl">
       <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
-        <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center text-xl">
-          🚗
-        </div>
+        <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center"><svg class="w-5 h-5 text-teal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 17a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 11l2-6h14l2 6v6h-2a2 2 0 01-4 0H9a2 2 0 01-4 0H3v-6z"/></svg></div>
         <div>
           <h3 class="text-sm font-bold text-white">Motorist & Driver Login</h3>
           <p class="text-[11px] text-teal-300/80">Guaranteed hold, predictive ETA & NOL payment</p>
@@ -885,7 +861,7 @@
 
       <!-- 1-Click Demo Accounts for Driver -->
       <div class="pt-3 border-t border-slate-700 space-y-2">
-        <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">⚡ Quick 1-Click Demo Accounts</span>
+        <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Quick 1-Click Demo Accounts</span>
         <div class="grid grid-cols-1 gap-2">
           <button onclick="demoLoginDriver('Ahmed Al-Mansoor', 'DXB A 48291', '+971 50 123 4567')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
             <div>
@@ -908,9 +884,7 @@
     <!-- PROVIDER LOGIN FORM CONTAINER -->
     <div id="loginFormProvider" class="hidden bg-slate-800 rounded-2xl border border-amber-700/50 p-6 space-y-5 shadow-xl">
       <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-xl">
-          🏛️
-        </div>
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center"><svg class="w-5 h-5 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
         <div>
           <h3 class="text-sm font-bold text-white">Parking Provider Console (Way 2)</h3>
           <p class="text-[11px] text-amber-300/80">Government authority & facility operator management</p>
@@ -946,7 +920,7 @@
 
       <!-- 1-Click Demo Accounts for Provider -->
       <div class="pt-3 border-t border-slate-700 space-y-2">
-        <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">⚡ Quick 1-Click Demo Accounts</span>
+        <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Quick 1-Click Demo Accounts</span>
         <div class="grid grid-cols-1 gap-2">
           <button onclick="demoLoginProvider('Eng. Fatima Al-Hashimi', 'Roads and Transport Authority (RTA)', 'RTA-GOV-9824', 'RTA Public Authority')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
             <div>
@@ -974,16 +948,16 @@
     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
       <div class="flex gap-2">
         <button onclick="setDriverTab('map')" id="tabMap" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5">
-          🗺️ Explore Lots
+          Explore Lots
         </button>
         <button onclick="setDriverTab('pass')" id="tabPass" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
-          🎟️ Active Pass <span id="passBadge" class="hidden w-2 h-2 bg-emerald-400 rounded-full"></span>
+          Active Pass <span id="passBadge" class="hidden w-2 h-2 bg-emerald-400 rounded-full"></span>
         </button>
         <button onclick="setDriverTab('ai')" id="tabAi" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
-          🤖 Yalla AI Concierge
+          AI Concierge
         </button>
         <button onclick="setDriverTab('rewards')" id="tabRewards" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
-          🌱 Eco-Rewards
+          Eco-Rewards
         </button>
       </div>
 
@@ -999,7 +973,7 @@
       <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-3">
         <div class="flex flex-col md:flex-row gap-3">
           <div class="relative flex-1">
-            <span class="absolute left-3.5 top-2.5 text-slate-400 text-sm">🔍</span>
+            <svg class="w-4 h-4 absolute left-3.5 top-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="11" cy="11" r="8" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M21 21l-4.35-4.35"/></svg>
             <input id="searchInput" oninput="filterLots()" type="text" placeholder="Search facilities, streets, or landmarks (e.g. Al Fahidi, Karama, Souq)..." 
               class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-teal-400" />
           </div>
@@ -1017,10 +991,10 @@
         <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-700/60 items-center">
           <span class="text-xs text-slate-400 font-semibold mr-1">Filter Bays:</span>
           <button onclick="selectCategory('ALL')" class="cat-btn active px-2.5 py-1 rounded-md text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40" data-cat="ALL">All Bays</button>
-          <button onclick="selectCategory('POD')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-blue-300 border border-blue-500/30 hover:bg-blue-900/30" data-cat="POD">♿ POD Accessible</button>
-          <button onclick="selectCategory('PINK')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-pink-300 border border-pink-500/30 hover:bg-pink-900/30" data-cat="PINK">🌸 Women-Only Pink</button>
-          <button onclick="selectCategory('DELIVERY')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-amber-300 border border-amber-500/30 hover:bg-amber-900/30" data-cat="DELIVERY">🛵 Delivery Quick Bays</button>
-          <button onclick="selectCategory('EV')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-900/30" data-cat="EV">⚡ EV Charging</button>
+          <button onclick="selectCategory('POD')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-blue-300 border border-blue-500/30 hover:bg-blue-900/30" data-cat="POD">POD Accessible</button>
+          <button onclick="selectCategory('PINK')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-pink-300 border border-pink-500/30 hover:bg-pink-900/30" data-cat="PINK">Women-Only Pink</button>
+          <button onclick="selectCategory('DELIVERY')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-amber-300 border border-amber-500/30 hover:bg-amber-900/30" data-cat="DELIVERY">Delivery Quick Bays</button>
+          <button onclick="selectCategory('EV')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-900/30" data-cat="EV">EV Charging</button>
         </div>
       </div>
 
@@ -1029,15 +1003,15 @@
         <div class="p-3 bg-slate-850 border-b border-slate-700 flex flex-wrap items-center justify-between gap-2 text-xs">
           <div class="flex flex-wrap items-center gap-2">
             <div class="flex items-center gap-2 font-bold text-teal-300 mr-1">
-              <span>🗺️</span> DUBAI SMART MOBILITY MAP
+              DUBAI SMART MOBILITY MAP
             </div>
             <!-- Mode Switcher Tabs -->
             <div class="flex bg-slate-900/80 p-0.5 rounded-lg border border-slate-700">
               <button id="btnMapModeOL" onclick="switchMapMode('openlayers')" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-500 text-white shadow-sm transition">
-                🌐 OpenLayers Live (Real Tiles & OSRM)
+                OpenLayers Live (Real Tiles & OSRM)
               </button>
               <button id="btnMapModeCanvas" onclick="switchMapMode('canvas')" class="px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
-                🎨 Compose Vector Canvas
+                Compose Vector Canvas
               </button>
             </div>
           </div>
@@ -1079,7 +1053,7 @@
     <!-- TAB 2: ACTIVE DIGITAL PASS -->
     <div id="driverTabPass" class="hidden max-w-xl mx-auto space-y-4">
       <div id="noPassNotice" class="bg-slate-800 border border-slate-700 rounded-2xl p-8 text-center space-y-3">
-        <div class="text-5xl">🅿️</div>
+        <div class="w-16 h-16 rounded-2xl bg-teal-500/20 text-teal-400 text-3xl font-black flex items-center justify-center mx-auto">P</div>
         <h3 class="text-lg font-bold">No Active Parking Session</h3>
         <p class="text-xs text-slate-400">You do not have a reserved space yet. Browse the map and lock your space with 15-minute guaranteed hold.</p>
         <button onclick="setDriverTab('map')" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white">Find Parking</button>
@@ -1100,7 +1074,7 @@
         <div class="bg-slate-950/80 border border-teal-600/40 rounded-2xl p-6 text-center space-y-2">
           <div class="text-xs text-slate-400 uppercase font-semibold">Your Dedicated Bay</div>
           <div id="passBayNumber" class="text-4xl font-black tracking-tight text-amber-400">BF-P2</div>
-          <div id="passBayType" class="text-xs font-bold text-pink-300">🌸 Women-Only Pink Bay</div>
+          <div id="passBayType" class="text-xs font-bold text-pink-300">Women-Only Pink Bay</div>
         </div>
 
         <!-- QR Gate Pass -->
@@ -1110,9 +1084,7 @@
             <div id="passQrCode" class="font-mono text-sm font-black">YP-BF2-8291</div>
             <div class="text-[11px] text-slate-600">Plate: <span id="passPlate" class="font-bold">DXB A 48291</span></div>
           </div>
-          <div class="w-14 h-14 bg-slate-900 text-white rounded-lg flex items-center justify-center font-bold text-2xl">
-            📲
-          </div>
+          <div class="w-14 h-14 bg-slate-900 text-white rounded-lg flex items-center justify-center font-bold"><svg class="w-7 h-7 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg></div>
         </div>
 
         <!-- Timer & Extension -->
@@ -1145,7 +1117,7 @@
     <div id="driverTabAi" class="hidden max-w-2xl mx-auto bg-slate-800 border border-slate-700 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[520px]">
       <div class="p-4 bg-slate-850 border-b border-slate-700 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">🤖</div>
+          <div class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center text-xs font-black">AI</div>
           <div>
             <h3 class="text-sm font-bold">YallaPark AI Concierge</h3>
             <p class="text-[11px] text-teal-300">Connected to OpenRouter (openai/gpt-4o-mini)</p>
@@ -1157,15 +1129,15 @@
       <!-- Chat History -->
       <div id="chatHistory" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs">
         <div class="bg-slate-900 border border-slate-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200">
-          Marhaba! 🌟 I'm <strong>YallaPark AI</strong>. How can I help you find or reserve parking in Dubai today? You can ask about Women-Only Pink bays, People of Determination (POD) spaces, or delivery rider bays.
+          Marhaba! I'm <strong>YallaPark AI</strong>. How can I help you find or reserve parking in Dubai today? You can ask about Women-Only Pink bays, People of Determination (POD) spaces, or delivery rider bays.
         </div>
       </div>
 
       <!-- Quick prompts -->
       <div class="p-2 bg-slate-850 border-t border-slate-700/80 flex gap-1.5 overflow-x-auto scrollbar-hide text-[11px]">
-        <button onclick="sendQuickAi('🌸 Find Pink Bays in Karama')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-pink-300 whitespace-nowrap">🌸 Pink Bays in Karama</button>
-        <button onclick="sendQuickAi('♿ POD Parking in Bur Dubai')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-blue-300 whitespace-nowrap">♿ POD in Bur Dubai</button>
-        <button onclick="sendQuickAi('🛵 Delivery Rider quick bays')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-300 whitespace-nowrap">🛵 Courier Quick Bays</button>
+        <button onclick="sendQuickAi('Find Pink Bays in Karama')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-pink-300 whitespace-nowrap">Pink Bays in Karama</button>
+        <button onclick="sendQuickAi('POD Parking in Bur Dubai')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-blue-300 whitespace-nowrap">POD in Bur Dubai</button>
+        <button onclick="sendQuickAi('Delivery Rider quick bays')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-300 whitespace-nowrap">Courier Quick Bays</button>
       </div>
 
       <!-- Chat Input -->
@@ -1181,7 +1153,7 @@
     <div id="driverTabRewards" class="hidden max-w-2xl mx-auto space-y-4">
       <div class="bg-gradient-to-r from-teal-900 via-slate-800 to-emerald-950 p-6 rounded-3xl border border-teal-500/40 shadow-xl space-y-4">
         <div class="flex justify-between items-center">
-          <span class="text-xs font-extrabold text-amber-300 uppercase tracking-wider">🌱 Green Commuter Level 2</span>
+          <span class="text-xs font-extrabold text-amber-300 uppercase tracking-wider">Green Commuter Level 2</span>
           <span class="text-2xl font-black text-white">340 Points</span>
         </div>
         <div class="grid grid-cols-2 gap-3 pt-2">
@@ -1237,9 +1209,9 @@
       <div class="flex items-center gap-2">
         <!-- Role switcher -->
         <select id="adminRoleSelect" onchange="changeAdminRole()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-white px-3 py-2 rounded-xl font-semibold focus:outline-none shadow-sm transition-colors">
-          <option value="RTA">🏛️ RTA Public Authority (Dubai)</option>
-          <option value="MAWAQIF">🚨 Mawaqif Zone Enforcement</option>
-          <option value="COMMERCIAL">🏢 Commercial Garage Operator</option>
+          <option value="RTA">RTA Public Authority (Dubai)</option>
+          <option value="MAWAQIF">Mawaqif Zone Enforcement</option>
+          <option value="COMMERCIAL">Commercial Garage Operator</option>
         </select>
         <button onclick="openAddLotModal()" class="px-3.5 py-2 bg-teal-500 hover:bg-teal-400 text-white rounded-xl text-xs font-bold shadow-lg flex items-center gap-1">
           <span>+</span> Add Facility
@@ -1293,7 +1265,7 @@
           <h2 id="modalLotName" class="text-xl font-black text-slate-900 dark:text-white">Al Fahidi Heritage Lot</h2>
           <p id="modalLotAddress" class="text-xs text-slate-500 dark:text-slate-400">Al Fahidi St, Bur Dubai</p>
         </div>
-        <button onclick="closeModal('lotDetailModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-xl">✕</button>
+        <button onclick="closeModal('lotDetailModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1" aria-label="Close"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <!-- Predictive Arrival Time Slider -->
@@ -1312,7 +1284,7 @@
           class="w-full accent-teal-500 cursor-pointer" />
 
         <div id="predictionRecommendation" class="text-[11px] text-teal-800 dark:text-teal-200 bg-teal-100/60 dark:bg-teal-900/40 p-2.5 rounded-xl border border-teal-300/50 dark:border-teal-700/50 flex items-center gap-2">
-          💡 <span>High availability expected at your arrival time. Pre-booking guaranteed.</span>
+          <span class="px-1.5 py-0.5 rounded bg-teal-200 dark:bg-teal-800 text-[10px] font-bold text-teal-800 dark:text-teal-200 uppercase">Tip</span> <span>High availability expected at your arrival time. Pre-booking guaranteed.</span>
         </div>
       </div>
 
@@ -1346,7 +1318,7 @@
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl transition-colors">
       <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
         <h3 class="text-base font-bold text-slate-900 dark:text-white">Confirm Pre-Booking</h3>
-        <button onclick="closeModal('bookingModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">✕</button>
+        <button onclick="closeModal('bookingModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1" aria-label="Close"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <div class="space-y-4 text-xs">
@@ -1370,15 +1342,15 @@
           <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Payment Method</label>
           <div class="space-y-1.5">
             <label class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer text-slate-800 dark:text-slate-200 transition-colors">
-              <span class="flex items-center gap-2">💳 <span>Dubai RTA NOL Card</span></span>
+              <span class="flex items-center gap-2"><span class="px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-[10px] font-bold">NOL</span> <span>Dubai RTA NOL Card</span></span>
               <input type="radio" name="payMethod" value="NOL" checked class="accent-teal-500" />
             </label>
             <label class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer text-slate-800 dark:text-slate-200 transition-colors">
-              <span class="flex items-center gap-2">🍎 <span>Apple Pay</span></span>
+              <span class="flex items-center gap-2"><span class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-[10px] font-bold">APPLE</span> <span>Apple Pay</span></span>
               <input type="radio" name="payMethod" value="APPLE" class="accent-teal-500" />
             </label>
             <label class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer text-slate-800 dark:text-slate-200 transition-colors">
-              <span class="flex items-center gap-2">🟢 <span>Google Pay</span></span>
+              <span class="flex items-center gap-2"><span class="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold">GPAY</span> <span>Google Pay</span></span>
               <input type="radio" name="payMethod" value="GOOGLE" class="accent-teal-500" />
             </label>
           </div>
@@ -1386,7 +1358,7 @@
       </div>
 
       <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-500/30 p-3 rounded-xl text-[11px] text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
-        🛡️ <span>15-minute guaranteed hold lock starts immediately upon payment.</span>
+        <span class="px-1.5 py-0.5 rounded bg-emerald-200 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200 text-[10px] font-bold uppercase">Hold</span> <span>15-minute guaranteed hold lock starts immediately upon payment.</span>
       </div>
 
       <div class="flex justify-between items-center pt-2">
@@ -1406,7 +1378,7 @@
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl transition-colors">
       <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
         <h3 class="text-base font-bold text-slate-900 dark:text-white">Register Facility (Way 2)</h3>
-        <button onclick="closeModal('addLotModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">✕</button>
+        <button onclick="closeModal('addLotModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1" aria-label="Close"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <div class="space-y-3 text-xs">
@@ -1435,11 +1407,11 @@
             <input id="newLotCapacity" type="number" value="50" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white transition-colors" />
           </div>
           <div>
-            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">♿ POD Bays</label>
+            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">POD Bays</label>
             <input id="newLotPod" type="number" value="4" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white transition-colors" />
           </div>
           <div>
-            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">🌸 Pink Bays</label>
+            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Pink Bays</label>
             <input id="newLotPink" type="number" value="6" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white transition-colors" />
           </div>
         </div>
@@ -1672,9 +1644,9 @@
         if (chip) chip.classList.remove('hidden');
         if (avatarText) {
           if (user.type === 'driver') {
-            avatarText.innerHTML = `🚗 <span class="font-bold">${user.name}</span> <span class="text-teal-300 text-[10px]">(${user.plate})</span>`;
+            avatarText.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-teal-500/30 text-teal-300 text-[10px] font-bold mr-1">DRIVER</span><span class="font-bold">${user.name}</span> <span class="text-teal-300 text-[10px]">(${user.plate})</span>`;
           } else {
-            avatarText.innerHTML = `🏛️ <span class="font-bold">${user.name}</span> <span class="text-amber-300 text-[10px]">(${user.role})</span>`;
+            avatarText.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-amber-500/30 text-amber-300 text-[10px] font-bold mr-1">PROVIDER</span><span class="font-bold">${user.name}</span> <span class="text-amber-300 text-[10px]">(${user.role})</span>`;
           }
         }
       } else {
@@ -1842,9 +1814,9 @@
           </div>
 
           <div class="flex gap-1.5 flex-wrap pt-1 text-[10px] font-semibold">
-            ${podAvail > 0 ? `<span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-0.5 rounded">♿ ${podAvail} POD</span>` : ''}
-            ${pinkAvail > 0 ? `<span class="bg-pink-500/20 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded">🌸 ${pinkAvail} Pink</span>` : ''}
-            ${delAvail > 0 ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded">🛵 ${delAvail} Quick</span>` : ''}
+            ${podAvail > 0 ? `<span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-0.5 rounded">POD: ${podAvail}</span>` : ''}
+            ${pinkAvail > 0 ? `<span class="bg-pink-500/20 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded">Pink: ${pinkAvail}</span>` : ''}
+            ${delAvail > 0 ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded">Delivery: ${delAvail}</span>` : ''}
           </div>
         `;
         grid.appendChild(card);
@@ -2017,13 +1989,13 @@
       badge.innerText = `${prob}% Open`;
       if (prob >= 70) {
         badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
-        rec.innerHTML = `💡 <span>Optimal availability expected upon arrival at ${currentLot.zoneName}.</span>`;
+        rec.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-emerald-200 dark:bg-emerald-800 text-[10px] font-bold text-emerald-800 dark:text-emerald-200 uppercase">Tip</span> <span>Optimal availability expected upon arrival at ${currentLot.zoneName}.</span>`;
       } else if (prob >= 40) {
         badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/40';
-        rec.innerHTML = `⚠️ <span>Moderate turnover. Lock your bay now to guarantee parking upon arrival.</span>`;
+        rec.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-amber-200 dark:bg-amber-800 text-[10px] font-bold text-amber-800 dark:text-amber-200 uppercase">Notice</span> <span>Moderate turnover. Lock your bay now to guarantee parking upon arrival.</span>`;
       } else {
         badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/40';
-        rec.innerHTML = `🚨 <span>Critical parking density expected. Pre-booking strongly advised.</span>`;
+        rec.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-rose-200 dark:bg-rose-800 text-[10px] font-bold text-rose-800 dark:text-rose-200 uppercase">Alert</span> <span>Critical parking density expected. Pre-booking strongly advised.</span>`;
       }
     }
 
@@ -2036,11 +2008,11 @@
         const isAvail = bay.status === 'AVAILABLE';
         const isSelected = selectedBay && selectedBay.id === bay.id;
 
-        let typeEmoji = '🅿️', borderClass = 'border-slate-200 dark:border-slate-700', bgClass = 'bg-slate-50 dark:bg-slate-800';
-        if (bay.type === 'POD') { typeEmoji = '♿'; borderClass = 'border-blue-400 dark:border-blue-500/50'; }
-        else if (bay.type === 'PINK') { typeEmoji = '🌸'; borderClass = 'border-pink-400 dark:border-pink-500/50'; }
-        else if (bay.type === 'DELIVERY') { typeEmoji = '🛵'; borderClass = 'border-amber-400 dark:border-amber-500/50'; }
-        else if (bay.type === 'EV') { typeEmoji = '⚡'; borderClass = 'border-emerald-400 dark:border-emerald-500/50'; }
+        let typeBadge = '<span class="font-bold text-[9px] text-slate-500 dark:text-slate-400">STD</span>', borderClass = 'border-slate-200 dark:border-slate-700', bgClass = 'bg-slate-50 dark:bg-slate-800';
+        if (bay.type === 'POD') { typeBadge = '<span class="font-bold text-[9px] text-blue-400">POD</span>'; borderClass = 'border-blue-400 dark:border-blue-500/50'; }
+        else if (bay.type === 'PINK') { typeBadge = '<span class="font-bold text-[9px] text-pink-400">PINK</span>'; borderClass = 'border-pink-400 dark:border-pink-500/50'; }
+        else if (bay.type === 'DELIVERY') { typeBadge = '<span class="font-bold text-[9px] text-amber-400">QUICK</span>'; borderClass = 'border-amber-400 dark:border-amber-500/50'; }
+        else if (bay.type === 'EV') { typeBadge = '<span class="font-bold text-[9px] text-emerald-400">EV</span>'; borderClass = 'border-emerald-400 dark:border-emerald-500/50'; }
 
         if (!isAvail) { bgClass = 'bg-slate-100 dark:bg-slate-900 opacity-40 cursor-not-allowed'; }
         if (isSelected) { bgClass = 'bg-teal-500/20 dark:bg-teal-500/30 ring-2 ring-teal-500'; }
@@ -2049,7 +2021,7 @@
         btn.className = `p-2 rounded-xl border ${borderClass} ${bgClass} text-center transition-all ${isAvail ? 'cursor-pointer hover:scale-105' : ''}`;
         btn.innerHTML = `
           <div class="flex justify-between items-center text-[10px]">
-            <span>${typeEmoji}</span>
+            <span>${typeBadge}</span>
             <span class="w-1.5 h-1.5 rounded-full ${isAvail ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
           </div>
           <div class="font-bold text-xs mt-1 text-slate-900 dark:text-white">${bay.num}</div>
@@ -2187,10 +2159,10 @@
 
           <div class="flex items-center gap-2">
             <button onclick="openAdminBayConfig('${lot.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-teal-700 dark:text-teal-300 border border-slate-200 dark:border-slate-600 transition-colors">
-              ⚙️ Manage Bays &amp; Sensors
+              Manage Bays &amp; Sensors
             </button>
             <button onclick="deleteLot('${lot.id}')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 dark:hover:bg-rose-500/30 border border-rose-200 dark:border-rose-500/30 transition-colors">
-              🗑️ Remove
+              Remove
             </button>
           </div>
         `;
@@ -2303,11 +2275,11 @@
       const q = query.toLowerCase();
       let reply = "Marhaba! Bur Dubai has 22 bays open (AED 4/h), and Karama has 18 bays open. Would you like to pre-book a space?";
       if (q.includes('pink') || q.includes('women')) {
-        reply = "🌸 **Women-Only Pink Bays**: Located on ground floors near well-lit pedestrian exits with direct CCTV coverage in Karama Commercial Center and Al Fahidi. Use the 'Pink' filter on the map to view open bays!";
+        reply = "**Women-Only Pink Bays**: Located on ground floors near well-lit pedestrian exits with direct CCTV coverage in Karama Commercial Center and Al Fahidi. Use the 'Pink' filter on the map to view open bays!";
       } else if (q.includes('pod') || q.includes('determination')) {
-        reply = "♿ **People of Determination (POD) Bays**: Blue-marked priority bays with wheelchair clearance and ramp access are active at all RTA facilities in Bur Dubai, Deira, and Downtown.";
+        reply = "**People of Determination (POD) Bays**: Blue-marked priority bays with wheelchair clearance and ramp access are active at all RTA facilities in Bur Dubai, Deira, and Downtown.";
       } else if (q.includes('delivery')) {
-        reply = "🛵 **Delivery Rider Quick Bays**: YallaPark provides dedicated 15-20 min quick-drop spaces along Karama and Meena Bazaar to streamline food delivery drop-offs.";
+        reply = "**Delivery Rider Quick Bays**: YallaPark provides dedicated 15-20 min quick-drop spaces along Karama and Meena Bazaar to streamline food delivery drop-offs.";
       }
       appendChatMessage(reply, false);
     }
@@ -2357,8 +2329,8 @@
     const btn = document.getElementById('btnSatToggle');
     const badge = document.getElementById('mapBadgeMode');
     const mapBox = document.getElementById('yallaMapBox');
-    if (btn) btn.textContent = isSatMode ? '🛰️ Satellite Mode' : '🗺️ Vector Mode';
-    if (badge) badge.textContent = isSatMode ? '🛰️ High-Resolution Satellite View • Center (25.2048° N, 55.2708° E)' : '🗺️ Dubai Vector Map • Center (25.2048° N, 55.2708° E)';
+    if (btn) btn.textContent = isSatMode ? 'Satellite Mode' : 'Vector Mode';
+    if (badge) badge.textContent = isSatMode ? 'High-Resolution Satellite View • Center (25.2048° N, 55.2708° E)' : 'Dubai Vector Map • Center (25.2048° N, 55.2708° E)';
     if (mapBox) {
       if (isSatMode) {
         mapBox.className = 'relative w-full h-72 rounded-[8px] bg-gradient-to-br from-[#0f2119] to-[#08150f] border border-emerald-700/60 overflow-hidden flex flex-col justify-between p-4';
@@ -2410,6 +2382,9 @@
     } catch(e) {}
   }
 
+  const SUN_SVG = '<svg class="w-4 h-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>';
+  const MOON_SVG = '<svg class="w-4 h-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
+
   function updateThemeUi(isDark) {
     const icon = document.getElementById('themeToggleIcon');
     const text = document.getElementById('themeToggleText');
@@ -2417,14 +2392,14 @@
     const floatText = document.getElementById('floatingThemeText');
 
     if (isDark) {
-      if (icon) icon.textContent = '☀️';
+      if (icon) icon.innerHTML = SUN_SVG;
       if (text) text.textContent = 'Light Mode';
-      if (floatIcon) floatIcon.textContent = '☀️';
+      if (floatIcon) floatIcon.innerHTML = SUN_SVG;
       if (floatText) floatText.textContent = 'Switch to Light Mode';
     } else {
-      if (icon) icon.textContent = '🌙';
+      if (icon) icon.innerHTML = MOON_SVG;
       if (text) text.textContent = 'Dark Mode';
-      if (floatIcon) floatIcon.textContent = '🌙';
+      if (floatIcon) floatIcon.innerHTML = MOON_SVG;
       if (floatText) floatText.textContent = 'Switch to Dark Mode';
     }
   }
@@ -2451,7 +2426,7 @@
 <!-- Floating Theme Switcher Pill (Unmissable in bottom corner) -->
 <div class="fixed bottom-5 right-5 z-50">
   <button onclick="toggleTheme()" class="px-4 py-2.5 rounded-[8px] text-xs font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-2xl border border-slate-700 dark:border-slate-200 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all cursor-pointer" title="Toggle Light / Dark Theme">
-    <span id="floatingThemeIcon">🌙</span>
+    <span id="floatingThemeIcon" class="inline-flex items-center"></span>
     <span id="floatingThemeText">Switch to Dark Mode</span>
   </button>
 </div>

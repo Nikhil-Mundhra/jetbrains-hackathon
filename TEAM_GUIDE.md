@@ -1,6 +1,6 @@
 # Team Collaboration Guide
 
-## 🎯 Quick Start for Team Members
+## Quick Start for Team Members
 
 ### 1. Clone & Setup (5 min)
 ```bash
@@ -24,7 +24,7 @@ cd jetbrains-hackathon
 
 ---
 
-## 🏗️ Codebase Navigation
+## Codebase Navigation
 
 ### Where to Make Changes
 
@@ -48,7 +48,7 @@ cd jetbrains-hackathon
 
 ---
 
-## 🔄 Development Workflow
+## Development Workflow
 
 ### Daily Loop
 ```bash
@@ -90,7 +90,7 @@ git push origin feature/your-feature-name
 
 ---
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
 ### Unit Tests (Shared)
 ```kotlin
@@ -133,7 +133,7 @@ Run: `./gradlew connectedAndroidTest`
 
 ---
 
-## 🐛 Debugging Tips
+## Debugging Tips
 
 ### Common Issues
 
@@ -165,7 +165,7 @@ Run: `./gradlew connectedAndroidTest`
 
 ---
 
-## 📦 Platform-Specific Notes
+## Platform-Specific Notes
 
 ### Android
 - Min SDK 24, Target SDK 34
@@ -192,7 +192,7 @@ Run: `./gradlew connectedAndroidTest`
 
 ---
 
-## 🚀 Release Checklist
+## Release Checklist
 
 ### Pre-Release
 - [ ] All tests pass on CI
@@ -228,7 +228,7 @@ Run: `./gradlew connectedAndroidTest`
 
 ---
 
-## 💬 Communication
+## Communication
 
 ### Channels
 - **#general** - Announcements, questions
@@ -245,7 +245,7 @@ Run: `./gradlew connectedAndroidTest`
 
 ---
 
-## 📚 Learning Resources
+## Learning Resources
 
 ### Kotlin Multiplatform
 - [KMP Docs](https://kotlinlang.org/docs/multiplatform.html)
@@ -265,7 +265,7 @@ Run: `./gradlew connectedAndroidTest`
 
 ---
 
-## 🆘 Getting Help
+## Getting Help
 
 ### During Hackathon
 1. Check this guide first
@@ -281,4 +281,4 @@ Run: `./gradlew connectedAndroidTest`
 
 ---
 
-**Remember**: We're building something meaningful. Clean code matters, but *shipping* matters more. 🚀
+**Remember**: We're building something meaningful. Clean code matters, but *shipping* matters more.

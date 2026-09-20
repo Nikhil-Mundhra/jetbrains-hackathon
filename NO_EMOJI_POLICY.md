@@ -12,7 +12,7 @@ To maintain a professional, accessible, and unified visual identity across all p
 
 1. **Zero Unicode Emojis in User Interfaces:**
    - No Unicode emojis in buttons, tabs, chips, tooltips, dialogs, titles, or marketing banners.
-   - No emoji prefixes in lists, headers, or bullet points (e.g. avoid `🚀 Quick Start`, `💡 Tip`, `🌸 Pink Bays`).
+   - No emoji prefixes in lists, headers, or bullet points (e.g. avoid `[Rocket] Quick Start`, `[Tip] Tip`, `[Flower] Pink Bays`).
 2. **SVG & Vector Drawables Only When Functionally Necessary:**
    - Visual icons may only be used when they provide direct functional value (such as clear navigational affordance, recognizable system controls, or status indicators).
    - In Web/HTML: Use inline standard `<svg>` elements with clean geometric paths (such as Heroicons or Lucide vectors).
@@ -27,7 +27,7 @@ To maintain a professional, accessible, and unified visual identity across all p
 ## 3. Platform Guidelines
 
 ### Web (HTML / CSS / JavaScript)
-- **Forbidden:** `<span class="emoji">🚗</span> Driver` or `<button>🌙 Dark Mode</button>`
+- **Forbidden:** `<span class="emoji">[Car]</span> Driver` or `<button>[Moon] Dark Mode</button>`
 - **Approved:** Clean inline SVG icons:
   ```html
   <!-- Light / Dark Mode Toggle Icon -->
@@ -37,17 +37,17 @@ To maintain a professional, accessible, and unified visual identity across all p
   ```
 
 ### Kotlin Multiplatform (Compose)
-- **Forbidden:** `enum class DriverTab(val label: String, val icon: String = "🗺️")`
+- **Forbidden:** `enum class DriverTab(val label: String, val icon: String = "[Map]")`
 - **Approved:** `enum class DriverTab(val label: String, val icon: ImageVector = Icons.Default.Place)`
 
 ### Specialized Bay Classifications
 | Bay Type | Prohibited Emoji | Standard Acronym & Badge | Semantic Accent |
 | :--- | :--- | :--- | :--- |
-| People of Determination | ♿ | `POD` / `POD Accessible` | Blue (`#1976D2`) |
-| Women-Only | 🌸 | `PINK` / `Women-Only` | Pink (`#E91E63`) |
-| Delivery Riders | 🛵 | `DELIVERY` / `Quick Bay` | Amber (`#FF6F00`) |
-| EV Charging | ⚡ | `EV` / `DEWA EV` | Green (`#388E3C`) |
-| Standard Bays | 🅿️ | `STANDARD` | Slate / Gray |
+| People of Determination | `[Wheelchair]` | `POD` / `POD Accessible` | Blue (`#1976D2`) |
+| Women-Only | `[Flower]` | `PINK` / `Women-Only` | Pink (`#E91E63`) |
+| Delivery Riders | `[Scooter]` | `DELIVERY` / `Quick Bay` | Amber (`#FF6F00`) |
+| EV Charging | `[Lightning]` | `EV` / `DEWA EV` | Green (`#388E3C`) |
+| Standard Bays | `[Parking]` | `STANDARD` | Slate / Gray |
 
 ---
 
