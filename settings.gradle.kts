@@ -13,7 +13,7 @@ dependencyResolutionManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
-rootProject.name = "CommunityConnect"
+rootProject.name = "YallaPark"
 include("composeApp")
 include("shared")
 include("androidApp")

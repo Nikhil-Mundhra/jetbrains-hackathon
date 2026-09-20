@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>YallaPark — OpenLayers Smart Mobility</title>
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- OpenLayers CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v9.1.0/ol.css">
+    <script src="https://cdn.jsdelivr.net/npm/ol@v9.1.0/dist/ol.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; overflow: hidden; }
+        
+        /* Map Container */
+        #map { width: 100%; height: 100%; z-index: 1; }
+        
+        /* Custom scrollbar for the sidebar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        /* Custom Map Marker Styling (Used inside ol.Overlay) */
+        .custom-p-marker {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 13px; color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 2.5px solid white;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .custom-p-marker:hover { transform: scale(1.1); }
+        .marker-available { background-color: #10b981; }
+        .marker-occupied { background-color: #ef4444; opacity: 0.7; }
+        .marker-pink { background-color: #ec4899; }
+        .marker-pod { background-color: #3b82f6; }
+        .marker-delivery { background-color: #f59e0b; }
+
+        /* Pulsing User Location Marker */
+        .user-gps-marker {
+            width: 20px; height: 20px; background-color: #2563eb;
+            border-radius: 50%; border: 3px solid white;
+            box-shadow: 0 0 16px rgba(37, 99, 235, 0.9);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+            70% { box-shadow: 0 0 0 14px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        /* Toast Animation */
+        .toast-enter { animation: slideIn 0.3s ease-out forwards; }
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Override OL default control styles to stay hidden behind UI */
+        .ol-zoom { display: none !important; }
+        .ol-attribution { bottom: 0.5rem; right: 0.5rem; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Downtown Dubai Hub Center & Geofence
+        const HUB_CENTER = { lat: 25.1972, lng: 55.2744 };
+        const GEOFENCE_RADIUS_METERS = 500;
+
+        // Initial Parking Bays Data
+        const INITIAL_PARKING_SLOTS = [
+            { id: 'DT-101', name: 'Bay 101 - Boulevard G', type: 'STANDARD', rate: 10, available: true, predictive: 94, lat: 25.1980, lng: 55.2748 },
+            { id: 'DT-102', name: 'Bay 102 (Pink) - Women Only', type: 'PINK', rate: 10, available: true, predictive: 88, lat: 25.1968, lng: 55.2752 },
+            { id: 'DT-103', name: 'Bay 103 (POD) - Access Bay', type: 'POD', rate: 0, available: true, predictive: 98, lat: 25.1962, lng: 55.2738 },
+            { id: 'DT-104', name: 'Bay 104 (Delivery) - 15m Max', type: 'DELIVERY', rate: 5, available: false, predictive: 12, lat: 25.1978, lng: 55.2732 },
+            { id: 'DT-105', name: 'Bay 105 - Boulevard Level 1', type: 'STANDARD', rate: 10, available: true, predictive: 76, lat: 25.1985, lng: 55.2739 },
+            { id: 'DT-106', name: 'Bay 106 (Pink) - Executive Pink', type: 'PINK', rate: 10, available: true, predictive: 82, lat: 25.1959, lng: 55.2745 },
+            { id: 'DT-107', name: 'Bay 107 - South Gate', type: 'STANDARD', rate: 10, available: false, predictive: 22, lat: 25.1952, lng: 55.2755 },
+            { id: 'DT-108', name: 'Bay 108 (POD) - Ramp Access', type: 'POD', rate: 0, available: true, predictive: 90, lat: 25.1988, lng: 55.2758 }
+        ];
+
+        function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; // meters
+            const φ1 = lat1 * Math.PI / 180;
+            const φ2 = lat2 * Math.PI / 180;
+            const Δφ = (lat2 - lat1) * Math.PI / 180;
+            const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        const App = () => {
+            // DOM & Map Refs
+            const mapTargetRef = useRef(null);
+            const mapRef = useRef(null);
+            const streetLayerRef = useRef(null);
+            const satLayerRef = useRef(null);
+            const routeSourceRef = useRef(null);
+            const userOverlayRef = useRef(null);
+            const slotOverlaysRef = useRef({});
+            
+            // Interval & Navigation Refs
+            const watchIdRef = useRef(null);
+            const simIntervalRef = useRef(null);
+
+            // App State
+            const [mapType, setMapType] = useState('STREET'); // 'STREET' or 'SATELLITE'
+            const [slots, setSlots] = useState(INITIAL_PARKING_SLOTS);
+            const [filter, setFilter] = useState('ALL');
+            const [selectedSlot, setSelectedSlot] = useState(null);
+            const [bookingConfirmed, setBookingConfirmed] = useState(null);
+            const [searchQuery, setSearchQuery] = useState('');
+
+            // Navigation & Geofence State
+            const [navMode, setNavMode] = useState('IDLE'); // IDLE, LIVE_GPS, SIMULATING
+            const [userCoords, setUserCoords] = useState(null);
+            const [distanceMeters, setDistanceMeters] = useState(null);
+            const [etaMinutes, setEtaMinutes] = useState(null);
+            const [insideGeofence, setInsideGeofence] = useState(false);
+
+            useEffect(() => {
+                if (!mapTargetRef.current || mapRef.current) return;
+
+                // 1. Setup Base Tile Layers
+                streetLayerRef.current = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: 'https://{a-c}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+                        attributions: '&copy; OpenStreetMap &copy; CARTO',
+                    }),
+                    visible: true
+                });
+
+                satLayerRef.current = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                        attributions: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                    }),
+                    visible: false
+                });
+
+                // 2. Setup Vector Layer for Routing and Geofence
+                routeSourceRef.current = new ol.source.Vector();
+                const vectorLayer = new ol.layer.Vector({
+                    source: routeSourceRef.current,
+                    style: new ol.style.Style({
+                        stroke: new ol.style.Stroke({
+                            color: '#2563eb',
+                            width: 6,
+                            lineCap: 'round',
+                            lineJoin: 'round'
+                        })
+                    })
+                });
+
+                // Web Mercator compensation: radius / cos(lat)
+                const latRad = HUB_CENTER.lat * Math.PI / 180;
+                const mercatorRadius = GEOFENCE_RADIUS_METERS / Math.cos(latRad);
+                const geofenceCircle = new ol.geom.Circle(
+                    ol.proj.fromLonLat([HUB_CENTER.lng, HUB_CENTER.lat]),
+                    mercatorRadius
+                );
+                
+                const geofenceFeature = new ol.Feature(geofenceCircle);
+                geofenceFeature.setStyle(new ol.style.Style({
+                    fill: new ol.style.Fill({ color: 'rgba(59, 130, 246, 0.1)' }),
+                    stroke: new ol.style.Stroke({ color: '#3b82f6', width: 2, lineDash: [6, 6] })
+                }));
+                routeSourceRef.current.addFeature(geofenceFeature);
+
+                // 3. Initialize Map
+                const map = new ol.Map({
+                    target: mapTargetRef.current,
+                    layers: [streetLayerRef.current, satLayerRef.current, vectorLayer],
+                    view: new ol.View({
+                        center: ol.proj.fromLonLat([HUB_CENTER.lng, HUB_CENTER.lat]),
+                        zoom: 16,
+                        maxZoom: 19
+                    }),
+                    controls: ol.control.defaults.defaults({ zoom: false })
+                });
+
+                mapRef.current = map;
+
+                // Initialize Overlays for each slot
+                slots.forEach(slot => {
+                    const el = document.createElement('div');
+                    el.className = 'custom-p-marker';
+                    el.onclick = () => {
+                        setSelectedSlot(slot); // React state trigger
+                    };
+                    
+                    const overlay = new ol.Overlay({
+                        element: el,
+                        position: ol.proj.fromLonLat([slot.lng, slot.lat]),
+                        positioning: 'center-center',
+                        stopEvent: true
+                    });
+                    
+                    map.addOverlay(overlay);
+                    slotOverlaysRef.current[slot.id] = { overlay, el };
+                });
+
+                // Initialize Overlay for User GPS Tracker
+                const userEl = document.createElement('div');
+                userEl.className = 'user-gps-marker';
+                userOverlayRef.current = new ol.Overlay({
+                    element: userEl,
+                    positioning: 'center-center',
+                    stopEvent: false
+                });
+                map.addOverlay(userOverlayRef.current);
+                
+                // Cleanup on unmount
+                return () => map.setTarget(undefined);
+            }, []);
+
+            // Update Slot Overlays dynamically when state/IoT changes
+            useEffect(() => {
+                if (!mapRef.current) return;
+                
+                slots.forEach(slot => {
+                    const overlayData = slotOverlaysRef.current[slot.id];
+                    if (overlayData) {
+                        let baseClass = 'custom-p-marker ';
+                        if (!slot.available) {
+                            baseClass += 'marker-occupied';
+                        } else {
+                            if (slot.type === 'STANDARD') baseClass += 'marker-available';
+                            if (slot.type === 'PINK') baseClass += 'marker-pink';
+                            if (slot.type === 'POD') baseClass += 'marker-pod';
+                            if (slot.type === 'DELIVERY') baseClass += 'marker-delivery';
+                        }
+                        
+                        overlayData.el.className = baseClass;
+                        overlayData.el.innerText = slot.id.split('-')[1];
+                        
+                        // Update click handler to use latest slot state
+                        overlayData.el.onclick = () => setSelectedSlot(slot);
+                    }
+                });
+            }, [slots]);
+
+            // IoT Sensor Simulation Stream (Random occupancy shifts)
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    setSlots(prevSlots => prevSlots.map(slot => {
+                        if (Math.random() < 0.15) {
+                            return { ...slot, available: !slot.available };
+                        }
+                        return slot;
+                    }));
+                }, 4500);
+                return () => clearInterval(interval);
+            }, []);
+
+            const fetchOSRMRoute = async (lat, lng) => {
+                try {
+                    const url = `https://router.project-osrm.org/route/v1/driving/${lng},${lat};${HUB_CENTER.lng},${HUB_CENTER.lat}?overview=full&geometries=geojson`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+
+                    if (data.code === 'Ok' && data.routes.length > 0) {
+                        const route = data.routes[0];
+                        setEtaMinutes(Math.ceil(route.duration / 60));
+
+                        // Parse GeoJSON to OpenLayers Features
+                        const format = new ol.format.GeoJSON();
+                        const features = format.readFeatures(route.geometry, {
+                            dataProjection: 'EPSG:4326',
+                            featureProjection: 'EPSG:3857'
+                        });
+
+                        // Clear old route, keep geofence, add new route
+                        const source = routeSourceRef.current;
+                        const geofenceFeature = source.getFeatures().find(f => f.getGeometry() instanceof ol.geom.Circle);
+                        source.clear();
+                        if (geofenceFeature) source.addFeature(geofenceFeature);
+                        source.addFeatures(features);
+                    }
+                } catch (err) {
+                    console.error("OSRM Route fetch error:", err);
+                }
+            };
+
+            const handleLocationUpdate = (lat, lng, isFirstUpdate = false) => {
+                setUserCoords({ lat, lng });
+
+                // Update User Marker position
+                if (userOverlayRef.current) {
+                    userOverlayRef.current.setPosition(ol.proj.fromLonLat([lng, lat]));
+                }
+
+                if (isFirstUpdate && mapRef.current) {
+                    // Pan map to fit both user and hub
+                    const ext = ol.extent.boundingExtent([
+                        ol.proj.fromLonLat([lng, lat]),
+                        ol.proj.fromLonLat([HUB_CENTER.lng, HUB_CENTER.lat])
+                    ]);
+                    mapRef.current.getView().fit(ext, { padding: [100, 100, 100, 500], duration: 1000 });
+                }
+
+                // Geofence Math
+                const dist = calculateHaversineDistance(lat, lng, HUB_CENTER.lat, HUB_CENTER.lng);
+                setDistanceMeters(dist);
+                setInsideGeofence(dist <= GEOFENCE_RADIUS_METERS);
+
+                // Fetch Route Polyline
+                fetchOSRMRoute(lat, lng);
+            };
+
+            const startLiveGPS = () => {
+                stopNavigation();
+                if (!navigator.geolocation) {
+                    alert("Geolocation is not supported by your browser.");
+                    return;
+                }
+                setNavMode('LIVE_GPS');
+                let firstUpdate = true;
+                
+                watchIdRef.current = navigator.geolocation.watchPosition(
+                    (pos) => {
+                        handleLocationUpdate(pos.coords.latitude, pos.coords.longitude, firstUpdate);
+                        firstUpdate = false;
+                    },
+                    (err) => { alert("GPS Permission Denied."); stopNavigation(); },
+                    { enableHighAccuracy: true }
+                );
+            };
+
+            const startTripSimulation = () => {
+                stopNavigation();
+                setNavMode('SIMULATING');
+                
+                // Start position ~2.8km away in Business Bay
+                let currentLat = 25.1840;
+                let currentLng = 55.2630;
+                
+                handleLocationUpdate(currentLat, currentLng, true);
+
+                simIntervalRef.current = setInterval(() => {
+                    currentLat += (HUB_CENTER.lat - currentLat) * 0.12;
+                    currentLng += (HUB_CENTER.lng - currentLng) * 0.12;
+                    
+                    handleLocationUpdate(currentLat, currentLng, false);
+
+                    if (calculateHaversineDistance(currentLat, currentLng, HUB_CENTER.lat, HUB_CENTER.lng) < 40) {
+                        clearInterval(simIntervalRef.current);
+                    }
+                }, 1500);
+            };
+
+            const stopNavigation = () => {
+                if (watchIdRef.current) navigator.geolocation.clearWatch(watchIdRef.current);
+                if (simIntervalRef.current) clearInterval(simIntervalRef.current);
+                
+                if (userOverlayRef.current) userOverlayRef.current.setPosition(undefined);
+                
+                // Clear route polyline but keep geofence
+                if (routeSourceRef.current) {
+                    const geofenceFeature = routeSourceRef.current.getFeatures().find(f => f.getGeometry() instanceof ol.geom.Circle);
+                    routeSourceRef.current.clear();
+                    if (geofenceFeature) routeSourceRef.current.addFeature(geofenceFeature);
+                }
+                
+                // Reset map view
+                if (mapRef.current) {
+                    mapRef.current.getView().animate({
+                        center: ol.proj.fromLonLat([HUB_CENTER.lng, HUB_CENTER.lat]),
+                        zoom: 16,
+                        duration: 800
+                    });
+                }
+
+                setNavMode('IDLE');
+                setUserCoords(null);
+                setDistanceMeters(null);
+                setEtaMinutes(null);
+                setInsideGeofence(false);
+            };
+
+            const toggleMapType = () => {
+                const newType = mapType === 'STREET' ? 'SATELLITE' : 'STREET';
+                setMapType(newType);
+                if (streetLayerRef.current) streetLayerRef.current.setVisible(newType === 'STREET');
+                if (satLayerRef.current) satLayerRef.current.setVisible(newType === 'SATELLITE');
+            };
+
+            const handleReserveSlot = (slot) => {
+                setSlots(slots.map(s => s.id === slot.id ? { ...s, available: false } : s));
+                setBookingConfirmed(slot);
+                setSelectedSlot(null);
+            };
+
+            const filteredSlots = slots.filter(s => {
+                const matchesFilter = filter === 'ALL' || s.type === filter;
+                const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      s.id.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+
+            return (
+                <div className="flex flex-col md:flex-row h-screen w-full overflow-hidden bg-slate-50 relative">
+                    
+                    {/* LEFT SIDEBAR: Controls, Search, & Slot Inventory */}
+                    <div className="w-full md:w-[420px] bg-white flex flex-col h-full border-r border-slate-200 z-10 shadow-[4px_0_24px_rgba(0,0,0,0.05)] relative">
+                        
+                        {/* Sidebar Header */}
+                        <div className="p-5 border-b border-slate-100 bg-slate-900 text-white shrink-0">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xl text-white shadow-md">
+                                        Y
+                                    </div>
+                                    <div>
+                                        <h1 className="text-xl font-bold tracking-tight">YallaPark</h1>
+                                        <p className="text-xs text-slate-400">Downtown Dubai Hub • OpenLayers</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs px-2.5 py-1 rounded-full font-medium">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                    IoT Active
+                                </div>
+                            </div>
+
+                            {/* Live Navigation Controller Card */}
+                            <div className="mt-4 bg-slate-800/80 rounded-xl p-3 border border-slate-700/60 text-xs">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-slate-400 font-medium">Nav Mode:</span>
+                                    <span className={`font-bold px-2 py-0.5 rounded ${
+                                        navMode === 'LIVE_GPS' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40' :
+                                        navMode === 'SIMULATING' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' :
+                                        'bg-slate-700 text-slate-400'
+                                    }`}>
+                                        {navMode}
+                                    </span>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2 mb-3">
+                                    <button 
+                                        onClick={navMode === 'LIVE_GPS' ? stopNavigation : startLiveGPS}
+                                        className={`py-2 px-3 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-all ${
+                                            navMode === 'LIVE_GPS' ? 'bg-red-500/20 text-red-300 border border-red-500/40' : 'bg-blue-600 text-white hover:bg-blue-500'
+                                        }`}
+                                    >
+                                        <i className="fa-solid fa-location-crosshairs"></i>
+                                        {navMode === 'LIVE_GPS' ? 'Stop GPS' : 'Live GPS'}
+                                    </button>
+
+                                    <button 
+                                        onClick={navMode === 'SIMULATING' ? stopNavigation : startTripSimulation}
+                                        className={`py-2 px-3 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition-all ${
+                                            navMode === 'SIMULATING' ? 'bg-red-500/20 text-red-300 border border-red-500/40' : 'bg-slate-700 text-slate-200 hover:bg-slate-600'
+                                        }`}
+                                    >
+                                        <i className="fa-solid fa-car-side"></i>
+                                        {navMode === 'SIMULATING' ? 'Stop Sim' : 'Simulate Trip'}
+                                    </button>
+                                </div>
+
+                                {userCoords && (
+                                    <div className="grid grid-cols-2 gap-2 bg-slate-900/60 p-2 rounded-lg text-slate-300 text-center">
+                                        <div>
+                                            <p className="text-[10px] text-slate-500 uppercase font-bold">Distance</p>
+                                            <p className="font-bold text-white text-base">{distanceMeters ? `${(distanceMeters/1000).toFixed(2)} km` : '--'}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] text-slate-500 uppercase font-bold">ETA (OSRM)</p>
+                                            <p className="font-bold text-blue-400 text-base">{etaMinutes ? `${etaMinutes} mins` : '--'}</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Search & Bay Type Category Filters */}
+                        <div className="p-4 border-b border-slate-100 bg-white shrink-0">
+                            <div className="relative mb-3">
+                                <i className="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+                                <input 
+                                    type="text" 
+                                    placeholder="Search slot ID or floor..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-9 pr-4 py-2 bg-slate-100 rounded-xl text-sm border-0 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                                />
+                            </div>
+
+                            <div className="flex gap-1.5 overflow-x-auto pb-1 text-xs">
+                                {[
+                                    { key: 'ALL', label: 'All Bays' },
+                                    { key: 'STANDARD', label: 'Standard' },
+                                    { key: 'PINK', label: 'Pink Bays' },
+                                    { key: 'POD', label: 'POD Access' },
+                                    { key: 'DELIVERY', label: 'Delivery' }
+                                ].map(btn => (
+                                    <button
+                                        key={btn.key}
+                                        onClick={() => setFilter(btn.key)}
+                                        className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-all ${
+                                            filter === btn.key 
+                                            ? 'bg-blue-600 text-white shadow-sm' 
+                                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                        }`}
+                                    >
+                                        {btn.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Parking Slot List */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                            <div className="flex justify-between items-center text-xs text-slate-500 mb-1">
+                                <span>Showing {filteredSlots.length} Parking Slots</span>
+                                <span>Realtime IoT Sync</span>
+                            </div>
+
+                            {filteredSlots.map(slot => (
+                                <div 
+                                    key={slot.id}
+                                    onClick={() => {
+                                        setSelectedSlot(slot);
+                                        // Optional: Pan map to selected slot
+                                        if (mapRef.current) {
+                                            mapRef.current.getView().animate({ center: ol.proj.fromLonLat([slot.lng, slot.lat]), duration: 500 });
+                                        }
+                                    }}
+                                    className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
+                                        selectedSlot?.id === slot.id 
+                                        ? 'border-blue-600 bg-blue-50/50 shadow-md ring-2 ring-blue-600/20' 
+                                        : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+                                    }`}
+                                >
+                                    <div className="flex justify-between items-start mb-2">
+                                        <div>
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-bold text-slate-900">{slot.id}</span>
+                                                {slot.type === 'PINK' && <span className="bg-pink-100 text-pink-700 font-semibold text-[10px] px-2 py-0.5 rounded-full">Pink Bay</span>}
+                                                {slot.type === 'POD' && <span className="bg-blue-100 text-blue-700 font-semibold text-[10px] px-2 py-0.5 rounded-full">POD Bay</span>}
+                                                {slot.type === 'DELIVERY' && <span className="bg-amber-100 text-amber-700 font-semibold text-[10px] px-2 py-0.5 rounded-full">15m Delivery</span>}
+                                            </div>
+                                            <p className="text-xs text-slate-500 mt-0.5">{slot.name}</p>
+                                        </div>
+                                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                                            slot.available ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+                                        }`}>
+                                            {slot.available ? 'Available' : 'Occupied'}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex justify-between items-center text-xs pt-2 border-t border-slate-100 text-slate-600">
+                                        <span className="font-semibold text-slate-800">{slot.rate === 0 ? 'FREE' : `${slot.rate} AED/hr`}</span>
+                                        <div className="flex items-center gap-1.5 text-slate-500">
+                                            <i className="fa-solid fa-chart-line text-blue-600"></i>
+                                            <span>Predictive Prob: <strong className="text-slate-800">{slot.predictive}%</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex-1 relative h-full bg-[#e5e3df]">
+                        
+                        {/* OpenLayers Map Target */}
+                        <div id="map" ref={mapTargetRef}></div>
+
+                        {/* Floating Layer Toggle Button */}
+                        <button 
+                            onClick={toggleMapType}
+                            className="absolute top-6 right-6 z-10 bg-white p-3 rounded-xl shadow-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2 font-semibold text-sm"
+                        >
+                            <i className={`fa-solid ${mapType === 'STREET' ? 'fa-satellite' : 'fa-map'}`}></i>
+                            {mapType === 'STREET' ? 'Satellite View' : 'Street View'}
+                        </button>
+
+                        {/* Floating Geofence Arrival Banner */}
+                        {insideGeofence && (
+                            <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 bg-emerald-600 text-white px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-4 border border-emerald-400 animate-bounce">
+                                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl shrink-0">
+                                    <i className="fa-solid fa-bullseye"></i>
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-sm">Geofence Entered (500m)</h4>
+                                    <p className="text-xs text-emerald-100">You arrived in Downtown Hub perimeter. Locking optimal slot...</p>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Selected Slot Booking Modal Overlay */}
+                        {selectedSlot && (
+                            <div className="absolute bottom-6 left-6 right-6 md:left-1/2 md:-translate-x-1/2 md:w-96 z-20 bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] border border-slate-200/80 toast-enter">
+                                <div className="flex justify-between items-start mb-3">
+                                    <div>
+                                        <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">Spot Details</span>
+                                        <h3 className="text-xl font-black text-slate-900">{selectedSlot.id}</h3>
+                                        <p className="text-xs text-slate-500">{selectedSlot.name}</p>
+                                    </div>
+                                    <button 
+                                        onClick={() => setSelectedSlot(null)}
+                                        className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 text-sm transition-colors"
+                                    >
+                                        <i className="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3 mb-4 bg-slate-50 p-3 rounded-xl text-xs border border-slate-100">
+                                    <div>
+                                        <span className="text-slate-400">Rate</span>
+                                        <p className="font-bold text-slate-800 text-sm">{selectedSlot.rate === 0 ? 'Free' : `${selectedSlot.rate} AED / hr`}</p>
+                                    </div>
+                                    <div>
+                                        <span className="text-slate-400">Predictive Match</span>
+                                        <p className="font-bold text-emerald-600 text-sm">{selectedSlot.predictive}%</p>
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={() => handleReserveSlot(selectedSlot)}
+                                    disabled={!selectedSlot.available}
+                                    className={`w-full py-3.5 rounded-xl font-bold text-white transition-all shadow-md ${
+                                        selectedSlot.available 
+                                        ? 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg active:scale-[0.98]' 
+                                        : 'bg-slate-300 cursor-not-allowed text-slate-500'
+                                    }`}
+                                >
+                                    {selectedSlot.available ? 'Confirm Pre-Booking' : 'Slot Currently Occupied'}
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Booking Toast Confirmation */}
+                        {bookingConfirmed && (
+                            <div className="absolute top-20 right-6 z-30 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-4 max-w-sm toast-enter">
+                                <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white text-lg font-bold shrink-0">
+                                    <i className="fa-solid fa-check"></i>
+                                </div>
+                                <div className="flex-1">
+                                    <h4 className="font-bold text-sm">Slot Reserved!</h4>
+                                    <p className="text-xs text-slate-300 mt-0.5">Reserved <strong className="text-white">{bookingConfirmed.id}</strong>. Lock active for 15 mins.</p>
+                                </div>
+                                <button onClick={() => setBookingConfirmed(null)} className="text-slate-400 hover:text-white text-xs font-semibold px-2 py-1">
+                                    Dismiss
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

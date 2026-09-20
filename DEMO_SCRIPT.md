@@ -1,141 +1,84 @@
-# Demo Script for Final Pitch
+# Demo Script for Final Pitch: YallaPark
 
-## 🎬 3-Minute Demo Flow
+## 🎬 3-Minute Hackathon Demo Flow
 
-### Setup (30 sec before)
-- [ ] Phone with Android build installed
-- [ ] Laptop running Desktop build
-- [ ] Browser tab with Web build (localhost:8080)
-- [ ] Both devices on same WiFi
-- [ ] Screen mirroring ready (Android → laptop)
+### Setup (Before Presentation)
+- [ ] Device/Emulator or Desktop runner active
+- [ ] Browser window ready
+- [ ] Python pipeline ready in terminal: `python3 python-pipeline/run_prototype.py`
+- [ ] Demo vehicle plate ready: `DXB A 48291`
 
 ---
 
-### 0:00-0:30 | Hook & Problem
-> "60% of Americans don't know their neighbors' names. Elderly isolation costs Medicare $6.7B annually. Mutual aid happens in fragmented Facebook groups, Nextdoor, WhatsApp — but there's no *dedicated* platform for hyperlocal help."
+### 0:00-0:30 | Hook & Problem (Dubai Urban Mobility)
+> **Speaker**: "In Dubai's busiest cultural and commercial hubs — like Bur Dubai, Karama, Deira, and Downtown — drivers spend an average of 18 minutes circling blocks just to find parking. This causes secondary traffic gridlock, unnecessary fuel waste, and rampant double-parking by delivery riders. 
 > 
-> **Show**: Quick stat slide, then switch to live demo
+> Today, we present **YallaPark**: a smart urban mobility and predictive parking platform built with Kotlin Multiplatform, designed for future integration into Dubai's RTA smart city ecosystem."
 
 ---
 
-### 0:30-1:15 | Live Demo: "Maria needs groceries"
-**On Phone (Android)**:
-1. Open app → Shows "Mission District, SF" location header
-2. Scroll feed: "Need help with grocery shopping" (HIGH urgency, red badge)
-3. Tap post → Detail screen with description, author profile
-4. Tap "Can Help" → Type "I'm free Tuesday 2pm, can pick up from Whole Foods" → Send
-5. Show: Response appears instantly, post updates "3 responses"
-
-**Narrate**: "Real-time, structured responses. Not just comments — *commitments*."
-
----
-
-### 1:15-1:45 | Live Demo: "James offers tools"
-**On Laptop (Desktop)**:
-1. App opens side-by-side with phone
-2. Same feed, same data (shared backend mock)
-3. Scroll to "Free power tools" (OFFER, green badge)
-4. Tap → See 8 responses, 12 likes
-5. Click "Like" → Count updates on both devices
-
-**Narrate**: "100% shared codebase. Same UI, same logic, native on every platform."
+### 0:30-1:15 | Driver Demo: Predictive Pre-Booking & Specialized Bays
+**On Screen (Mobile / Web View)**:
+1. **Interactive Vector Map**:
+   - Point to the Dubai map showing Bur Dubai, Karama, Deira, and Downtown.
+   - Click on the **"Al Karama"** zone tab.
+2. **Specialized Bay Filters**:
+   - Tap **"🌸 Women-Only"** and **"♿ POD Accessible"** chips.
+   - Show how lot availability updates instantly.
+3. **Predictive ETA Slider**:
+   - Tap **"Karama Commercial Center Parking"**.
+   - Move the **ETA arrival slider** from 10 mins to 45 mins.
+   - **Show**: Availability dynamically recalculates from 88% down to 34% with an intelligent recommendation: *"High demand expected at your arrival. Pre-booking strongly advised."*
+4. **Frictionless Booking & Hold**:
+   - Select **Bay KC-W1 (Women-Only Pink Bay)**.
+   - Tap **"Pre-Book Bay"**.
+   - Choose **RTA NOL Card** payment.
+   - Tap **"Pay AED 4.0 & Lock Bay"**.
+   - **Show**: Instant digital pass generated with QR code, 15-minute guaranteed hold, and turn-by-turn routing!
 
 ---
 
-### 1:45-2:15 | Live Demo: Create Post & Communities
-**On Phone**:
-1. FAB → Create Post
-2. Type: Request | Category: Elder Care | Urgency: Critical
-3. Title: "Urgent: Neighbor needs ride to dialysis"
-4. Description: "Mrs. Chen on 3rd floor, appointment 2pm today"
-5. Post → Appears at top with 🔴 CRITICAL badge
-
-**On Laptop**:
-1. Navigate to Communities tab
-2. Show "Mission District Neighbors" (1,247 members, 45 active posts)
-3. Click "Join" on "Castro Cares" → Member count updates
-
-**Narrate**: "Communities build trust. Reputation system prevents bad actors."
-
----
-
-### 2:15-2:45 | Technical Flex
-**Quick terminal demo**:
-```bash
-# Show single codebase
-ls composeApp/src/commonMain/kotlin/com/communityconnect/ui/screens/
-# HomeScreen.kt  PostDetailScreen.kt  CreatePostScreen.kt  ProfileScreen.kt
-
-# Build all 4 platforms
-./gradlew assembleDebug desktopJar wasmJsBrowserProductionWebpack packForXcode
-```
-
-**Show**: GitHub Actions passing for Android, iOS, Desktop, Web
+### 1:15-1:50 | Way 2 Live Demo: RTA & Operator Admin Console
+**On Screen**:
+1. **Switch Mode**:
+   - In the top bar, click the toggle from **"🚗 Driver"** to **"🏛️ Admin (Way 2)"**.
+   - Point out the multi-tenant role switcher (**RTA Authority**, **Mawaqif Operator**, **Private Garage Operator**).
+2. **Add a Parking Facility Live**:
+   - Click **"+ Add Space"**.
+   - Enter *"Al Sabkha Smart Commercial Lot"* in Deira, 65 bays, 4 POD bays, 6 Pink bays, 8 Delivery bays.
+   - Tap **"Deploy Parking Facility to YallaPark"**.
+   - **Show**: The facility immediately appears in citywide KPIs.
+3. **Sensor Telemetry & Bay Control**:
+   - Click **"Manage Bays & Sensors"**.
+   - Tap **Bay P-1** or **S-1** to toggle from Available to Occupied.
+   - Switch back to **"🚗 Driver"** mode and show the new facility and changed bay availability reflected in real time!
 
 ---
 
-### 2:45-3:00 | Close & Ask
-> "CommunityConnect: Where neighbors help neighbors. Built with Kotlin Multiplatform — one codebase, four native platforms. Pilot launching in 3 SF neighborhoods next month."
+### 1:50-2:25 | Way 1 Live Demo: YOLO-OBB Aerial CV Pipeline
+**In Terminal**:
+1. Run:
+   ```bash
+   python3 python-pipeline/run_prototype.py
+   ```
+2. **Narrate**: 
+   > "For automated lot tracking where cameras aren't installed, Way 1 extracts OpenStreetMap parking polygons via the Overpass API, passes aerial frames through an oriented bounding box detector (YOLO-OBB), computes polygon occupancy ratios, and exports live data to MongoDB Atlas."
+3. **Show**: Terminal outputs 1,000+ real Dubai lots extracted and processed with capacity counts.
+
+---
+
+### 2:25-2:45 | AI Concierge (OpenRouter) & Eco-Rewards
+**On Screen**:
+1. Tap **"🤖 Yalla AI"** tab:
+   - Click quick prompt: *"🌸 Pink Bays in Karama"*
+   - **Show**: AI responds with exact floor levels, security lighting info, and pre-booking suggestions.
+2. Tap **"🌱 Rewards"** tab:
+   - Highlight **340 Green Points** earned for off-peak parking and **4.8 kg CO₂ saved**.
+   - Show local Dubai merchant perks (Arabica Coffee Bur Dubai 25% off, Karama Spice House cashback).
+
+---
+
+### 2:45-3:00 | Closing Pitch
+> **Speaker**: "With YallaPark, we don't just tell drivers where parking *was* — we guarantee where parking *will be*. A 100% shared Kotlin Multiplatform codebase across Android, iOS, Desktop, and Web, integrated with MongoDB Atlas and OpenRouter AI. 
 > 
-> **Ask**: "Mentorship on scaling KMP. Connections to community orgs like Village Movement, Meals on Wheels."
-> 
-> **QR Code**: Links to live Web build — try it yourself!
-
----
-
-## 🎭 Backup Plans
-
-| Scenario | Backup |
-|----------|--------|
-| Phone dies | Use Desktop build for all demos |
-| WiFi fails | All data is local mock — works offline |
-| Web build broken | Recorded video of web version |
-| Time running short | Skip Communities, focus on core flow |
-
----
-
-## 🎤 Speaking Notes
-
-### Do
-- Speak to the *problem*, not the tech (until technical flex)
-- Use names: "Maria", "James", "Mrs. Chen" — makes it real
-- Show, don't tell: live interactions > screenshots
-- Mention "shared codebase" 2-3 times naturally
-
-### Don't
-- Don't explain KMP architecture unless asked
-- Don't apologize for mock data — "demo data for hackathon"
-- Don't show code unless in technical flex (15 sec max)
-- Don't go over 3 minutes
-
----
-
-## 📱 Demo Data Cheat Sheet
-
-| Post | Type | Urgency | Key Detail |
-|------|------|---------|------------|
-| Grocery help | Request | High | Maria, recovering from surgery |
-| Power tools | Offer | Low | James, moving out, Dewalt drill |
-| Dialysis ride | Request | Critical | Mrs. Chen, 2pm today |
-| Spanish tutoring | Offer | Low | Aisha, native speaker |
-| Garden cleanup | Event | Medium | Saturday 10am, Golden Gate Park |
-| Tech help | Request | Medium | 82yo neighbor, iPhone setup |
-| Baby clothes | Offer | Low | Lisa, BOB stroller included |
-| Neighborhood watch | Announcement | Medium | Tonight 7pm, Officer Ramirez |
-
----
-
-## 🏆 Judging Criteria Talking Points
-
-| Criteria | Soundbite |
-|----------|-----------|
-| **Working Product** | "Runs natively on Android, iOS, Desktop, Web — live right now" |
-| **Problem & Insight** | "Real mutual aid problem, hyperlocal solution, trust via reputation" |
-| **Technical Execution** | "95% shared logic, 100% shared UI, modern KMP stack, clean architecture" |
-| **Pitch & Clarity** | "Clear narrative: problem → solution → demo → impact → ask" |
-
----
-
-**Break a leg! 🎭** 
-
-*Remember: You're not just demoing an app. You're showing how KMP makes cross-platform development *practical* for real-world impact.*
+> Thank you, and Yalla, let's park smarter!"

@@ -27,3 +27,14 @@ When assigned multiple features or bugs in a single request, you MUST decide bet
 -   Match the existing architectural patterns, naming conventions, and paradigm of the codebase you are in.
 -   Write robust error handling; do not swallow exceptions silently.
 -   Remove any debugging statements (e.g., console.log, print) before finalizing the task.
+
+## 5. Language Use
+
+- Kotlin is the go-to language for frontend development across every platform.
+- Python is the go-to language for a unified backend development
+
+## 6. No Emoji Policy
+
+- **Zero Unicode Emojis:** Do NOT use Unicode emojis in production UI, code strings, buttons, chips, logs, comments, or documentation headers.
+- **SVG / Vector Drawables Only:** Use clean, professional vector icons (inline SVG in Web/HTML, Compose `ImageVector` or vector drawables in Kotlin) ONLY when functionally necessary for navigational or state affordance.
+- **Eliminate Useless Emojis:** Remove all decorative, playful, or redundant emojis (e.g. rocket ships, sparkles, robot heads, food emojis) in favor of crisp typography, semantic badges, and enterprise-grade design standards.

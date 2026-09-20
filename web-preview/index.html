@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YallaPark — Smart Mobility & Predictive Parking Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          borderRadius: {
+            'none': '0px',
+            'sm': '6px',
+            'DEFAULT': '8px',
+            'md': '8px',
+            'lg': '8px',
+            'xl': '8px',
+            '2xl': '8px',
+            '3xl': '8px',
+            'full': '8px'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Enforce tight, uniform 8px rounded corners across EVERYTHING */
+    *, *::before, *::after {
+      --tw-border-radius: 8px;
+    }
+    button, input, select, textarea, .card,
+    [class*="rounded"]:not(.glow-blob) {
+      border-radius: 8px !important;
+    }
+
+    /* ================= FULL DARK MODE ENGINE ================= */
+    html.dark,
+    html.dark body {
+      background-color: #0b1120 !important;
+      color: #f1f5f9 !important;
+    }
+
+    /* Top Navbar */
+    html.dark header {
+      background-color: #111827 !important;
+      border-color: #1f2937 !important;
+    }
+    html.dark header a:not([class*="bg-"]), 
+    html.dark header span:not(#userAvatarText) {
+      color: #f1f5f9 !important;
+    }
+    html.dark header .text-gray-700,
+    html.dark header a.text-gray-700 {
+      color: #cbd5e1 !important;
+    }
+    html.dark #btnNavLogin {
+      border-color: #475569 !important;
+      color: #e2e8f0 !important;
+      background-color: #1e293b !important;
+    }
+    html.dark #btnNavLogin:hover {
+      background-color: #334155 !important;
+    }
+
+    /* Homepage Container & Sections */
+    html.dark #homeView {
+      background-color: #0b1120 !important;
+    }
+    html.dark #homeView section.hero-section {
+      background: #0b1120 !important;
+      background-image: linear-gradient(180deg, #0f172a 0%, #0b1120 100%) !important;
+    }
+    html.dark #homeView section.bg-gray-50,
+    html.dark #homeView section#featuresSection {
+      background-color: #0d1527 !important;
+    }
+    html.dark #homeView section#searchSection,
+    html.dark #homeView section#howItWorksSection,
+    html.dark #homeView section#testimonials {
+      background-color: #0b1120 !important;
+    }
+
+    /* Cards, Panels & Rows across Homepage */
+    html.dark #homeView [class*="bg-white"]:not([class*="text-white"]):not(button) {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+      border-color: #334155 !important;
+    }
+    html.dark #homeView [class*="bg-gray-50"],
+    html.dark #homeView [class*="bg-gray-100"] {
+      background-color: #0f172a !important;
+      color: #f1f5f9 !important;
+      border-color: #334155 !important;
+    }
+    html.dark #homeView .border-white {
+      border-color: #1e293b !important;
+    }
+
+    /* Badges & Accents in Dark Mode */
+    html.dark #homeView .bg-green-100 {
+      background-color: rgba(76, 175, 80, 0.2) !important;
+      color: #81c784 !important;
+    }
+    html.dark #homeView .bg-amber-100 {
+      background-color: rgba(245, 158, 11, 0.2) !important;
+      color: #fcd34d !important;
+    }
+    html.dark #homeView .bg-blue-100 {
+      background-color: rgba(25, 118, 210, 0.2) !important;
+      color: #90caf9 !important;
+    }
+
+    /* Headings & High Contrast Text */
+    html.dark #homeView h1,
+    html.dark #homeView h2,
+    html.dark #homeView h3,
+    html.dark #homeView h4,
+    html.dark #homeView h5,
+    html.dark #homeView [class*="text-gray-900"],
+    html.dark #homeView [class*="text-gray-800"],
+    html.dark #homeView [class*="text-slate-900"],
+    html.dark #homeView [class*="text-slate-800"] {
+      color: #ffffff !important;
+    }
+
+    /* Secondary & Body Text */
+    html.dark #homeView p,
+    html.dark #homeView [class*="text-gray-700"],
+    html.dark #homeView [class*="text-gray-600"],
+    html.dark #homeView [class*="text-gray-500"],
+    html.dark #homeView [class*="text-slate-700"],
+    html.dark #homeView [class*="text-slate-600"],
+    html.dark #homeView [class*="text-slate-500"] {
+      color: #94a3b8 !important;
+    }
+
+    /* Borders */
+    html.dark #homeView [class*="border-gray-100"],
+    html.dark #homeView [class*="border-gray-200"],
+    html.dark #homeView [class*="border-gray-300"],
+    html.dark #homeView [class*="border-slate-100"],
+    html.dark #homeView [class*="border-slate-200"] {
+      border-color: #334155 !important;
+    }
+
+    /* Inputs */
+    html.dark #homeView input,
+    html.dark #homeView select,
+    html.dark #homeView textarea {
+      background-color: #0f172a !important;
+      border-color: #334155 !important;
+      color: #ffffff !important;
+    }
+    html.dark #homeView input::placeholder {
+      color: #64748b !important;
+    }
+
+    /* Shadows */
+    html.dark .shadow-sm,
+    html.dark .shadow-md,
+    html.dark .shadow-lg,
+    html.dark .shadow-xl {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.55) !important;
+    }
+
+    /* Other Views (Driver, Admin, Login) */
+    html.dark #driverView,
+    html.dark #adminView,
+    html.dark #loginView {
+      background-color: #0b1120 !important;
+      color: #f1f5f9 !important;
+    }
+    html.dark #driverView [class*="bg-white"]:not(button),
+    html.dark #adminView [class*="bg-white"]:not(button),
+    html.dark #loginView [class*="bg-white"]:not(button) {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+      border-color: #334155 !important;
+    }
+    html.dark #driverView [class*="text-gray-900"],
+    html.dark #adminView [class*="text-gray-900"],
+    html.dark #loginView [class*="text-gray-900"] {
+      color: #ffffff !important;
+    }
+    html.dark #driverView [class*="text-gray-600"],
+    html.dark #adminView [class*="text-gray-600"],
+    html.dark #loginView [class*="text-gray-600"],
+    html.dark #driverView [class*="text-gray-700"],
+    html.dark #adminView [class*="text-gray-700"],
+    html.dark #loginView [class*="text-gray-700"] {
+      color: #94a3b8 !important;
+    }
+    html.dark #driverView [class*="border-gray-"],
+    html.dark #adminView [class*="border-gray-"],
+    html.dark #loginView [class*="border-gray-"] {
+      border-color: #334155 !important;
+    }
+
+    /* Footer */
+    html.dark footer {
+      background-color: #070c18 !important;
+      border-color: #1e293b !important;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900 min-h-screen flex flex-col antialiased transition-colors duration-200">
+
+  <!-- ================= TOP NAVBAR ================= -->
+  <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <!-- Brand Logo (navigates to Home) -->
+      <a href="#" onclick="switchMainMode('home'); return false;" class="flex items-center gap-2 cursor-pointer">
+        <div class="w-8 h-8 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center text-base font-black shadow-sm">
+          🅿️
+        </div>
+        <span class="font-bold text-xl text-[#1976D2]">Yalla<span class="text-[#4CAF50]">Park</span></span>
+      </a>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+        <a href="#discover" onclick="switchMainMode('home'); document.getElementById('searchSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 hover:text-[#4CAF50] transition-colors">Find Parking</a>
+        <a href="#create" onclick="openLogin('provider'); return false;" class="text-gray-700 hover:text-[#4CAF50] transition-colors">List Your Spot</a>
+        <a href="#how-it-works" onclick="switchMainMode('home'); document.getElementById('howItWorksSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 hover:text-[#4CAF50] transition-colors">How It Works</a>
+        <a href="#features" onclick="switchMainMode('home'); document.getElementById('featuresSection')?.scrollIntoView({behavior:'smooth'}); return false;" class="text-gray-700 hover:text-[#4CAF50] transition-colors">Features</a>
+      </div>
+
+      <!-- Action Gateways -->
+      <div class="flex items-center gap-2.5">
+        <!-- Prominent Dark / Light Mode Toggle Button -->
+        <button id="btnThemeToggle" onclick="toggleTheme()" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-1.5 shadow-sm cursor-pointer" title="Toggle Light / Dark Mode">
+          <span id="themeToggleIcon">🌙</span> <span id="themeToggleText">Dark Mode</span>
+        </button>
+        <a href="map.html" target="_blank" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-blue-500/40 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 flex items-center gap-1 shadow-sm" title="Open OpenLayers Smart Mobility Map">
+          🗺️ Live Map ↗
+        </a>
+        <button id="btnModeAdmin" onclick="switchMainMode('admin')" class="px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-[#1976D2] text-[#1976D2] hover:bg-blue-50">
+          🏛️ Provider Console
+        </button>
+        <button id="btnModeDriver" onclick="switchMainMode('driver')" class="px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all bg-[#4CAF50] text-white hover:bg-[#43A047] shadow-sm">
+          🚗 Driver App
+        </button>
+        <button id="btnNavLogin" onclick="openLogin('driver')" class="px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all border border-gray-300 text-gray-700 hover:bg-gray-100">
+          Sign In
+        </button>
+        <div id="userProfileChip" class="hidden flex items-center gap-2 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-[8px] shadow-sm">
+          <span id="userAvatarText" class="text-xs text-emerald-800 font-bold"></span>
+          <button onclick="logout()" class="text-[10px] font-semibold text-gray-500 hover:text-rose-600 underline">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HOMEPAGE ================= -->
+  <main id="homeView" class="flex-1 w-full space-y-0">
+    <!-- HERO SECTION (KO) -->
+    <section class="hero-section py-16 md:py-24 bg-gradient-to-b from-[#f8fbf9] to-white relative overflow-hidden">
+      <!-- Glow Blobs -->
+      <div class="absolute top-10 left-10 w-24 h-24 bg-amber-100 rounded-full opacity-60 blur-xl pointer-events-none"></div>
+      <div class="absolute bottom-20 left-1/3 w-40 h-40 bg-[#4CAF50]/15 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
+      <div class="absolute top-1/4 right-10 w-36 h-36 bg-[#1976D2]/10 rounded-full opacity-60 blur-2xl pointer-events-none"></div>
+
+      <div class="max-w-6xl mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Left Column -->
+          <div class="text-left space-y-6">
+            <div class="inline-flex items-center gap-2 bg-[#4CAF50]/10 border border-[#4CAF50]/30 px-3 py-1 rounded-[8px] text-xs font-bold text-[#388E3C] tracking-wider uppercase">
+              🇦🇪 UAE'S SMART PARKING PLATFORM
+            </div>
+
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight">
+              Find Parking. <span class="text-[#4CAF50]">Book Instantly.</span> Park Smarter.
+            </h1>
+
+            <p class="text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl">
+              Yalla Park helps you discover, reserve and pay for parking spots across the UAE in seconds. Skip the circling, save time, and park with confidence.
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex flex-wrap gap-4 pt-2">
+              <button onclick="switchMainMode('driver')" class="bg-[#4CAF50] text-white hover:bg-[#43A047] text-base md:text-lg px-8 py-3.5 rounded-[8px] font-semibold shadow-md transition-all flex items-center gap-2">
+                Find Parking
+              </button>
+              <button onclick="switchMainMode('admin')" class="border-2 border-[#1976D2] text-[#1976D2] hover:bg-blue-50 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-semibold transition-all flex items-center gap-2">
+                List Your Spot
+              </button>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="mt-8 flex flex-wrap gap-6 pt-4">
+              <div class="flex items-center gap-2.5">
+                <div class="bg-green-100 p-2.5 rounded-[8px] text-[#2E7D32]">
+                  🅿️
+                </div>
+                <span class="text-gray-700 font-semibold text-sm">5,000+ Parking Spots</span>
+              </div>
+
+              <div class="flex items-center gap-2.5">
+                <div class="bg-amber-100 p-2.5 rounded-[8px] text-[#B45309]">
+                  ⏱️
+                </div>
+                <span class="text-gray-700 font-semibold text-sm">Book in under 30s</span>
+              </div>
+
+              <div class="flex items-center gap-2.5">
+                <div class="bg-blue-100 p-2.5 rounded-[8px] text-[#1565C0]">
+                  🛡️
+                </div>
+                <span class="text-gray-700 font-semibold text-sm">Guaranteed Spot</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Visual Showcase -->
+          <div class="relative">
+            <div class="relative w-full h-[380px] md:h-[460px]">
+              <div class="absolute top-0 right-0 w-5/6 h-5/6 bg-gradient-to-br from-[#66BB6A] to-[#42A5F5] rounded-[8px] transform rotate-2 opacity-90 shadow-lg"></div>
+              <div class="absolute top-6 right-6 w-full h-full bg-white rounded-[8px] shadow-2xl overflow-hidden border-4 border-white">
+                <img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
+                     alt="Modern parking garage in the UAE" class="w-full h-full object-cover">
+                <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm p-3.5 rounded-[8px] shadow-lg border border-gray-100 flex items-center justify-between">
+                  <div>
+                    <div class="text-xs font-bold text-gray-900">Dubai Mall — Level B2</div>
+                    <div class="text-[11px] text-gray-500">12 spots available right now</div>
+                  </div>
+                  <span class="bg-green-100 text-[#2E7D32] px-2.5 py-1 rounded-[8px] text-xs font-bold">AED 20/hr</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SMART PARKING INTELLIGENCE (QO) -->
+    <section class="py-16 md:py-20 bg-gray-50">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12 space-y-3">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+            Smart Parking <span class="text-[#4CAF50]">Intelligence</span>
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+            Live occupancy analysis and predictive slot forecasts powered by computer vision and IoT telemetry.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Best Spots Near You Card -->
+          <div class="bg-white rounded-[8px] p-6 shadow-sm border border-gray-100 space-y-4">
+            <div class="flex items-center gap-2 border-b border-gray-100 pb-3">
+              <span class="text-lg">📍</span>
+              <h3 class="font-bold text-lg text-gray-900">Best Spots Near You</h3>
+            </div>
+            <div class="space-y-3">
+              <div class="p-3.5 rounded-[8px] bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-start border border-gray-100">
+                <div>
+                  <p class="font-semibold text-gray-900 text-sm">Dubai Mall — Level B2</p>
+                  <p class="text-xs text-gray-500">3 min walk • Covered & EV</p>
+                </div>
+                <div class="text-right">
+                  <span class="bg-green-100 text-[#2E7D32] px-2.5 py-1 rounded-[8px] text-xs font-bold">12 spots</span>
+                  <p class="text-xs text-[#1976D2] font-semibold mt-1">AED 20/hr</p>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-[8px] bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-start border border-gray-100">
+                <div>
+                  <p class="font-semibold text-gray-900 text-sm">DIFC Gate Village P3</p>
+                  <p class="text-xs text-gray-500">2 min walk • Financial Center</p>
+                </div>
+                <div class="text-right">
+                  <span class="bg-amber-100 text-[#B45309] px-2.5 py-1 rounded-[8px] text-xs font-bold">5 spots</span>
+                  <p class="text-xs text-[#1976D2] font-semibold mt-1">AED 25/hr</p>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-[8px] bg-gray-50 hover:bg-gray-100 transition-colors flex justify-between items-start border border-gray-100">
+                <div>
+                  <p class="font-semibold text-gray-900 text-sm">Mall of the Emirates P2</p>
+                  <p class="text-xs text-gray-500">4 min walk • Al Barsha Metro</p>
+                </div>
+                <div class="text-right">
+                  <span class="bg-green-100 text-[#2E7D32] px-2.5 py-1 rounded-[8px] text-xs font-bold">42 spots</span>
+                  <p class="text-xs text-[#1976D2] font-semibold mt-1">AED 20/hr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Parking Insights Card -->
+          <div class="bg-white rounded-[8px] p-6 shadow-sm border border-gray-100 flex flex-col justify-between space-y-4">
+            <div class="space-y-4">
+              <div class="flex items-center gap-2 border-b border-gray-100 pb-3">
+                <span class="text-lg">🤖</span>
+                <h3 class="font-bold text-lg text-gray-900">AI Parking Insights</h3>
+              </div>
+              <div id="yallaAiInsightBox" class="p-4 rounded-[8px] bg-[#E3F2FD] text-[#0D47A1] text-sm leading-relaxed border border-[#BBDEFB]">
+                Based on your usual schedule, reserve parking at Dubai Mall by 6 PM Thursdays — availability drops 80% after 7 PM.
+              </div>
+              <div class="space-y-2 text-xs text-gray-600">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-[#4CAF50]"></span>
+                  <span>Live occupancy tracking active</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-[#1976D2]"></span>
+                  <span>Demand forecasting enabled</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="cycleYallaInsight()" class="w-full py-3 rounded-[8px] bg-[#4CAF50] text-white hover:bg-[#43A047] text-sm font-semibold transition shadow-sm">
+              Generate Parking Insights
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FIND AVAILABLE PARKING SPOTS & MAP (cB) -->
+    <section id="searchSection" class="py-16 md:py-20 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
+          Find Available <span class="text-[#4CAF50]">Parking Spots</span>
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Left Column: Search & List -->
+          <div class="space-y-4">
+            <div class="bg-gray-50 p-5 rounded-[8px] border border-gray-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-gray-900 text-sm">Search Parking</span>
+                <button onclick="toggleSatellitePreview()" id="btnSatToggle" class="text-xs font-semibold px-2.5 py-1 rounded-[8px] bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">
+                  🗺️ Vector Mode
+                </button>
+              </div>
+
+              <div class="relative">
+                <input type="text" oninput="searchYallaSpots(this.value)" placeholder="Search locations..."
+                  class="w-full bg-white border border-gray-300 rounded-[8px] px-3.5 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#4CAF50]">
+              </div>
+
+              <!-- Spot list items -->
+              <div id="yallaSpotsContainer" class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+                <div onclick="focusYallaSpot(0)" class="p-3 rounded-[8px] bg-white border border-gray-200 hover:border-[#4CAF50] cursor-pointer transition">
+                  <div class="font-semibold text-gray-900 text-sm">Dubai Mall P1</div>
+                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500">
+                    <span class="text-[#2E7D32] font-medium">45 spots available</span>
+                    <span class="font-semibold text-[#1976D2]">AED 20/hr</span>
+                  </div>
+                </div>
+
+                <div onclick="focusYallaSpot(1)" class="p-3 rounded-[8px] bg-white border border-gray-200 hover:border-[#4CAF50] cursor-pointer transition">
+                  <div class="font-semibold text-gray-900 text-sm">Marina Walk Promenade</div>
+                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500">
+                    <span class="text-[#2E7D32] font-medium">23 spots available</span>
+                    <span class="font-semibold text-[#1976D2]">AED 15/hr</span>
+                  </div>
+                </div>
+
+                <div onclick="focusYallaSpot(2)" class="p-3 rounded-[8px] bg-white border border-gray-200 hover:border-[#4CAF50] cursor-pointer transition">
+                  <div class="font-semibold text-gray-900 text-sm">JBR The Walk Plaza</div>
+                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500">
+                    <span class="text-[#B45309] font-medium">12 spots available</span>
+                    <span class="font-semibold text-[#1976D2]">AED 25/hr</span>
+                  </div>
+                </div>
+
+                <div onclick="focusYallaSpot(3)" class="p-3 rounded-[8px] bg-white border border-gray-200 hover:border-[#4CAF50] cursor-pointer transition">
+                  <div class="font-semibold text-gray-900 text-sm">Mall of the Emirates P2</div>
+                  <div class="flex justify-between items-center mt-1 text-xs text-gray-500">
+                    <span class="text-[#2E7D32] font-medium">67 spots available</span>
+                    <span class="font-semibold text-[#1976D2]">AED 20/hr</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Map Box -->
+          <div class="lg:col-span-2">
+            <div id="yallaMapBox" class="w-full h-[400px] rounded-[8px] bg-slate-900 border border-gray-200 relative overflow-hidden flex flex-col justify-between p-5 text-white shadow-sm">
+              <div class="flex justify-between items-center z-10">
+                <span id="mapBadgeMode" class="bg-black/60 px-3 py-1 rounded-[8px] text-xs font-semibold backdrop-blur-sm">
+                  🗺️ UAE Interactive Map • Center (25.2048° N, 55.2708° E)
+                </span>
+                <span class="bg-[#4CAF50] text-white px-3 py-1 rounded-[8px] text-xs font-bold shadow">
+                  Live Sensor Sync
+                </span>
+              </div>
+
+              <div class="text-center space-y-1 z-10">
+                <div class="w-12 h-12 rounded-[8px] bg-[#4CAF50] text-white text-xl font-bold flex items-center justify-center mx-auto shadow-lg">
+                  🅿️
+                </div>
+                <h3 id="mapSpotName" class="text-base font-bold text-white">Dubai Mall P1</h3>
+                <p id="mapSpotDetail" class="text-xs text-blue-200">45 bays available • AED 20/hr • 3 min walk</p>
+              </div>
+
+              <div class="z-10 flex flex-col sm:flex-row gap-2">
+                <button onclick="switchMainMode('driver')" class="flex-1 py-2.5 rounded-[8px] bg-[#4CAF50] hover:bg-[#43A047] text-white font-bold text-xs shadow transition">
+                  Open in Driver App & Reserve Bay →
+                </button>
+                <a href="map.html" target="_blank" class="py-2.5 px-3.5 rounded-[8px] bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1.5 whitespace-nowrap">
+                  <span>🗺️</span> OpenLayers Live Map ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVERYTHING YOU NEED TO PARK SMARTER (JO) -->
+    <section id="featuresSection" class="py-16 md:py-24 bg-gray-50">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16 space-y-3">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+            Everything you need to <span class="text-[#4CAF50]">park smarter</span>
+          </h2>
+          <p class="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
+            Yalla Park puts every parking spot in the UAE at your fingertips — discover, reserve, navigate, and pay from a single app.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-green-50 text-[#2E7D32] flex items-center justify-center text-2xl">
+              📡
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900">Real-Time Availability</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              See live occupancy across malls, residential towers, and street parking before you even leave home.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center text-2xl">
+              ⏰
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900">Reserve in Advance</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              Book your spot hours or days ahead. Your space is guaranteed when you arrive — no more circling.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-green-50 text-[#2E7D32] flex items-center justify-center text-2xl">
+              🧭
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900">Turn-by-Turn Guidance</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              Get directed straight to your reserved bay with in-app navigation and indoor wayfinding.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center text-2xl">
+              💳
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900">Cashless Payments</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              Pay seamlessly with Apple Pay, card, or wallet. Receipts and VAT invoices delivered instantly.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-amber-50 text-[#B45309] flex items-center justify-center text-2xl">
+              🛡️
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900">Secure & Verified</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              Every listed spot is verified, monitored, and covered by our parking protection guarantee.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[8px] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+            <div class="w-12 h-12 rounded-[8px] bg-blue-50 text-[#1565C0] flex items-center justify-center text-2xl">
+              📍
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900">UAE-Wide Coverage</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              From Dubai Marina to Abu Dhabi Corniche and Sharjah — thousands of spots in one app.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW YALLA PARK WORKS (tB) -->
+    <section id="howItWorksSection" class="py-16 md:py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16 space-y-3">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+            How Yalla Park Works
+          </h2>
+          <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            From searching to parking, the entire experience takes under a minute. Here's how easy it is.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-gray-50 rounded-[8px] p-6 border border-gray-100 space-y-3">
+            <div class="w-10 h-10 rounded-[8px] bg-[#1976D2] text-white flex items-center justify-center font-bold text-base">1</div>
+            <h3 class="text-lg font-bold text-gray-900">Search destination</h3>
+            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+              Type where you're headed — a mall, office, restaurant, or address — and we'll show every nearby parking option.
+            </p>
+          </div>
+
+          <div class="bg-gray-50 rounded-[8px] p-6 border border-gray-100 space-y-3">
+            <div class="w-10 h-10 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center font-bold text-base">2</div>
+            <h3 class="text-lg font-bold text-gray-900">Pick the spot</h3>
+            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+              Compare live availability, hourly rates, covered vs. open bays, EV chargers, and walking distance.
+            </p>
+          </div>
+
+          <div class="bg-gray-50 rounded-[8px] p-6 border border-gray-100 space-y-3">
+            <div class="w-10 h-10 rounded-[8px] bg-[#F59E0B] text-white flex items-center justify-center font-bold text-base">3</div>
+            <h3 class="text-lg font-bold text-gray-900">Reserve & navigate</h3>
+            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+              Lock in your bay in seconds and follow turn-by-turn directions straight to it. No more endless circling.
+            </p>
+          </div>
+
+          <div class="bg-gray-50 rounded-[8px] p-6 border border-gray-100 space-y-3">
+            <div class="w-10 h-10 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center font-bold text-base">4</div>
+            <h3 class="text-lg font-bold text-gray-900">Park & pay seamlessly</h3>
+            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+              Scan in, park, and pay automatically. Extend your stay from the app whenever you need more time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE UAE'S LARGEST PARKING NETWORK STATS (rB) -->
+    <section class="py-16 md:py-20 bg-gradient-to-r from-[#1565C0] to-[#0A3880] text-white">
+      <div class="max-w-6xl mx-auto px-4 text-center space-y-12">
+        <div class="space-y-3">
+          <h2 class="text-3xl md:text-4xl font-bold">The UAE's Largest Parking Network</h2>
+          <p class="text-base md:text-lg opacity-90 max-w-2xl mx-auto">
+            Drivers across the Emirates trust Yalla Park to find them a spot — every single day.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white/10 backdrop-blur-sm rounded-[8px] p-6 text-center hover:bg-white/20 transition-all space-y-2">
+            <div class="text-2xl mb-1">🅿️</div>
+            <div class="text-3xl md:text-4xl font-bold">5,000+</div>
+            <div class="text-sm opacity-80">Parking Spots</div>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm rounded-[8px] p-6 text-center hover:bg-white/20 transition-all space-y-2">
+            <div class="text-2xl mb-1">📍</div>
+            <div class="text-3xl md:text-4xl font-bold">120+</div>
+            <div class="text-sm opacity-80">Locations Across UAE</div>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm rounded-[8px] p-6 text-center hover:bg-white/20 transition-all space-y-2">
+            <div class="text-2xl mb-1">⏱️</div>
+            <div class="text-3xl md:text-4xl font-bold">12 min</div>
+            <div class="text-sm opacity-80">Avg. Time Saved</div>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm rounded-[8px] p-6 text-center hover:bg-white/20 transition-all space-y-2">
+            <div class="text-2xl mb-1">⭐</div>
+            <div class="text-3xl md:text-4xl font-bold">99.2%</div>
+            <div class="text-sm opacity-80">Customer Satisfaction</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOVED BY UAE DRIVERS - TESTIMONIALS (iB) -->
+    <section id="testimonials" class="py-16 md:py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16 space-y-3">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+            Loved by UAE Drivers
+          </h2>
+          <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            Tens of thousands of drivers across Dubai, Abu Dhabi, and Sharjah park smarter with Yalla Park.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-gray-50 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 space-y-4">
+            <div class="flex items-center gap-4">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ahmad Al Falasi" class="w-14 h-14 rounded-[8px] object-cover">
+              <div>
+                <h4 class="font-semibold text-base text-gray-900">Ahmad Al Falasi</h4>
+                <p class="text-xs text-gray-500">Downtown Dubai Commuter</p>
+              </div>
+            </div>
+            <div class="text-amber-500 text-sm">★★★★★</div>
+            <p class="text-gray-700 italic text-sm leading-relaxed">
+              "I used to spend 20 minutes hunting for parking near DIFC. With Yalla Park I reserve my bay before I leave home — drive straight in, done."
+            </p>
+          </div>
+
+          <div class="bg-gray-50 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 space-y-4">
+            <div class="flex items-center gap-4">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="w-14 h-14 rounded-[8px] object-cover">
+              <div>
+                <h4 class="font-semibold text-base text-gray-900">Sarah Johnson</h4>
+                <p class="text-xs text-gray-500">Dubai Mall Regular</p>
+              </div>
+            </div>
+            <div class="text-amber-500 text-sm">★★★★★</div>
+            <p class="text-gray-700 italic text-sm leading-relaxed">
+              "The live availability is a lifesaver on weekends. I can see exactly which level has space before I even reach the entrance."
+            </p>
+          </div>
+
+          <div class="bg-gray-50 rounded-[8px] p-8 shadow-sm hover:shadow-md transition-all border border-gray-100 space-y-4">
+            <div class="flex items-center gap-4">
+              <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Rajiv Mehta" class="w-14 h-14 rounded-[8px] object-cover">
+              <div>
+                <h4 class="font-semibold text-base text-gray-900">Rajiv Mehta</h4>
+                <p class="text-xs text-gray-500">Marina Resident</p>
+              </div>
+            </div>
+            <div class="text-amber-500 text-sm">★★★★☆</div>
+            <p class="text-gray-700 italic text-sm leading-relaxed">
+              "I list my building's spare visitor bay on Yalla Park and earn extra income every month. Setup took five minutes."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STOP CIRCLING. START PARKING. CTA (oB) -->
+    <section class="py-16 md:py-24 bg-gradient-to-br from-[#4CAF50] to-[#388E3C] text-white">
+      <div class="max-w-6xl mx-auto px-4 text-center space-y-8">
+        <div class="space-y-4 max-w-2xl mx-auto">
+          <h2 class="text-3xl md:text-5xl font-bold">Stop Circling. Start Parking.</h2>
+          <p class="text-lg md:text-xl opacity-90 leading-relaxed">
+            Join thousands of UAE drivers who reserve their parking before they hit the road. Your spot is waiting.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4">
+          <button onclick="switchMainMode('driver')" class="bg-white text-[#2E7D32] hover:bg-gray-100 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-bold shadow-md transition">
+            Get the App
+          </button>
+          <button onclick="switchMainMode('admin')" class="border-2 border-white text-white hover:bg-white/20 text-base md:text-lg px-8 py-3.5 rounded-[8px] font-bold transition">
+            List Your Spot
+          </button>
+        </div>
+
+        <div class="pt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-xl mx-auto border-t border-white/20">
+          <div>
+            <h3 class="text-2xl md:text-3xl font-bold mb-1">7</h3>
+            <p class="opacity-80 text-sm">Emirates Covered</p>
+          </div>
+          <div>
+            <h3 class="text-2xl md:text-3xl font-bold mb-1">24/7</h3>
+            <p class="opacity-80 text-sm">Driver Support</p>
+          </div>
+          <div>
+            <h3 class="text-2xl md:text-3xl font-bold mb-1">100%</h3>
+            <p class="opacity-80 text-sm">Spot Guarantee</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER (Oh) -->
+    <footer class="bg-gray-900 text-white pt-12 pb-6">
+      <div class="max-w-6xl mx-auto px-4 space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-[8px] bg-[#4CAF50] text-white flex items-center justify-center font-bold text-sm">🅿️</div>
+              <span class="font-bold text-xl text-white">Yalla<span class="text-[#4CAF50]">Park</span></span>
+            </div>
+            <p class="mt-4 text-gray-400 text-sm leading-relaxed">
+              Find and book the best parking spots across the UAE. Save time, avoid hassle, and park smarter with Yalla Park.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-base mb-4">Navigation</h3>
+            <ul class="space-y-2 text-gray-400 text-sm">
+              <li><a href="#" onclick="switchMainMode('home'); return false;" class="hover:text-[#4CAF50]">Home</a></li>
+              <li><a href="#" onclick="switchMainMode('driver'); return false;" class="hover:text-[#4CAF50]">Find Parking</a></li>
+              <li><a href="#" onclick="switchMainMode('admin'); return false;" class="hover:text-[#4CAF50]">List Your Spot</a></li>
+              <li><a href="#howItWorksSection" class="hover:text-[#4CAF50]">How It Works</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-base mb-4">Legal</h3>
+            <ul class="space-y-2 text-gray-400 text-sm">
+              <li><a href="#" class="hover:text-[#4CAF50]">Privacy Policy</a></li>
+              <li><a href="#" class="hover:text-[#4CAF50]">Terms of Service</a></li>
+              <li><a href="#" class="hover:text-[#4CAF50]">Safety Guidelines</a></li>
+              <li><a href="#" class="hover:text-[#4CAF50]">FAQ</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-base mb-4">Contact Us</h3>
+            <ul class="space-y-2 text-gray-400 text-sm">
+              <li>info@yallapark.ae</li>
+              <li>+971 4 000 1234</li>
+              <li class="mt-2 text-gray-400">Dubai Silicon Oasis,<br/>Dubai, United Arab Emirates</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+          <p>© 2026 Yalla Park. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ================= DEDICATED LOGIN PAGE ================= -->
+  <main id="loginView" class="hidden flex-1 max-w-xl w-full mx-auto p-4 md:p-6 space-y-6">
+    <!-- Back to Home -->
+    <div class="flex items-center justify-between">
+      <button onclick="switchMainMode('home')" class="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1">
+        ← Back to Home
+      </button>
+      <span class="text-[10px] uppercase font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40 px-2.5 py-0.5 rounded-full">
+        YallaPark Auth
+      </span>
+    </div>
+
+    <div class="text-center space-y-1.5">
+      <h2 class="text-2xl md:text-3xl font-black text-white">Sign In to YallaPark</h2>
+      <p class="text-xs text-slate-400">Select your account type to access personalized parking services or facility management.</p>
+    </div>
+
+    <!-- Two-Option Tab Selector -->
+    <div class="bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700 grid grid-cols-2 gap-1.5">
+      <button id="loginTabDriver" onclick="setLoginTab('driver')" class="py-2.5 rounded-xl text-xs font-bold transition-all bg-teal-500 text-white shadow flex items-center justify-center gap-1.5">
+        🚗 End User (Driver)
+      </button>
+      <button id="loginTabProvider" onclick="setLoginTab('provider')" class="py-2.5 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+        🏛️ Provider (Govt / Org)
+      </button>
+    </div>
+
+    <!-- DRIVER LOGIN FORM CONTAINER -->
+    <div id="loginFormDriver" class="bg-slate-800 rounded-2xl border border-teal-700/50 p-6 space-y-5 shadow-xl">
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
+        <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center text-xl">
+          🚗
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white">Motorist & Driver Login</h3>
+          <p class="text-[11px] text-teal-300/80">Guaranteed hold, predictive ETA & NOL payment</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleDriverLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Full Name</label>
+          <input id="loginDriverName" type="text" value="Ahmed Al-Mansoor" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-teal-400" required />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Mobile Number (UAE +971)</label>
+          <input id="loginDriverPhone" type="tel" value="+971 50 123 4567" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-teal-400" required />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Dubai Vehicle Plate Number</label>
+          <input id="loginDriverPlate" type="text" value="DXB A 48291" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white uppercase focus:outline-none focus:border-teal-400" required />
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-teal-500 hover:bg-teal-400 text-white rounded-xl text-xs font-bold shadow-lg shadow-teal-500/20 transition-all">
+          Sign In as Driver →
+        </button>
+      </form>
+
+      <!-- 1-Click Demo Accounts for Driver -->
+      <div class="pt-3 border-t border-slate-700 space-y-2">
+        <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">⚡ Quick 1-Click Demo Accounts</span>
+        <div class="grid grid-cols-1 gap-2">
+          <button onclick="demoLoginDriver('Ahmed Al-Mansoor', 'DXB A 48291', '+971 50 123 4567')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">Ahmed Al-Mansoor</div>
+              <div class="text-[10px] text-slate-400">Plate: DXB A 48291 • Downtown Regular</div>
+            </div>
+            <span class="text-xs text-teal-400 font-bold">Use →</span>
+          </button>
+          <button onclick="demoLoginDriver('Sara Al-Qasimi', 'DXB K 19024', '+971 55 987 6543')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">Sara Al-Qasimi</div>
+              <div class="text-[10px] text-slate-400">Plate: DXB K 19024 • Bur Dubai Resident</div>
+            </div>
+            <span class="text-xs text-teal-400 font-bold">Use →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROVIDER LOGIN FORM CONTAINER -->
+    <div id="loginFormProvider" class="hidden bg-slate-800 rounded-2xl border border-amber-700/50 p-6 space-y-5 shadow-xl">
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-xl">
+          🏛️
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white">Parking Provider Console (Way 2)</h3>
+          <p class="text-[11px] text-amber-300/80">Government authority & facility operator management</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleProviderLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Representative Name</label>
+          <input id="loginProviderName" type="text" value="Eng. Fatima Al-Hashimi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400" required />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Organization / Authority Name</label>
+          <input id="loginProviderOrg" type="text" value="Roads and Transport Authority (RTA)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400" required />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Government ID / Trade License No.</label>
+          <input id="loginProviderGovId" type="text" value="RTA-GOV-9824" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white uppercase focus:outline-none focus:border-amber-400" required />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Provider Role</label>
+          <select id="loginProviderRole" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            <option value="RTA Public Authority">RTA Public Authority (Municipal Regulation)</option>
+            <option value="Mawaqif Zone Operator">Mawaqif Operator (Zone Enforcement)</option>
+            <option value="Commercial Operator">Commercial Garage Operator (Private Garages)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-xl text-xs font-bold shadow-lg shadow-amber-600/20 transition-all">
+          Enter Provider Console →
+        </button>
+      </form>
+
+      <!-- 1-Click Demo Accounts for Provider -->
+      <div class="pt-3 border-t border-slate-700 space-y-2">
+        <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">⚡ Quick 1-Click Demo Accounts</span>
+        <div class="grid grid-cols-1 gap-2">
+          <button onclick="demoLoginProvider('Eng. Fatima Al-Hashimi', 'Roads and Transport Authority (RTA)', 'RTA-GOV-9824', 'RTA Public Authority')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">Eng. Fatima Al-Hashimi</div>
+              <div class="text-[10px] text-slate-400">RTA Dubai Public Authority • Full Regulatory Control</div>
+            </div>
+            <span class="text-xs text-amber-400 font-bold">Use →</span>
+          </button>
+          <button onclick="demoLoginProvider('Majid Properties Garages', 'Majid Al Futtaim Properties', 'DED-COM-5519', 'Commercial Operator')" class="text-left bg-slate-900/80 hover:bg-slate-700/80 border border-slate-700 p-2.5 rounded-xl transition-all flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-white">Majid Properties Garages</div>
+              <div class="text-[10px] text-slate-400">Commercial Garage Operator • Mall & Private Garages</div>
+            </div>
+            <span class="text-xs text-amber-400 font-bold">Use →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= DRIVER APP VIEW ================= -->
+  <main id="driverView" class="hidden flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 space-y-6">
+    
+    <!-- Navigation Tabs for Driver -->
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div class="flex gap-2">
+        <button onclick="setDriverTab('map')" id="tabMap" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5">
+          🗺️ Explore Lots
+        </button>
+        <button onclick="setDriverTab('pass')" id="tabPass" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
+          🎟️ Active Pass <span id="passBadge" class="hidden w-2 h-2 bg-emerald-400 rounded-full"></span>
+        </button>
+        <button onclick="setDriverTab('ai')" id="tabAi" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
+          🤖 Yalla AI Concierge
+        </button>
+        <button onclick="setDriverTab('rewards')" id="tabRewards" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5">
+          🌱 Eco-Rewards
+        </button>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-2 text-xs text-slate-400">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        Live RTA Telemetry Synced
+      </div>
+    </div>
+
+    <!-- TAB 1: EXPLORE MAP & LOTS -->
+    <div id="driverTabExplore" class="space-y-6">
+      <!-- Search & Zone Filters -->
+      <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-3">
+        <div class="flex flex-col md:flex-row gap-3">
+          <div class="relative flex-1">
+            <span class="absolute left-3.5 top-2.5 text-slate-400 text-sm">🔍</span>
+            <input id="searchInput" oninput="filterLots()" type="text" placeholder="Search facilities, streets, or landmarks (e.g. Al Fahidi, Karama, Souq)..." 
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-teal-400" />
+          </div>
+          <!-- Zone Pills -->
+          <div class="flex gap-2 overflow-x-auto scrollbar-hide py-1">
+            <button onclick="selectZone(null)" class="zone-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-teal-500 text-white" data-zone="all">All Dubai</button>
+            <button onclick="selectZone('BUR_DUBAI')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600" data-zone="BUR_DUBAI">Bur Dubai</button>
+            <button onclick="selectZone('KARAMA')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600" data-zone="KARAMA">Al Karama</button>
+            <button onclick="selectZone('DEIRA')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600" data-zone="DEIRA">Deira</button>
+            <button onclick="selectZone('DOWNTOWN')" class="zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600" data-zone="DOWNTOWN">Downtown</button>
+          </div>
+        </div>
+
+        <!-- Specialized Bay Category Filters -->
+        <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-700/60 items-center">
+          <span class="text-xs text-slate-400 font-semibold mr-1">Filter Bays:</span>
+          <button onclick="selectCategory('ALL')" class="cat-btn active px-2.5 py-1 rounded-md text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40" data-cat="ALL">All Bays</button>
+          <button onclick="selectCategory('POD')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-blue-300 border border-blue-500/30 hover:bg-blue-900/30" data-cat="POD">♿ POD Accessible</button>
+          <button onclick="selectCategory('PINK')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-pink-300 border border-pink-500/30 hover:bg-pink-900/30" data-cat="PINK">🌸 Women-Only Pink</button>
+          <button onclick="selectCategory('DELIVERY')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-amber-300 border border-amber-500/30 hover:bg-amber-900/30" data-cat="DELIVERY">🛵 Delivery Quick Bays</button>
+          <button onclick="selectCategory('EV')" class="cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-900/30" data-cat="EV">⚡ EV Charging</button>
+        </div>
+      </div>
+
+      <!-- Dubai Smart Mobility Map Component (OpenLayers Live GIS & Vector Canvas) -->
+      <div class="bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden shadow-xl">
+        <div class="p-3 bg-slate-850 border-b border-slate-700 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center gap-2 font-bold text-teal-300 mr-1">
+              <span>🗺️</span> DUBAI SMART MOBILITY MAP
+            </div>
+            <!-- Mode Switcher Tabs -->
+            <div class="flex bg-slate-900/80 p-0.5 rounded-lg border border-slate-700">
+              <button id="btnMapModeOL" onclick="switchMapMode('openlayers')" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-500 text-white shadow-sm transition">
+                🌐 OpenLayers Live (Real Tiles & OSRM)
+              </button>
+              <button id="btnMapModeCanvas" onclick="switchMapMode('canvas')" class="px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-slate-200 transition">
+                🎨 Compose Vector Canvas
+              </button>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <a href="map.html" target="_blank" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-blue-600 hover:bg-blue-500 text-white flex items-center gap-1 shadow transition">
+              <span>↗</span> Fullscreen Map
+            </a>
+            <div class="hidden sm:flex items-center gap-2 text-[11px]">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Available</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Occupied</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- OpenLayers Live Map Container -->
+        <div id="openlayersMapContainer" class="relative w-full h-[580px] bg-slate-900">
+          <iframe id="openlayersIframe" src="map.html" class="w-full h-full border-0" title="YallaPark OpenLayers Live Map"></iframe>
+        </div>
+
+        <!-- Vector Dubai Canvas Map Component -->
+        <div id="canvasMapContainer" class="hidden relative w-full h-64 md:h-80 bg-[#141e28]">
+          <canvas id="dubaiMapCanvas" class="w-full h-full cursor-pointer"></canvas>
+          <div id="mapTooltip" class="hidden absolute bg-slate-900/95 border border-teal-500 text-white text-xs p-2 rounded-lg shadow-xl pointer-events-none z-10"></div>
+        </div>
+      </div>
+
+      <!-- Facility Cards Grid -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between text-xs text-slate-400 font-bold uppercase tracking-wider">
+          <span id="lotsCountLabel">PARKING FACILITIES IN DUBAI (6)</span>
+          <span>Click facility to view bays & predict arrival</span>
+        </div>
+        <div id="lotsListGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ACTIVE DIGITAL PASS -->
+    <div id="driverTabPass" class="hidden max-w-xl mx-auto space-y-4">
+      <div id="noPassNotice" class="bg-slate-800 border border-slate-700 rounded-2xl p-8 text-center space-y-3">
+        <div class="text-5xl">🅿️</div>
+        <h3 class="text-lg font-bold">No Active Parking Session</h3>
+        <p class="text-xs text-slate-400">You do not have a reserved space yet. Browse the map and lock your space with 15-minute guaranteed hold.</p>
+        <button onclick="setDriverTab('map')" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white">Find Parking</button>
+      </div>
+
+      <div id="activePassCard" class="hidden bg-gradient-to-b from-teal-900 to-slate-900 border-2 border-teal-500 rounded-3xl p-6 shadow-2xl space-y-6">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="text-[10px] uppercase tracking-widest font-extrabold text-amber-400">YallaPark Digital Pass</span>
+            <h2 id="passLotName" class="text-xl font-black text-white">Al Fahidi Heritage Lot</h2>
+            <p id="passZoneName" class="text-xs text-teal-200">Bur Dubai • Ground Floor</p>
+          </div>
+          <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs px-2.5 py-1 rounded-full font-bold animate-pulse">
+            ACTIVE PARKED
+          </span>
+        </div>
+
+        <div class="bg-slate-950/80 border border-teal-600/40 rounded-2xl p-6 text-center space-y-2">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Your Dedicated Bay</div>
+          <div id="passBayNumber" class="text-4xl font-black tracking-tight text-amber-400">BF-P2</div>
+          <div id="passBayType" class="text-xs font-bold text-pink-300">🌸 Women-Only Pink Bay</div>
+        </div>
+
+        <!-- QR Gate Pass -->
+        <div class="bg-white rounded-2xl p-4 flex items-center justify-between text-slate-900">
+          <div>
+            <div class="text-[10px] uppercase font-black text-teal-800">ANPR Smart Gate Pass</div>
+            <div id="passQrCode" class="font-mono text-sm font-black">YP-BF2-8291</div>
+            <div class="text-[11px] text-slate-600">Plate: <span id="passPlate" class="font-bold">DXB A 48291</span></div>
+          </div>
+          <div class="w-14 h-14 bg-slate-900 text-white rounded-lg flex items-center justify-center font-bold text-2xl">
+            📲
+          </div>
+        </div>
+
+        <!-- Timer & Extension -->
+        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 space-y-3">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-400">Session Remaining:</span>
+            <span id="countdownTimer" class="font-mono font-bold text-base text-emerald-400">44m 28s</span>
+          </div>
+          <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+            <div class="bg-teal-400 h-full w-3/4 rounded-full"></div>
+          </div>
+          
+          <div class="pt-2 border-t border-slate-700">
+            <div class="text-xs text-slate-300 font-semibold mb-2">1-Click Remote Extension:</div>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="extendSession(15)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-700 hover:bg-slate-600 text-teal-300">+15m (AED 1)</button>
+              <button onclick="extendSession(30)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-700 hover:bg-slate-600 text-teal-300">+30m (AED 2)</button>
+              <button onclick="extendSession(60)" class="py-1.5 rounded-lg text-xs font-bold bg-slate-700 hover:bg-slate-600 text-teal-300">+1h (AED 4)</button>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="vacateBay()" class="w-full py-3 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white transition-all">
+          Vacate Bay & Release
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 3: YALLAPARK AI CONCIERGE -->
+    <div id="driverTabAi" class="hidden max-w-2xl mx-auto bg-slate-800 border border-slate-700 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[520px]">
+      <div class="p-4 bg-slate-850 border-b border-slate-700 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">🤖</div>
+          <div>
+            <h3 class="text-sm font-bold">YallaPark AI Concierge</h3>
+            <p class="text-[11px] text-teal-300">Connected to OpenRouter (openai/gpt-4o-mini)</p>
+          </div>
+        </div>
+        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Dubai Mobility Grounded</span>
+      </div>
+
+      <!-- Chat History -->
+      <div id="chatHistory" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs">
+        <div class="bg-slate-900 border border-slate-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200">
+          Marhaba! 🌟 I'm <strong>YallaPark AI</strong>. How can I help you find or reserve parking in Dubai today? You can ask about Women-Only Pink bays, People of Determination (POD) spaces, or delivery rider bays.
+        </div>
+      </div>
+
+      <!-- Quick prompts -->
+      <div class="p-2 bg-slate-850 border-t border-slate-700/80 flex gap-1.5 overflow-x-auto scrollbar-hide text-[11px]">
+        <button onclick="sendQuickAi('🌸 Find Pink Bays in Karama')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-pink-300 whitespace-nowrap">🌸 Pink Bays in Karama</button>
+        <button onclick="sendQuickAi('♿ POD Parking in Bur Dubai')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-blue-300 whitespace-nowrap">♿ POD in Bur Dubai</button>
+        <button onclick="sendQuickAi('🛵 Delivery Rider quick bays')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-300 whitespace-nowrap">🛵 Courier Quick Bays</button>
+      </div>
+
+      <!-- Chat Input -->
+      <div class="p-3 bg-slate-900 border-t border-slate-700 flex gap-2">
+        <input id="aiChatInput" type="text" placeholder="Ask about Dubai parking, tariffs, or POD access..." 
+          onkeydown="if(event.key==='Enter') sendAiMessage()"
+          class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-400" />
+        <button onclick="sendAiMessage()" class="px-4 py-2 bg-teal-500 hover:bg-teal-400 text-white rounded-xl text-xs font-bold">Send</button>
+      </div>
+    </div>
+
+    <!-- TAB 4: REWARDS & ECO MOBILITY -->
+    <div id="driverTabRewards" class="hidden max-w-2xl mx-auto space-y-4">
+      <div class="bg-gradient-to-r from-teal-900 via-slate-800 to-emerald-950 p-6 rounded-3xl border border-teal-500/40 shadow-xl space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-extrabold text-amber-300 uppercase tracking-wider">🌱 Green Commuter Level 2</span>
+          <span class="text-2xl font-black text-white">340 Points</span>
+        </div>
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <div class="bg-slate-900/60 p-3 rounded-xl border border-teal-700/30">
+            <div class="text-[11px] text-slate-400">CO₂ Prevented</div>
+            <div class="text-lg font-black text-emerald-400">4.8 kg CO₂</div>
+            <div class="text-[10px] text-slate-500">Zero circling loop</div>
+          </div>
+          <div class="bg-slate-900/60 p-3 rounded-xl border border-teal-700/30">
+            <div class="text-[11px] text-slate-400">Search Time Saved</div>
+            <div class="text-lg font-black text-teal-300">38 Minutes</div>
+            <div class="text-[10px] text-slate-500">Guaranteed bay hold</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Redeemable Dubai Merchant Perks</h4>
+        <div class="space-y-2">
+          <div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl flex justify-between items-center">
+            <div>
+              <div class="text-sm font-bold text-white">Arabica Specialty Coffee</div>
+              <div class="text-xs text-slate-400">Al Fahidi Heritage, Bur Dubai • 25% Off Hand Drip</div>
+              <div class="text-xs font-mono font-bold text-teal-400 mt-1">Code: BUR-ECO25</div>
+            </div>
+            <button class="px-3 py-1.5 bg-teal-500 text-white rounded-lg text-xs font-bold">120 Pts</button>
+          </div>
+          <div class="bg-slate-800 border border-slate-700 p-4 rounded-2xl flex justify-between items-center">
+            <div>
+              <div class="text-sm font-bold text-white">Karama Spice House</div>
+              <div class="text-xs text-slate-400">18B Street, Al Karama • AED 15 Grocery Cashback</div>
+              <div class="text-xs font-mono font-bold text-teal-400 mt-1">Code: KRM-SPICE15</div>
+            </div>
+            <button class="px-3 py-1.5 bg-teal-500 text-white rounded-lg text-xs font-bold">180 Pts</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= WAY 2 ADMIN CONSOLE VIEW ================= -->
+  <main id="adminView" class="hidden flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 space-y-6">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4 transition-colors">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs uppercase font-extrabold text-amber-500 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">WAY 2</span>
+          <h2 class="text-xl font-black text-slate-900 dark:text-white">Government & Facility Operator Console</h2>
+        </div>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Add/remove parking spaces, configure POD & pink bays, monitor telemetry & simulate IoT sensors.</p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Role switcher -->
+        <select id="adminRoleSelect" onchange="changeAdminRole()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-white px-3 py-2 rounded-xl font-semibold focus:outline-none shadow-sm transition-colors">
+          <option value="RTA">🏛️ RTA Public Authority (Dubai)</option>
+          <option value="MAWAQIF">🚨 Mawaqif Zone Enforcement</option>
+          <option value="COMMERCIAL">🏢 Commercial Garage Operator</option>
+        </select>
+        <button onclick="openAddLotModal()" class="px-3.5 py-2 bg-teal-500 hover:bg-teal-400 text-white rounded-xl text-xs font-bold shadow-lg flex items-center gap-1">
+          <span>+</span> Add Facility
+        </button>
+      </div>
+    </div>
+
+    <!-- Citywide KPI Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-3.5 rounded-2xl shadow-sm transition-colors">
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Registered Lots</div>
+        <div id="kpiTotalLots" class="text-2xl font-black text-slate-900 dark:text-white">6</div>
+        <div class="text-[10px] text-teal-600 dark:text-teal-400 font-semibold">Dubai Pilot Hubs</div>
+      </div>
+      <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-3.5 rounded-2xl shadow-sm transition-colors">
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Total Capacity</div>
+        <div id="kpiTotalCapacity" class="text-2xl font-black text-slate-900 dark:text-white">510</div>
+        <div class="text-[10px] text-slate-400 dark:text-slate-500">Regulated Bays</div>
+      </div>
+      <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-3.5 rounded-2xl shadow-sm transition-colors">
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Active Occupancy</div>
+        <div id="kpiOccupancyPct" class="text-2xl font-black text-amber-500 dark:text-amber-400">63%</div>
+        <div id="kpiInUseBays" class="text-[10px] text-slate-500 dark:text-slate-400">321 In Use</div>
+      </div>
+      <div class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-3.5 rounded-2xl shadow-sm transition-colors">
+        <div class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">IoT Sensor Status</div>
+        <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400">100%</div>
+        <div class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">Gate Telemetry Active</div>
+      </div>
+    </div>
+
+    <!-- Facility Registry Table / Management -->
+    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-xl transition-colors duration-200">
+      <div class="p-4 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center transition-colors duration-200">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Managed Facilities &amp; Live Tele-Control</h3>
+        <span class="text-xs text-teal-600 dark:text-teal-400 font-semibold">Click 'Configure Bays' to toggle sensor states</span>
+      </div>
+
+      <div class="divide-y divide-slate-200 dark:divide-slate-700" id="adminLotsList">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= MODAL: LOT DETAIL & PREDICTION ================= -->
+  <div id="lotDetailModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-5 shadow-2xl transition-colors">
+      <div class="flex justify-between items-start">
+        <div>
+          <span id="modalLotZone" class="text-[10px] uppercase font-bold text-teal-600 dark:text-teal-400">Bur Dubai</span>
+          <h2 id="modalLotName" class="text-xl font-black text-slate-900 dark:text-white">Al Fahidi Heritage Lot</h2>
+          <p id="modalLotAddress" class="text-xs text-slate-500 dark:text-slate-400">Al Fahidi St, Bur Dubai</p>
+        </div>
+        <button onclick="closeModal('lotDetailModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-xl">✕</button>
+      </div>
+
+      <!-- Predictive Arrival Time Slider -->
+      <div class="bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-600/40 rounded-2xl p-4 space-y-3 transition-colors">
+        <div class="flex justify-between items-center">
+          <div>
+            <div class="text-[10px] uppercase font-black text-teal-700 dark:text-teal-300">PREDICTIVE ARRIVAL MODEL (SLOT DECAY)</div>
+            <div class="text-xs font-semibold text-slate-800 dark:text-white">Arrival in: <span id="etaValueLabel" class="text-amber-600 dark:text-amber-400 font-bold">20</span> mins</div>
+          </div>
+          <div id="predictionBadge" class="px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40">
+            85% Open
+          </div>
+        </div>
+
+        <input type="range" min="5" max="60" value="20" step="5" id="etaSlider" oninput="updateEtaPrediction(this.value)"
+          class="w-full accent-teal-500 cursor-pointer" />
+
+        <div id="predictionRecommendation" class="text-[11px] text-teal-800 dark:text-teal-200 bg-teal-100/60 dark:bg-teal-900/40 p-2.5 rounded-xl border border-teal-300/50 dark:border-teal-700/50 flex items-center gap-2">
+          💡 <span>High availability expected at your arrival time. Pre-booking guaranteed.</span>
+        </div>
+      </div>
+
+      <!-- Bay Matrix Grid -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center text-xs">
+          <span class="font-bold text-slate-700 dark:text-slate-300 uppercase">SELECT A PARKING BAY</span>
+          <span class="text-slate-500 dark:text-slate-400 text-[11px]">Click available bay to select</span>
+        </div>
+
+        <div id="modalBayGrid" class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Pre-Book Action -->
+      <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+        <div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">Selected: <span id="selectedBayLabel" class="font-bold text-slate-900 dark:text-white">None</span></div>
+          <div class="text-sm font-black text-teal-600 dark:text-teal-400">AED <span id="modalLotRate">4</span>/hr • 15m Hold</div>
+        </div>
+        <button id="btnProceedBooking" onclick="openBookingModal()" disabled class="px-5 py-2.5 rounded-xl text-xs font-bold bg-teal-500 hover:bg-teal-400 disabled:opacity-50 disabled:pointer-events-none text-white shadow-lg">
+          Pre-Book Bay
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: BOOKING & CHECKOUT ================= -->
+  <div id="bookingModal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl transition-colors">
+      <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Confirm Pre-Booking</h3>
+        <button onclick="closeModal('bookingModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">✕</button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Vehicle License Plate (Dubai Format)</label>
+          <input id="bookingPlateInput" type="text" value="DXB A 48291" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white font-mono uppercase font-bold focus:outline-none focus:border-teal-400 transition-colors" />
+          <p class="text-[10px] text-slate-500 mt-1">Barrier gates automatically lift via ANPR cameras upon arrival.</p>
+        </div>
+
+        <div>
+          <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Duration</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button onclick="setBookingDuration(30)" class="duration-btn py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold transition-colors" data-dur="30">30m</button>
+            <button onclick="setBookingDuration(60)" class="duration-btn active py-2 rounded-lg border border-teal-500 bg-teal-500/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 font-bold transition-colors" data-dur="60">1h</button>
+            <button onclick="setBookingDuration(120)" class="duration-btn py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold transition-colors" data-dur="120">2h</button>
+            <button onclick="setBookingDuration(180)" class="duration-btn py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold transition-colors" data-dur="180">3h</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Payment Method</label>
+          <div class="space-y-1.5">
+            <label class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer text-slate-800 dark:text-slate-200 transition-colors">
+              <span class="flex items-center gap-2">💳 <span>Dubai RTA NOL Card</span></span>
+              <input type="radio" name="payMethod" value="NOL" checked class="accent-teal-500" />
+            </label>
+            <label class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer text-slate-800 dark:text-slate-200 transition-colors">
+              <span class="flex items-center gap-2">🍎 <span>Apple Pay</span></span>
+              <input type="radio" name="payMethod" value="APPLE" class="accent-teal-500" />
+            </label>
+            <label class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer text-slate-800 dark:text-slate-200 transition-colors">
+              <span class="flex items-center gap-2">🟢 <span>Google Pay</span></span>
+              <input type="radio" name="payMethod" value="GOOGLE" class="accent-teal-500" />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-500/30 p-3 rounded-xl text-[11px] text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
+        🛡️ <span>15-minute guaranteed hold lock starts immediately upon payment.</span>
+      </div>
+
+      <div class="flex justify-between items-center pt-2">
+        <div>
+          <div class="text-[10px] text-slate-500 dark:text-slate-400">Total Due</div>
+          <div class="text-base font-black text-slate-900 dark:text-white">AED <span id="bookingTotalCost">4.00</span></div>
+        </div>
+        <button onclick="confirmBooking()" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-teal-500 hover:bg-teal-400 text-white shadow-lg">
+          Confirm & Pay
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: ADD FACILITY (WAY 2) ================= -->
+  <div id="addLotModal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl transition-colors">
+      <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Register Facility (Way 2)</h3>
+        <button onclick="closeModal('addLotModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Facility Name</label>
+          <input id="newLotName" type="text" value="Al Sabkha Smart Commercial Lot" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-teal-400 transition-colors" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Dubai Zone</label>
+            <select id="newLotZone" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white focus:outline-none transition-colors">
+              <option value="BUR_DUBAI">Bur Dubai</option>
+              <option value="KARAMA">Al Karama</option>
+              <option value="DEIRA" selected>Deira</option>
+              <option value="DOWNTOWN">Downtown</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Hourly Tariff (AED)</label>
+            <input id="newLotRate" type="number" value="4.0" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white transition-colors" />
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Total Bays</label>
+            <input id="newLotCapacity" type="number" value="50" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white transition-colors" />
+          </div>
+          <div>
+            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">♿ POD Bays</label>
+            <input id="newLotPod" type="number" value="4" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white transition-colors" />
+          </div>
+          <div>
+            <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">🌸 Pink Bays</label>
+            <input id="newLotPink" type="number" value="6" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white transition-colors" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-slate-600 dark:text-slate-400 font-semibold mb-1">Street Address</label>
+          <input id="newLotAddress" type="text" value="Al Sabkha Bus Station Rd, Deira" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-slate-900 dark:text-white transition-colors" />
+        </div>
+      </div>
+
+      <button onclick="submitNewLot()" class="w-full py-3 rounded-xl text-xs font-bold bg-teal-500 hover:bg-teal-400 text-white shadow-lg">
+        Deploy Facility to YallaPark
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ================= STATE & DATA =================
+    const PILOT_LOTS = [
+      {
+        id: "LOT_BUR_01",
+        name: "Al Fahidi Heritage Public Parking",
+        zone: "BUR_DUBAI",
+        zoneName: "Bur Dubai",
+        address: "Al Fahidi St, Near Dubai Museum",
+        capacity: 60,
+        available: 22,
+        rate: 4.0,
+        operator: "RTA Dubai Public Parking",
+        isRta: true,
+        lat: 25.2605,
+        lon: 55.2985,
+        bays: generateBays("BF", 60, 4, 6, 8, 4)
+      },
+      {
+        id: "LOT_KAR_01",
+        name: "Karama Commercial Center Parking",
+        zone: "KARAMA",
+        zoneName: "Al Karama",
+        address: "18B Street, Karama Commercial District",
+        capacity: 85,
+        available: 18,
+        rate: 4.0,
+        operator: "RTA Zone B Parking",
+        isRta: true,
+        lat: 25.2428,
+        lon: 55.3025,
+        bays: generateBays("KC", 85, 5, 8, 12, 6)
+      },
+      {
+        id: "LOT_DEI_01",
+        name: "Deira Old Souq Automated Garage",
+        zone: "DEIRA",
+        zoneName: "Deira",
+        address: "Baniyas Rd, Near Gold Souq Metro",
+        capacity: 120,
+        available: 45,
+        rate: 5.0,
+        operator: "RTA Multi-Storey Parking",
+        isRta: true,
+        lat: 25.2690,
+        lon: 55.3120,
+        bays: generateBays("DS", 120, 8, 12, 16, 10)
+      },
+      {
+        id: "LOT_DOW_01",
+        name: "Downtown Boulevard Smart Garage",
+        zone: "DOWNTOWN",
+        zoneName: "Downtown Dubai",
+        address: "Sheikh Mohammed bin Rashid Blvd",
+        capacity: 150,
+        available: 62,
+        rate: 10.0,
+        operator: "Emaar Mobility / Mawaqif",
+        isRta: false,
+        lat: 25.1965,
+        lon: 55.2755,
+        bays: generateBays("DT", 150, 10, 15, 20, 25)
+      },
+      {
+        id: "LOT_KAR_02",
+        name: "Karama Central Post Office Lot",
+        zone: "KARAMA",
+        zoneName: "Al Karama",
+        address: "Za'abeel St, Near Karama Post Office",
+        capacity: 45,
+        available: 7,
+        rate: 4.0,
+        operator: "RTA Zone A Parking",
+        isRta: true,
+        lat: 25.2460,
+        lon: 55.3080,
+        bays: generateBays("KP", 45, 3, 4, 6, 2)
+      },
+      {
+        id: "LOT_BUR_02",
+        name: "Meena Bazaar Express Parking",
+        zone: "BUR_DUBAI",
+        zoneName: "Bur Dubai",
+        address: "Al Souq Al Kabeer, Meena Bazaar",
+        capacity: 50,
+        available: 4,
+        rate: 4.0,
+        operator: "RTA Zone A Parking",
+        isRta: true,
+        lat: 25.2580,
+        lon: 55.2940,
+        bays: generateBays("MB", 50, 3, 5, 10, 2)
+      }
+    ];
+
+    function generateBays(prefix, total, pod, pink, delivery, ev) {
+      const bays = [];
+      let idx = 1;
+      for (let i = 0; i < pod; i++) {
+        bays.push({ id: `${prefix}_POD_${idx}`, num: `${prefix}-P${idx}`, type: 'POD', status: i % 2 === 0 ? 'AVAILABLE' : 'OCCUPIED' });
+        idx++;
+      }
+      for (let i = 0; i < pink; i++) {
+        bays.push({ id: `${prefix}_WPN_${idx}`, num: `${prefix}-W${idx}`, type: 'PINK', status: i % 3 === 0 ? 'OCCUPIED' : 'AVAILABLE' });
+        idx++;
+      }
+      for (let i = 0; i < delivery; i++) {
+        bays.push({ id: `${prefix}_DEL_${idx}`, num: `${prefix}-D${idx}`, type: 'DELIVERY', status: i % 2 === 1 ? 'AVAILABLE' : 'OCCUPIED' });
+        idx++;
+      }
+      for (let i = 0; i < ev; i++) {
+        bays.push({ id: `${prefix}_EV_${idx}`, num: `${prefix}-E${idx}`, type: 'EV', status: i % 2 === 0 ? 'AVAILABLE' : 'OCCUPIED' });
+        idx++;
+      }
+      const remain = total - bays.length;
+      for (let i = 0; i < remain; i++) {
+        bays.push({ id: `${prefix}_STD_${idx}`, num: `${prefix}-S${idx}`, type: 'STANDARD', status: (i % 3 === 0 || i % 5 === 0) ? 'OCCUPIED' : 'AVAILABLE' });
+        idx++;
+      }
+      return bays;
+    }
+
+    let lots = [...PILOT_LOTS];
+    let selectedZone = null;
+    let selectedCategory = 'ALL';
+    let currentLot = null;
+    let selectedBay = null;
+    let bookingDuration = 60;
+    let activeReservation = null;
+
+    let currentUser = null;
+
+    // ================= INITIALIZATION =================
+    window.addEventListener('DOMContentLoaded', () => {
+      renderLots();
+      initMap();
+      renderAdminList();
+      updateKpis();
+      switchMainMode('home');
+    });
+
+    // ================= MODE & ROUTING SWITCHING =================
+    function switchMainMode(mode) {
+      const views = ['homeView', 'loginView', 'driverView', 'adminView'];
+      views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+
+      const btnHome = document.getElementById('btnNavHome');
+      const btnDriver = document.getElementById('btnModeDriver');
+      const btnAdmin = document.getElementById('btnModeAdmin');
+
+      if (btnHome) btnHome.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-teal-200 hover:text-white hover:bg-teal-800/50 flex items-center gap-1';
+      if (btnDriver) btnDriver.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all text-teal-200 hover:text-white';
+      if (btnAdmin) btnAdmin.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all text-teal-200 hover:text-white';
+
+      if (mode === 'home') {
+        const hView = document.getElementById('homeView');
+        if (hView) hView.classList.remove('hidden');
+        if (btnHome) btnHome.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-teal-800/70 text-white flex items-center gap-1 shadow';
+      } else if (mode === 'login') {
+        const lView = document.getElementById('loginView');
+        if (lView) lView.classList.remove('hidden');
+      } else if (mode === 'driver') {
+        const dView = document.getElementById('driverView');
+        if (dView) dView.classList.remove('hidden');
+        if (btnDriver) btnDriver.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-white text-teal-950 shadow';
+        renderLots();
+        drawMap();
+      } else if (mode === 'admin') {
+        const aView = document.getElementById('adminView');
+        if (aView) aView.classList.remove('hidden');
+        if (btnAdmin) btnAdmin.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-white text-teal-950 shadow';
+        renderAdminList();
+        updateKpis();
+      }
+    }
+
+    // ================= AUTH & LOGIN HANDLERS =================
+    function openLogin(tab = 'driver') {
+      switchMainMode('login');
+      setLoginTab(tab);
+    }
+
+    function setLoginTab(tab) {
+      const tabDriver = document.getElementById('loginTabDriver');
+      const tabProvider = document.getElementById('loginTabProvider');
+      const formDriver = document.getElementById('loginFormDriver');
+      const formProvider = document.getElementById('loginFormProvider');
+
+      if (!tabDriver || !tabProvider || !formDriver || !formProvider) return;
+
+      if (tab === 'driver') {
+        tabDriver.className = 'py-2.5 rounded-xl text-xs font-bold transition-all bg-teal-500 text-white shadow flex items-center justify-center gap-1.5';
+        tabProvider.className = 'py-2.5 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+        formDriver.classList.remove('hidden');
+        formProvider.classList.add('hidden');
+      } else {
+        tabProvider.className = 'py-2.5 rounded-xl text-xs font-bold transition-all bg-amber-600 text-white shadow flex items-center justify-center gap-1.5';
+        tabDriver.className = 'py-2.5 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+        formProvider.classList.remove('hidden');
+        formDriver.classList.add('hidden');
+      }
+    }
+
+    function setSessionUser(user) {
+      currentUser = user;
+      const btnLogin = document.getElementById('btnNavLogin');
+      const chip = document.getElementById('userProfileChip');
+      const avatarText = document.getElementById('userAvatarText');
+
+      if (user) {
+        if (btnLogin) btnLogin.classList.add('hidden');
+        if (chip) chip.classList.remove('hidden');
+        if (avatarText) {
+          if (user.type === 'driver') {
+            avatarText.innerHTML = `🚗 <span class="font-bold">${user.name}</span> <span class="text-teal-300 text-[10px]">(${user.plate})</span>`;
+          } else {
+            avatarText.innerHTML = `🏛️ <span class="font-bold">${user.name}</span> <span class="text-amber-300 text-[10px]">(${user.role})</span>`;
+          }
+        }
+      } else {
+        if (btnLogin) btnLogin.classList.remove('hidden');
+        if (chip) chip.classList.add('hidden');
+      }
+    }
+
+    function handleDriverLoginSubmit(e) {
+      if (e) e.preventDefault();
+      const name = document.getElementById('loginDriverName').value.trim() || 'Ahmed Al-Mansoor';
+      const plate = document.getElementById('loginDriverPlate').value.trim().toUpperCase() || 'DXB A 48291';
+      const phone = document.getElementById('loginDriverPhone').value.trim() || '+971 50 123 4567';
+
+      setSessionUser({ type: 'driver', name, plate, phone });
+      switchMainMode('driver');
+    }
+
+    function demoLoginDriver(name, plate, phone) {
+      document.getElementById('loginDriverName').value = name;
+      document.getElementById('loginDriverPlate').value = plate;
+      document.getElementById('loginDriverPhone').value = phone;
+      setSessionUser({ type: 'driver', name, plate, phone });
+      switchMainMode('driver');
+    }
+
+    function handleProviderLoginSubmit(e) {
+      if (e) e.preventDefault();
+      const name = document.getElementById('loginProviderName').value.trim() || 'Eng. Fatima Al-Hashimi';
+      const org = document.getElementById('loginProviderOrg').value.trim() || 'Roads and Transport Authority (RTA)';
+      const govId = document.getElementById('loginProviderGovId').value.trim() || 'RTA-GOV-9824';
+      const role = document.getElementById('loginProviderRole').value || 'RTA Public Authority';
+
+      setSessionUser({ type: 'provider', name, org, govId, role });
+      switchMainMode('admin');
+    }
+
+    function demoLoginProvider(name, org, govId, role) {
+      document.getElementById('loginProviderName').value = name;
+      document.getElementById('loginProviderOrg').value = org;
+      document.getElementById('loginProviderGovId').value = govId;
+      document.getElementById('loginProviderRole').value = role;
+      setSessionUser({ type: 'provider', name, org, govId, role });
+      switchMainMode('admin');
+    }
+
+    function logout() {
+      setSessionUser(null);
+      switchMainMode('home');
+    }
+
+    function setDriverTab(tab) {
+      ['driverTabExplore', 'driverTabPass', 'driverTabAi', 'driverTabRewards'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      ['tabMap', 'tabPass', 'tabAi', 'tabRewards'].forEach(id => {
+        document.getElementById(id).className = 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1.5';
+      });
+
+      if (tab === 'map') {
+        document.getElementById('driverTabExplore').classList.remove('hidden');
+        document.getElementById('tabMap').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5';
+        drawMap();
+      } else if (tab === 'pass') {
+        document.getElementById('driverTabPass').classList.remove('hidden');
+        document.getElementById('tabPass').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5';
+        renderActivePass();
+      } else if (tab === 'ai') {
+        document.getElementById('driverTabAi').classList.remove('hidden');
+        document.getElementById('tabAi').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5';
+      } else if (tab === 'rewards') {
+        document.getElementById('driverTabRewards').classList.remove('hidden');
+        document.getElementById('tabRewards').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white shadow-sm flex items-center gap-1.5';
+      }
+    }
+
+    // ================= FILTERING & LOT CARDS =================
+    function selectZone(zone) {
+      selectedZone = zone;
+      document.querySelectorAll('.zone-btn').forEach(btn => {
+        if ((zone === null && btn.dataset.zone === 'all') || btn.dataset.zone === zone) {
+          btn.className = 'zone-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-teal-500 text-white';
+        } else {
+          btn.className = 'zone-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600';
+        }
+      });
+      renderLots();
+      drawMap();
+    }
+
+    function selectCategory(cat) {
+      selectedCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        if (btn.dataset.cat === cat) {
+          btn.className = 'cat-btn active px-2.5 py-1 rounded-md text-xs font-bold bg-teal-500/20 text-teal-300 border border-teal-500/40';
+        } else {
+          btn.className = 'cat-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-700/60 text-slate-300 border border-slate-700 hover:bg-slate-700';
+        }
+      });
+      renderLots();
+    }
+
+    function filterLots() {
+      renderLots();
+      drawMap();
+    }
+
+    function getFilteredLots() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      return lots.filter(lot => {
+        const matchesZone = !selectedZone || lot.zone === selectedZone;
+        const matchesQuery = !q || lot.name.toLowerCase().includes(q) || lot.address.toLowerCase().includes(q) || lot.zoneName.toLowerCase().includes(q);
+        const matchesCat = selectedCategory === 'ALL' || lot.bays.some(b => b.type === selectedCategory && b.status === 'AVAILABLE');
+        return matchesZone && matchesQuery && matchesCat;
+      });
+    }
+
+    function renderLots() {
+      const filtered = getFilteredLots();
+      document.getElementById('lotsCountLabel').innerText = `PARKING FACILITIES IN DUBAI (${filtered.length})`;
+      const grid = document.getElementById('lotsListGrid');
+      grid.innerHTML = '';
+
+      filtered.forEach(lot => {
+        const occRatio = (lot.capacity - lot.available) / lot.capacity;
+        const occPct = Math.round(occRatio * 100);
+        let barColor = 'bg-emerald-500';
+        let statusBadge = `<span class="text-emerald-400">Spacious (${lot.available} open)</span>`;
+        if (occPct >= 85) {
+          barColor = 'bg-rose-500';
+          statusBadge = `<span class="text-rose-400">Busy (${lot.available} open)</span>`;
+        } else if (occPct >= 50) {
+          barColor = 'bg-amber-500';
+          statusBadge = `<span class="text-amber-400">Moderate (${lot.available} open)</span>`;
+        }
+
+        const podAvail = lot.bays.filter(b => b.type === 'POD' && b.status === 'AVAILABLE').length;
+        const pinkAvail = lot.bays.filter(b => b.type === 'PINK' && b.status === 'AVAILABLE').length;
+        const delAvail = lot.bays.filter(b => b.type === 'DELIVERY' && b.status === 'AVAILABLE').length;
+
+        const card = document.createElement('div');
+        card.className = 'bg-slate-800 hover:border-teal-500 border border-slate-700 p-4 rounded-2xl cursor-pointer transition-all shadow-md space-y-3';
+        card.onclick = () => openLotDetail(lot.id);
+        card.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="text-[11px] font-bold text-teal-400 uppercase tracking-wide">${lot.zoneName}</div>
+              <h3 class="text-base font-bold text-white">${lot.name}</h3>
+              <p class="text-xs text-slate-400">${lot.address}</p>
+            </div>
+            <div class="text-right">
+              <div class="text-base font-black text-white">AED ${lot.rate.toFixed(0)}/h</div>
+              <div class="text-[10px] text-teal-300 font-semibold">${lot.isRta ? 'RTA Zone' : 'Commercial'}</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">${lot.capacity - lot.available}/${lot.capacity} Occupied</span>
+              ${statusBadge}
+            </div>
+            <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+              <div class="${barColor} h-full rounded-full" style="width: ${occPct}%"></div>
+            </div>
+          </div>
+
+          <div class="flex gap-1.5 flex-wrap pt-1 text-[10px] font-semibold">
+            ${podAvail > 0 ? `<span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-0.5 rounded">♿ ${podAvail} POD</span>` : ''}
+            ${pinkAvail > 0 ? `<span class="bg-pink-500/20 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded">🌸 ${pinkAvail} Pink</span>` : ''}
+            ${delAvail > 0 ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded">🛵 ${delAvail} Quick</span>` : ''}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // ================= MAP MODE SWITCHER (OPENLAYERS vs CANVAS) =================
+    let currentMapMode = 'openlayers';
+    function switchMapMode(mode) {
+      currentMapMode = mode;
+      const olContainer = document.getElementById('openlayersMapContainer');
+      const canvasContainer = document.getElementById('canvasMapContainer');
+      const btnOL = document.getElementById('btnMapModeOL');
+      const btnCanvas = document.getElementById('btnMapModeCanvas');
+
+      if (mode === 'openlayers') {
+        if (olContainer) olContainer.classList.remove('hidden');
+        if (canvasContainer) canvasContainer.classList.add('hidden');
+        if (btnOL) btnOL.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-500 text-white shadow-sm transition';
+        if (btnCanvas) btnCanvas.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-slate-200 transition';
+      } else {
+        if (olContainer) olContainer.classList.add('hidden');
+        if (canvasContainer) canvasContainer.classList.remove('hidden');
+        if (btnCanvas) btnCanvas.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-500 text-white shadow-sm transition';
+        if (btnOL) btnOL.className = 'px-2.5 py-1 rounded-md text-[11px] font-medium text-slate-400 hover:text-slate-200 transition';
+        resizeCanvas();
+        drawMap();
+      }
+    }
+
+    // ================= VECTOR CANVAS MAP =================
+    let canvas, ctx;
+    function initMap() {
+      canvas = document.getElementById('dubaiMapCanvas');
+      ctx = canvas.getContext('2d');
+      resizeCanvas();
+      window.addEventListener('resize', () => { resizeCanvas(); drawMap(); });
+
+      canvas.addEventListener('click', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Check lots
+        const filtered = getFilteredLots();
+        for (const lot of filtered) {
+          const pt = project(lot.lat, lot.lon, canvas.width, canvas.height);
+          const d = Math.hypot(x - pt.x, y - pt.y);
+          if (d <= 14) {
+            openLotDetail(lot.id);
+            return;
+          }
+        }
+      });
+    }
+
+    function resizeCanvas() {
+      if (!canvas) return;
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+
+    function project(lat, lon, w, h) {
+      const minLat = 25.1850, maxLat = 25.2800;
+      const minLon = 55.2600, maxLon = 55.3350;
+      const x = ((lon - minLon) / (maxLon - minLon)) * w;
+      const y = (1.0 - (lat - minLat) / (maxLat - minLat)) * h;
+      return { x: Math.max(20, Math.min(w - 20, x)), y: Math.max(20, Math.min(h - 20, y)) };
+    }
+
+    function drawMap() {
+      if (!ctx || !canvas) return;
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background grid
+      ctx.strokeStyle = '#1d2b3a';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+      for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+      // Stylized Dubai Creek (Waterway)
+      ctx.beginPath();
+      ctx.moveTo(w * 0.95, h * 0.15);
+      ctx.bezierCurveTo(w * 0.65, h * 0.35, w * 0.50, h * 0.38, w * 0.45, h * 0.48);
+      ctx.bezierCurveTo(w * 0.40, h * 0.55, w * 0.30, h * 0.70, w * 0.15, h * 0.95);
+      ctx.lineWidth = 26;
+      ctx.strokeStyle = '#1e3246';
+      ctx.stroke();
+
+      ctx.lineWidth = 14;
+      ctx.strokeStyle = '#0f4c6e';
+      ctx.stroke();
+
+      // Zone Labels
+      ctx.font = 'bold 11px Plus Jakarta Sans';
+      ctx.fillStyle = '#64748b';
+      const zones = [
+        { name: 'DEIRA', lat: 25.2680, lon: 55.3180 },
+        { name: 'BUR DUBAI', lat: 25.2530, lon: 55.2970 },
+        { name: 'AL KARAMA', lat: 25.2425, lon: 55.3050 },
+        { name: 'DOWNTOWN', lat: 25.1972, lon: 55.2744 }
+      ];
+      zones.forEach(z => {
+        const pt = project(z.lat, z.lon, w, h);
+        ctx.fillText(z.name, pt.x - 20, pt.y - 14);
+      });
+
+      // Parking Lot Pins
+      const filtered = getFilteredLots();
+      filtered.forEach(lot => {
+        const pt = project(lot.lat, lot.lon, w, h);
+        const occPct = Math.round(((lot.capacity - lot.available) / lot.capacity) * 100);
+        let color = '#10b981'; // green
+        if (occPct >= 85) color = '#f43f5e';
+        else if (occPct >= 50) color = '#f59e0b';
+
+        // Halo
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 11, 0, Math.PI * 2);
+        ctx.fillStyle = color + '44';
+        ctx.fill();
+
+        // Pin core
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+
+        // Pin label
+        ctx.font = '10px Plus Jakarta Sans';
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillText(lot.name.split(' ')[0], pt.x + 10, pt.y + 3);
+      });
+    }
+
+    // ================= LOT DETAIL & PREDICTIVE SLIDER =================
+    function openLotDetail(lotId) {
+      currentLot = lots.find(l => l.id === lotId);
+      if (!currentLot) return;
+      selectedBay = null;
+
+      document.getElementById('modalLotName').innerText = currentLot.name;
+      document.getElementById('modalLotZone').innerText = currentLot.zoneName;
+      document.getElementById('modalLotAddress').innerText = currentLot.address;
+      document.getElementById('modalLotRate').innerText = currentLot.rate.toFixed(0);
+      document.getElementById('selectedBayLabel').innerText = 'None';
+      document.getElementById('btnProceedBooking').disabled = true;
+
+      updateEtaPrediction(20);
+      renderBayGrid();
+      document.getElementById('lotDetailModal').classList.remove('hidden');
+    }
+
+    function updateEtaPrediction(eta) {
+      document.getElementById('etaValueLabel').innerText = eta;
+      if (!currentLot) return;
+
+      // Exponential slot decay model
+      const decayFactor = currentLot.zone === 'KARAMA' ? 0.035 : (currentLot.zone === 'BUR_DUBAI' ? 0.032 : 0.026);
+      const projectedOpen = currentLot.available * Math.exp(-decayFactor * (eta / 10));
+      const prob = Math.min(98, Math.max(8, Math.round((projectedOpen / (currentLot.capacity * 0.25)) * 100)));
+
+      const badge = document.getElementById('predictionBadge');
+      const rec = document.getElementById('predictionRecommendation');
+
+      badge.innerText = `${prob}% Open`;
+      if (prob >= 70) {
+        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        rec.innerHTML = `💡 <span>Optimal availability expected upon arrival at ${currentLot.zoneName}.</span>`;
+      } else if (prob >= 40) {
+        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/40';
+        rec.innerHTML = `⚠️ <span>Moderate turnover. Lock your bay now to guarantee parking upon arrival.</span>`;
+      } else {
+        badge.className = 'px-2.5 py-1 rounded-lg text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/40';
+        rec.innerHTML = `🚨 <span>Critical parking density expected. Pre-booking strongly advised.</span>`;
+      }
+    }
+
+    function renderBayGrid() {
+      const grid = document.getElementById('modalBayGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      currentLot.bays.forEach(bay => {
+        const isAvail = bay.status === 'AVAILABLE';
+        const isSelected = selectedBay && selectedBay.id === bay.id;
+
+        let typeEmoji = '🅿️', borderClass = 'border-slate-200 dark:border-slate-700', bgClass = 'bg-slate-50 dark:bg-slate-800';
+        if (bay.type === 'POD') { typeEmoji = '♿'; borderClass = 'border-blue-400 dark:border-blue-500/50'; }
+        else if (bay.type === 'PINK') { typeEmoji = '🌸'; borderClass = 'border-pink-400 dark:border-pink-500/50'; }
+        else if (bay.type === 'DELIVERY') { typeEmoji = '🛵'; borderClass = 'border-amber-400 dark:border-amber-500/50'; }
+        else if (bay.type === 'EV') { typeEmoji = '⚡'; borderClass = 'border-emerald-400 dark:border-emerald-500/50'; }
+
+        if (!isAvail) { bgClass = 'bg-slate-100 dark:bg-slate-900 opacity-40 cursor-not-allowed'; }
+        if (isSelected) { bgClass = 'bg-teal-500/20 dark:bg-teal-500/30 ring-2 ring-teal-500'; }
+
+        const btn = document.createElement('div');
+        btn.className = `p-2 rounded-xl border ${borderClass} ${bgClass} text-center transition-all ${isAvail ? 'cursor-pointer hover:scale-105' : ''}`;
+        btn.innerHTML = `
+          <div class="flex justify-between items-center text-[10px]">
+            <span>${typeEmoji}</span>
+            <span class="w-1.5 h-1.5 rounded-full ${isAvail ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
+          </div>
+          <div class="font-bold text-xs mt-1 text-slate-900 dark:text-white">${bay.num}</div>
+          <div class="text-[9px] text-slate-500 dark:text-slate-400 uppercase font-semibold">${isAvail ? bay.type : 'BUSY'}</div>
+        `;
+
+        if (isAvail) {
+          btn.onclick = () => {
+            selectedBay = bay;
+            document.getElementById('selectedBayLabel').innerText = `${bay.num} (${bay.type})`;
+            document.getElementById('btnProceedBooking').disabled = false;
+            renderBayGrid();
+          };
+        }
+        grid.appendChild(btn);
+      });
+    }
+
+    // ================= BOOKING & ACTIVE PASS =================
+    function openBookingModal() {
+      if (!selectedBay || !currentLot) return;
+      closeModal('lotDetailModal');
+      document.getElementById('bookingModal').classList.remove('hidden');
+      updateBookingCost();
+    }
+
+    function setBookingDuration(dur) {
+      bookingDuration = dur;
+      document.querySelectorAll('.duration-btn').forEach(b => {
+        if (parseInt(b.dataset.dur) === dur) {
+          b.className = 'duration-btn active py-2 rounded-lg border border-teal-500 bg-teal-500/20 text-teal-300 font-bold';
+        } else {
+          b.className = 'duration-btn py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 font-bold';
+        }
+      });
+      updateBookingCost();
+    }
+
+    function updateBookingCost() {
+      const cost = (bookingDuration / 60) * currentLot.rate;
+      document.getElementById('bookingTotalCost').innerText = cost.toFixed(2);
+    }
+
+    function confirmBooking() {
+      const plate = document.getElementById('bookingPlateInput').value;
+      selectedBay.status = 'RESERVED';
+      currentLot.available = Math.max(0, currentLot.available - 1);
+
+      activeReservation = {
+        lot: currentLot,
+        bay: selectedBay,
+        plate: plate,
+        duration: bookingDuration,
+        startTime: Date.now(),
+        endTime: Date.now() + bookingDuration * 60 * 1000,
+        qr: `YP-${selectedBay.num}-${plate.slice(-4)}`
+      };
+
+      closeModal('bookingModal');
+      setDriverTab('pass');
+      renderLots();
+      drawMap();
+    }
+
+    function renderActivePass() {
+      if (!activeReservation) {
+        document.getElementById('noPassNotice').classList.remove('hidden');
+        document.getElementById('activePassCard').classList.add('hidden');
+        document.getElementById('passBadge').classList.add('hidden');
+        return;
+      }
+
+      document.getElementById('noPassNotice').classList.add('hidden');
+      document.getElementById('activePassCard').classList.remove('hidden');
+      document.getElementById('passBadge').classList.remove('hidden');
+
+      document.getElementById('passLotName').innerText = activeReservation.lot.name;
+      document.getElementById('passZoneName').innerText = `${activeReservation.lot.zoneName} • Ground Floor`;
+      document.getElementById('passBayNumber').innerText = activeReservation.bay.num;
+      document.getElementById('passBayType').innerText = `${activeReservation.bay.type} Designated Bay`;
+      document.getElementById('passQrCode').innerText = activeReservation.qr;
+      document.getElementById('passPlate').innerText = activeReservation.plate;
+    }
+
+    function extendSession(mins) {
+      if (!activeReservation) return;
+      activeReservation.duration += mins;
+      activeReservation.endTime += mins * 60 * 1000;
+      alert(`Session extended by ${mins} minutes! Barrier hold refreshed.`);
+    }
+
+    function vacateBay() {
+      if (!activeReservation) return;
+      activeReservation.bay.status = 'AVAILABLE';
+      activeReservation.lot.available = Math.min(activeReservation.lot.capacity, activeReservation.lot.available + 1);
+      activeReservation = null;
+      renderActivePass();
+      renderLots();
+      drawMap();
+    }
+
+    // ================= WAY 2 ADMIN CONSOLE =================
+    function changeAdminRole() {
+      alert(`Switched authority view to: ${document.getElementById('adminRoleSelect').value}`);
+    }
+
+    function updateKpis() {
+      const totalCap = lots.reduce((acc, l) => acc + l.capacity, 0);
+      const totalAvail = lots.reduce((acc, l) => acc + l.available, 0);
+      const totalOcc = totalCap - totalAvail;
+      const occPct = totalCap > 0 ? Math.round((totalOcc / totalCap) * 100) : 0;
+
+      document.getElementById('kpiTotalLots').innerText = lots.length;
+      document.getElementById('kpiTotalCapacity').innerText = totalCap;
+      document.getElementById('kpiOccupancyPct').innerText = `${occPct}%`;
+      document.getElementById('kpiInUseBays').innerText = `${totalOcc} In Use`;
+    }
+
+    function renderAdminList() {
+      const list = document.getElementById('adminLotsList');
+      if (!list) return;
+      list.innerHTML = '';
+
+      lots.forEach(lot => {
+        const item = document.createElement('div');
+        item.className = 'p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all';
+        item.innerHTML = `
+          <div>
+            <div class="flex items-center gap-2">
+              <h4 class="text-sm font-bold text-slate-900 dark:text-white">${lot.name}</h4>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-teal-500/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-500/30 font-semibold">${lot.zoneName}</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">${lot.capacity} Total Bays • ${lot.available} Available • Rate: AED ${lot.rate}/h</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="openAdminBayConfig('${lot.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-teal-700 dark:text-teal-300 border border-slate-200 dark:border-slate-600 transition-colors">
+              ⚙️ Manage Bays &amp; Sensors
+            </button>
+            <button onclick="deleteLot('${lot.id}')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 dark:hover:bg-rose-500/30 border border-rose-200 dark:border-rose-500/30 transition-colors">
+              🗑️ Remove
+            </button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function openAdminBayConfig(lotId) {
+      openLotDetail(lotId);
+    }
+
+    function deleteLot(lotId) {
+      if (confirm('Decommission and remove this parking facility from YallaPark?')) {
+        lots = lots.filter(l => l.id !== lotId);
+        renderAdminList();
+        updateKpis();
+        renderLots();
+        drawMap();
+      }
+    }
+
+    function openAddLotModal() {
+      document.getElementById('addLotModal').classList.remove('hidden');
+    }
+
+    function submitNewLot() {
+      const name = document.getElementById('newLotName').value;
+      const zone = document.getElementById('newLotZone').value;
+      const cap = parseInt(document.getElementById('newLotCapacity').value) || 50;
+      const rate = parseFloat(document.getElementById('newLotRate').value) || 4.0;
+      const pod = parseInt(document.getElementById('newLotPod').value) || 3;
+      const pink = parseInt(document.getElementById('newLotPink').value) || 5;
+      const addr = document.getElementById('newLotAddress').value;
+
+      const zoneNames = { BUR_DUBAI: 'Bur Dubai', KARAMA: 'Al Karama', DEIRA: 'Deira', DOWNTOWN: 'Downtown Dubai' };
+      const newLot = {
+        id: `LOT_ADMIN_${Date.now()}`,
+        name: name,
+        zone: zone,
+        zoneName: zoneNames[zone] || zone,
+        address: addr,
+        capacity: cap,
+        available: cap,
+        rate: rate,
+        operator: 'RTA Municipal Telemetry',
+        isRta: true,
+        lat: 25.2650,
+        lon: 55.3100,
+        bays: generateBays("NB", cap, pod, pink, 6, 4)
+      };
+
+      lots.unshift(newLot);
+      closeModal('addLotModal');
+      renderAdminList();
+      updateKpis();
+      renderLots();
+      drawMap();
+      alert(`Facility "${name}" successfully deployed to YallaPark!`);
+    }
+
+    // ================= AI CONCIERGE (OPENROUTER) =================
+    async function sendAiMessage() {
+      const input = document.getElementById('aiChatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendChatMessage(text, true);
+      input.value = '';
+
+      // Call OpenRouter with key
+      try {
+        const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+
+            'HTTP-Referer': 'https://github.com/Nikhil-Mundhra/jetbrains-hackathon',
+            'X-Title': 'YallaPark'
+          },
+          body: JSON.stringify({
+            model: 'openai/gpt-4o-mini',
+            messages: [
+              {
+                role: 'system',
+                content: 'You are YallaPark AI, Dubai smart parking concierge. Bur Dubai, Karama, Deira, Downtown. Explain POD, pink bays, delivery bays concisely.'
+              },
+              { role: 'user', content: text }
+            ]
+          })
+        });
+
+        if (resp.ok) {
+          const data = await resp.json();
+          const reply = data.choices[0].message.content;
+          appendChatMessage(reply, false);
+        } else {
+          fallbackAiReply(text);
+        }
+      } catch (e) {
+        fallbackAiReply(text);
+      }
+    }
+
+    function sendQuickAi(q) {
+      document.getElementById('aiChatInput').value = q;
+      sendAiMessage();
+    }
+
+    function fallbackAiReply(query) {
+      const q = query.toLowerCase();
+      let reply = "Marhaba! Bur Dubai has 22 bays open (AED 4/h), and Karama has 18 bays open. Would you like to pre-book a space?";
+      if (q.includes('pink') || q.includes('women')) {
+        reply = "🌸 **Women-Only Pink Bays**: Located on ground floors near well-lit pedestrian exits with direct CCTV coverage in Karama Commercial Center and Al Fahidi. Use the 'Pink' filter on the map to view open bays!";
+      } else if (q.includes('pod') || q.includes('determination')) {
+        reply = "♿ **People of Determination (POD) Bays**: Blue-marked priority bays with wheelchair clearance and ramp access are active at all RTA facilities in Bur Dubai, Deira, and Downtown.";
+      } else if (q.includes('delivery')) {
+        reply = "🛵 **Delivery Rider Quick Bays**: YallaPark provides dedicated 15-20 min quick-drop spaces along Karama and Meena Bazaar to streamline food delivery drop-offs.";
+      }
+      appendChatMessage(reply, false);
+    }
+
+    function appendChatMessage(msg, isUser) {
+      const history = document.getElementById('chatHistory');
+      const bubble = document.createElement('div');
+      bubble.className = isUser
+        ? 'bg-teal-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[85%] ml-auto text-slate-100 font-medium'
+        : 'bg-slate-900 border border-slate-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-slate-200';
+      bubble.innerHTML = msg.replace(/\n/g, '<br/>');
+      history.appendChild(bubble);
+      history.scrollTop = history.scrollHeight;
+    }
+
+    // ================= HELPERS =================
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+  
+  // ================= HOMEPAGE INTERACTIVE HELPERS =================
+  const yallaInsights = [
+    "Based on your usual schedule, reserve parking at Dubai Mall by 6 PM Thursdays — availability drops 80% after 7 PM.",
+    "Demand spike detected at DIFC Gate Village: 5 spots remaining. Reserving now locks your 15-minute guaranteed slot.",
+    "City Walk parking will reach full capacity in ~45 minutes. Reserve a Mall of the Emirates bay instead — only 8 min further.",
+    "RTA Zone A in Al Karama has optimal turnover today: 31 open bays with standard AED 10/hr rate."
+  ];
+  let currentInsightIdx = 0;
+  function cycleYallaInsight() {
+    currentInsightIdx = (currentInsightIdx + 1) % yallaInsights.length;
+    const box = document.getElementById('yallaAiInsightBox');
+    if (box) box.textContent = yallaInsights[currentInsightIdx];
+  }
+
+  const yallaSpotsData = [
+    { name: "Dubai Mall P1", area: "Downtown Dubai", available: 45, total: 100, rate: "AED 20/hr", walk: "3 min walk" },
+    { name: "Marina Walk Promenade", area: "Dubai Marina", available: 23, total: 75, rate: "AED 15/hr", walk: "2 min walk" },
+    { name: "JBR The Walk Plaza", area: "Jumeirah Beach", available: 12, total: 50, rate: "AED 25/hr", walk: "1 min walk" },
+    { name: "Mall of the Emirates P2", area: "Al Barsha", available: 67, total: 150, rate: "AED 20/hr", walk: "4 min walk" },
+    { name: "DIFC Gate Village P3", area: "Financial Centre", available: 5, total: 40, rate: "AED 25/hr", walk: "2 min walk" },
+    { name: "Al Karama RTA Zone A", area: "Al Karama", available: 31, total: 80, rate: "AED 10/hr", walk: "5 min walk" }
+  ];
+
+  let isSatMode = false;
+  function toggleSatellitePreview() {
+    isSatMode = !isSatMode;
+    const btn = document.getElementById('btnSatToggle');
+    const badge = document.getElementById('mapBadgeMode');
+    const mapBox = document.getElementById('yallaMapBox');
+    if (btn) btn.textContent = isSatMode ? '🛰️ Satellite Mode' : '🗺️ Vector Mode';
+    if (badge) badge.textContent = isSatMode ? '🛰️ High-Resolution Satellite View • Center (25.2048° N, 55.2708° E)' : '🗺️ Dubai Vector Map • Center (25.2048° N, 55.2708° E)';
+    if (mapBox) {
+      if (isSatMode) {
+        mapBox.className = 'relative w-full h-72 rounded-[8px] bg-gradient-to-br from-[#0f2119] to-[#08150f] border border-emerald-700/60 overflow-hidden flex flex-col justify-between p-4';
+      } else {
+        mapBox.className = 'relative w-full h-72 rounded-[8px] bg-gradient-to-br from-[#0a1b2a] to-[#0d2a1d] border border-slate-700 overflow-hidden flex flex-col justify-between p-4';
+      }
+    }
+  }
+
+  function focusYallaSpot(idx) {
+    const spot = yallaSpotsData[idx] || yallaSpotsData[0];
+    const nameEl = document.getElementById('mapSpotName');
+    const detailEl = document.getElementById('mapSpotDetail');
+    if (nameEl) nameEl.textContent = spot.name;
+    if (detailEl) detailEl.textContent = `${spot.available} bays available • ${spot.rate} • ${spot.walk}`;
+  }
+
+  function searchYallaSpots(q) {
+    const container = document.getElementById('yallaSpotsContainer');
+    if (!container) return;
+    const filtered = yallaSpotsData.filter(s => s.name.toLowerCase().includes(q.toLowerCase()) || s.area.toLowerCase().includes(q.toLowerCase()));
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="col-span-3 p-4 text-center text-xs text-slate-400">No parking locations matching "' + q + '"</div>';
+      return;
+    }
+    container.innerHTML = filtered.map((spot, i) => `
+      <div onclick="focusYallaSpot(${yallaSpotsData.indexOf(spot)})" class="p-3.5 rounded-[8px] bg-slate-800/80 border border-slate-700 hover:border-[#4CAF50] cursor-pointer transition">
+        <div class="flex justify-between items-start">
+          <div class="text-sm font-bold text-white">${spot.name}</div>
+          <span class="text-xs font-bold ${spot.available > 20 ? 'text-[#81C784] bg-[#4CAF50]/15' : 'text-amber-300 bg-amber-500/15'} px-2 py-0.5 rounded-[8px]">${spot.available} spots</span>
+        </div>
+        <div class="flex justify-between items-center text-xs text-slate-400 mt-2">
+          <span>${spot.area}</span>
+          <span class="font-semibold text-[#90CAF9]">${spot.rate}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Dark / Light Mode Toggle Logic
+  function toggleTheme() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    if (document.body) {
+      document.body.classList.toggle('dark', isDark);
+    }
+    updateThemeUi(isDark);
+    try {
+      localStorage.setItem('yallapark_theme', isDark ? 'dark' : 'light');
+    } catch(e) {}
+  }
+
+  function updateThemeUi(isDark) {
+    const icon = document.getElementById('themeToggleIcon');
+    const text = document.getElementById('themeToggleText');
+    const floatIcon = document.getElementById('floatingThemeIcon');
+    const floatText = document.getElementById('floatingThemeText');
+
+    if (isDark) {
+      if (icon) icon.textContent = '☀️';
+      if (text) text.textContent = 'Light Mode';
+      if (floatIcon) floatIcon.textContent = '☀️';
+      if (floatText) floatText.textContent = 'Switch to Light Mode';
+    } else {
+      if (icon) icon.textContent = '🌙';
+      if (text) text.textContent = 'Dark Mode';
+      if (floatIcon) floatIcon.textContent = '🌙';
+      if (floatText) floatText.textContent = 'Switch to Dark Mode';
+    }
+  }
+
+  // Initialize theme from saved preference or OS preference
+  (function initTheme() {
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('yallapark_theme'); } catch(e) {}
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = (savedTheme === 'dark' || (!savedTheme && prefersDark));
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      if (document.body) document.body.classList.add('dark');
+      updateThemeUi(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      if (document.body) document.body.classList.remove('dark');
+      updateThemeUi(false);
+    }
+  })();
+
+</script>
+
+<!-- Floating Theme Switcher Pill (Unmissable in bottom corner) -->
+<div class="fixed bottom-5 right-5 z-50">
+  <button onclick="toggleTheme()" class="px-4 py-2.5 rounded-[8px] text-xs font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-2xl border border-slate-700 dark:border-slate-200 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all cursor-pointer" title="Toggle Light / Dark Theme">
+    <span id="floatingThemeIcon">🌙</span>
+    <span id="floatingThemeText">Switch to Dark Mode</span>
+  </button>
+</div>
+
+</body>
+</html>

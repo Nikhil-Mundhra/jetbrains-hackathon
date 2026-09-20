@@ -1,16 +1,14 @@
 package com.communityconnect
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.window.singleWindowApplication
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.communityconnect.presentation.viewmodel.MainViewModel
-import com.communityconnect.ui.theme.Theme
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+import com.yallapark.App
 
-fun main() = singleWindowApplication {
-    val mainViewModel: MainViewModel = viewModel()
-    MaterialTheme {
-        Theme {
-            App(mainViewModel = mainViewModel)
-        }
+fun main() = application {
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = "YallaPark — Smart Mobility & Predictive Parking Platform"
+    ) {
+        App()
     }
 }

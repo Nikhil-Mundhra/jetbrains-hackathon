@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.application)
 }
@@ -24,28 +25,26 @@ kotlin {
     val desktopTargets = listOf(jvm("desktop"))
     val wasmTargets = listOf(wasmJs("wasm"))
 
-    listOf(iosTargets, desktopTargets, wasmTargets).flatten().forEach { target ->
-        target.compilations["main"].defaultSourceSet {
-            dependencies {
-                implementation(project(":shared"))
-            }
-        }
-    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(project(":shared"))
-                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
                 implementation(libs.androidx.navigation.compose)
                 implementation(libs.decompose)
-                implementation(libs.mokoResourcesCompose)
+                implementation(libs.moko.resources.compose)
+            }
+            val test by getting {
+                implementation(androidx.compose.ui:ui-test)
+                implementation(androidx.compose.material3:material3-testing)
+                implementation(kotlin("test"))
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(libs.androidx.activityCompose)
-                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
             }
         }
         val desktopMain by getting {
@@ -66,7 +65,7 @@ android {
     namespace = "com.communityconnect.app"
     compileSdk = 34
     defaultConfig {
-        applicationId = "com.communityconnect.app"
+        applicationId = "com.yallapark.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -82,9 +81,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         compose = true
     }
@@ -98,7 +94,7 @@ android {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
     }

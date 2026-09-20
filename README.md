@@ -1,230 +1,149 @@
-# CommunityConnect - Hyperlocal Mutual Aid Platform
+# YallaPark — Smart Mobility & Predictive Parking Platform
 
-A Kotlin Multiplatform app connecting neighbors for mutual aid, community support, and local resource sharing. Built for the JetBrains KMP Hackathon.
+An advanced smart urban mobility and predictive parking platform engineered to solve parking congestion across Dubai's busiest commercial and residential hubs (**Bur Dubai, Karama, Deira, and Downtown Dubai**). Built with **Kotlin Multiplatform (KMP)** and **Compose Multiplatform** targeting Android, iOS, Desktop, and Web.
 
-## 🌟 Problem & Insight
+---
 
-**The Problem:** Modern communities face increasing isolation. Neighbors don't know each other, elderly residents struggle with daily tasks, newcomers feel disconnected, and mutual aid happens informally through word-of-mouth or fragmented Facebook groups/Nextdoor.
+## 🌟 Problem & Strategic Vision
 
-**Our Insight:** People *want* to help each other but lack a dedicated, trustworthy, hyperlocal platform. Existing solutions (Nextdoor, Facebook Groups) are too broad, ad-driven, or lack structured mutual aid features. A purpose-built KMP app can make helping neighbors as easy as ordering food.
+### The Urban Challenge in Dubai
+In high-density commercial corridors like **Bur Dubai, Al Karama, Deira Gold Souq, and Downtown**, motorists spend excessive time circling blocks in search of open parking bays:
+- **Severe Traffic Gridlock**: Secondary congestion caused by slow-moving vehicles seeking spaces.
+- **Environmental Impact**: Significant carbon emissions and wasted fuel during the "circle and search" loop.
+- **Double Parking Friction**: Delivery riders (Talabat, Careem, Deliveroo) frequently double-park due to a lack of designated quick-stay bays.
+- **Inefficient Bay Allocation**: Underutilized spaces in adjacent lots while main streets overflow.
 
-**Why Now:** Post-pandemic community awareness is high. Kotlin Multiplatform lets us ship native-quality apps to Android, iOS, Desktop, and Web from a single codebase—perfect for reaching diverse community members on their preferred devices.
+### The YallaPark Solution
+YallaPark replaces the traditional "circle and search" with a **guaranteed, predictive reservation framework**:
+- **Predictive Slot Availability**: Machine-learning-based slot decay model calculates the probability of open parking upon arrival at the driver's estimated time of arrival (ETA).
+- **Guaranteed Pre-Booking & Hold**: 15-minute guaranteed slot hold backed by digital payments (Apple Pay, Google Pay, Dubai RTA NOL card, credit/debit card).
+- **Inclusivity & Specialized Bays**: Dedicated mapping, filters, and turn-by-turn routing for:
+  - ♿ **People of Determination (POD)** accessibility bays.
+  - 🌸 **Women-Only (Pink)** designated parking spaces in well-lit, secure areas.
+  - 🛵 **Delivery Rider Quick Bays** (15–20 min short stays) to prevent double-parking.
+  - ⚡ **EV Charging Bays** integrated with DEWA green charging networks.
+- **Gamified Eco-Rewards**: Drivers earn green mobility points for booking off-peak or using park-and-ride facilities, redeemable for discounts at local Dubai merchants.
+
+---
+
+## 🚀 Two Pathways for Finding & Managing Parking Spaces
+
+### Way 1: Automated Aerial / Satellite & Drone Detection Pipeline (`python-pipeline/`)
+Free satellite imagery (Sentinel-2 at 10m, Landsat at 30m) is too coarse for 2.5m x 5m parking bays. YallaPark provides a working prototype pipeline using high-resolution spatial data and computer vision:
+1. **OSM Lot Polygons**: Extracts parking geometries across Dubai and Abu Dhabi via the OpenStreetMap Overpass API (`fetch_osm_lots.py`).
+2. **YOLO-OBB Vehicle Detection**: Oriented Bounding Box detector (`yolov8n-obb`) trained on aerial datasets (DOTA/COWC) to detect vehicles under any angle (`detect_occupancy.py`).
+3. **Polygon Containment & Occupancy**: Calculates exact vehicle counts inside lot boundaries using polygon containment algorithms.
+4. **Data Bridge & MongoDB Atlas Sync**: Exports real-time occupancy feeds to local JSON and syncs directly to MongoDB Atlas (`export_to_yallapark.py`).
+
+```bash
+# Run Way 1 Pipeline
+cd python-pipeline
+python3 -m pip install -r requirements.txt  # Optional: shapely, ultralytics, pymongo
+python3 run_prototype.py
+```
+
+### Way 2: Government & Facility Operator Admin Console (`composeApp/admin`)
+An enterprise console enabling the **Roads and Transport Authority (RTA)**, **Mawaqif**, and commercial garage operators to manage parking infrastructure in real time:
+- **Add & Remove Parking Facilities**: Deploy new parking lots with custom zone classifications, geofences, and capacities.
+- **Bay Allocation Matrix**: Designate specific bays as POD, Women-Only Pink, Delivery Rider, or EV.
+- **Real-Time Telemetry & Sensor Simulation**: Live visual grid of every bay (Available, Occupied, Reserved, Maintenance) with one-click IoT gate camera simulation.
+- **Dynamic Tariffs**: Set base hourly rates, peak-hour multipliers, and delivery courier grace periods.
+- **Multi-Tenant Role Switcher**: Toggle seamlessly between Motorist, RTA Public Authority, Mawaqif Operator, and Commercial Garage Operator in the top bar.
+
+---
+
+## 🤖 YallaPark AI Concierge (OpenRouter Integration)
+
+An intelligent conversational parking assistant powered by OpenRouter API (`openai/gpt-4o-mini`):
+- Answers Dubai-specific mobility questions (e.g. *“Where can I find pink parking bays in Karama?”* or *“What is the tariff near Deira Gold Souq?”*).
+- Context-aware guidance on POD permit eligibility, delivery rider regulations, and off-peak parking discounts.
+
+---
 
 ## 🏗️ Architecture
 
 ```
-CommunityConnect/
-├── composeApp/           # UI layer (shared Compose Multiplatform)
-│   ├── commonMain/       # Shared UI components, screens, theme
-│   ├── androidMain/      # Android entry point
-│   ├── iosMain/          # iOS entry point
-│   ├── desktopMain/      # Desktop (JVM) entry point
-│   └── wasmJsMain/       # Web (WASM) entry point
-├── shared/               # Business logic & data (KMP library)
-│   ├── commonMain/       # Domain models, repositories, viewmodels
-│   ├── androidMain/      # Android-specific implementations
-│   ├── iosMain/          # iOS-specific implementations
-│   ├── desktopMain/      # Desktop-specific implementations
-│   └── wasmJsMain/       # Web-specific implementations
-├── androidApp/           # Android application module
-├── iosApp/               # iOS application module
-├── desktopApp/           # Desktop application module
-└── wasmJsApp/            # Web application module
+jetbrains-hackathon/
+├── composeApp/                                 # Shared UI Layer (Compose Multiplatform)
+│   ├── commonMain/kotlin/
+│   │   ├── com/yallapark/
+│   │   │   ├── App.kt                          # Role Switcher (Driver vs Way 2 Admin) & Navigation
+│   │   │   ├── ui/
+│   │   │   │   ├── components/
+│   │   │   │   │   ├── DubaiZoneMap.kt         # Cross-platform Canvas vector map of Dubai
+│   │   │   │   │   ├── BayIndicatorCard.kt     # Specialized bay badge (POD, Pink, Delivery, EV)
+│   │   │   │   │   ├── OccupancyProgressBar.kt # Visual congestion gauge
+│   │   │   │   │   └── PredictiveSlider.kt     # Dynamic ETA slot probability slider
+│   │   │   │   ├── screens/
+│   │   │   │   │   ├── driver/                 # Motorist search, booking, active pass, rewards
+│   │   │   │   │   ├── admin/                  # Way 2 facility management, bay config, tariffs
+│   │   │   │   │   └── ai/                     # OpenRouter conversational AI concierge
+│   │   │   │   └── theme/                      # Dubai RTA-inspired palette (Teal, Gold, Pink)
+├── shared/                                     # Core KMP Business Logic
+│   ├── commonMain/kotlin/com/yallapark/
+│   │   ├── domain/model/                       # ParkingLot, ParkingBay, Reservation, Forecast, UserRole
+│   │   ├── domain/repository/                  # ParkingRepository, ReservationRepository, AdminRepository
+│   │   ├── data/
+│   │   │   ├── repository/                     # YallaParkRepositoryImpl (Dubai pilot seed + live telemetry)
+│   │   │   └── engine/                         # PredictiveOccupancyEngine (slot decay algorithm)
+│   │   ├── ai/                                 # OpenRouterClient (Ktor) & YallaAiViewModel
+│   │   └── presentation/viewmodel/             # MapViewModel, BookingViewModel, AdminViewModel
+│   └── commonTest/kotlin/com/yallapark/        # Unit tests for prediction math & reservation lifecycle
+├── python-pipeline/                            # Way 1: Aerial & Satellite CV Prototype
+│   ├── fetch_osm_lots.py                       # Overpass API parser for Dubai & Abu Dhabi
+│   ├── detect_occupancy.py                     # YOLO-OBB vehicle detector & polygon engine
+│   ├── export_to_yallapark.py                  # Local JSON & MongoDB Atlas exporter
+│   └── run_prototype.py                        # Full end-to-end Way 1 runner
+├── androidApp/                                 # Android entry point
+├── iosApp/                                     # iOS Xcode project entry point
+├── desktopApp/                                 # Desktop (JVM) runner
+└── wasmJsApp/                                  # Web (WASM) runner
 ```
-
-### Key Technologies
-
-| Layer | Technology |
-|-------|------------|
-| **UI** | Compose Multiplatform (Material 3) |
-| **Navigation** | Navigation Compose + Decompose |
-| **State** | ViewModels + StateFlow |
-| **Networking** | Ktor Client (CIO/Darwin/JS) |
-| **Serialization** | Kotlinx Serialization |
-| **Database** | SQLDelight (multiplatform) + Room (Android) |
-| **Images** | Coil Compose |
-| **Logging** | Kermit |
-| **DI** | Manual (lightweight for hackathon) |
-
-## 🚀 Getting Started
-
-### Prerequisites
-- JDK 17+
-- Android Studio Ladybug / IntelliJ IDEA 2024.1+
-- Xcode 15+ (for iOS)
-- Node.js 18+ (for Web)
-
-### Build & Run
-
-```bash
-# Clone and setup
-git clone <repo-url>
-cd jetbrains-hackathon
-
-# Android
-./gradlew :composeApp:assembleDebug
-# Install to device/emulator
-
-# iOS
-./gradlew :composeApp:iosSimulatorArm64Binaries
-# Open iosApp/iosApp.xcodeproj in Xcode and run
-
-# Desktop
-./gradlew :composeApp:run
-
-# Web (WASM)
-./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-# Opens localhost:8080
-```
-
-## 📱 Features (MVP)
-
-### Core Features
-- **Posts Feed**: Hyperlocal feed of requests, offers, events, announcements
-- **Categories**: Food, Tools, Skills, Transport, Childcare, Elder Care, Tech Help, Language, Emergency, Community
-- **Urgency Levels**: Low → Critical with visual indicators
-- **Location-based**: Filter by neighborhood/radius
-- **Responses**: Structured responses (Can Help, Interested, Need Info, Alternative)
-- **User Profiles**: Reputation, skills, verification badges
-- **Communities**: Join neighborhood groups
-
-### Technical Highlights
-- **100% Shared UI**: Single Compose codebase for all platforms
-- **Shared Business Logic**: ViewModels, Repositories, Domain Models in `shared` module
-- **Platform Abstractions**: Location, Notifications, Storage via expect/actual
-- **Offline-First**: SQLDelight caching with optimistic UI updates
-- **Accessibility**: Material 3 semantics, dynamic type, TalkBack/VoiceOver support
-
-## 👥 Team Workflow
-
-### Git Strategy
-```
-main                    # Protected, deployable
-├── develop             # Integration branch
-├── feature/*           # Feature branches (1 per person)
-├── fix/*               # Bug fixes
-└── release/*           # Release preparation
-```
-
-### Branching Rules
-1. Create feature branch from `develop`
-2. Small, focused commits with conventional messages
-3. PR to `develop` with description + screenshots
-4. 1 approval required + CI passing
-5. Squash merge
-
-### Daily Standup (Async)
-- **Format**: Post in #standup channel by 10 AM
-- **Template**: 
-  ```
-  ✅ Yesterday: [what you completed]
-  🔄 Today: [what you're tackling]
-  🚧 Blockers: [what needs help]
-  ```
-
-### Code Review Checklist
-- [ ] Compiles on all targets (Android, iOS, Desktop, Web)
-- [ ] No new warnings
-- [ ] UI matches design system
-- [ ] Accessibility basics (content descriptions, contrast)
-- [ ] Tests for new logic
-
-## 🎯 Hackathon Timeline
-
-| Time | Activity |
-|------|----------|
-| 9:30 | Check-in, team formation |
-| 10:00 | Workshop + project setup |
-| 11:00 | **Hacking begins** |
-| 11:30 | Core data models + repository interfaces |
-| 12:30 | Mock repositories + ViewModels |
-| 13:00 | Lunch + standup |
-| 14:00 | Home screen + Post cards |
-| 15:30 | Post detail + Responses |
-| 16:30 | Create Post flow |
-| 17:00 | Profile + Communities |
-| 17:30 | Polish: animations, empty states, errors |
-| 18:00 | Multi-platform testing |
-| 18:30 | Pitch prep |
-| 19:00 | **Final pitch** |
-
-## 🏆 Judging Criteria Alignment
-
-| Criteria (Weight) | Our Approach |
-|-------------------|--------------|
-| **Working Product (35%)** | Runs on 4 platforms; core flows complete; mock data for demo |
-| **Problem & Insight (25%)** | Real mutual aid problem; hyperlocal focus; trust via reputation |
-| **Technical Execution (25%)** | KMP best practices; clean architecture; shared UI/logic; modern tooling |
-| **Pitch & Clarity (15%)** | Clear narrative; live demo on 2+ platforms; impact metrics |
-
-## 📊 Pitch Deck Outline
-
-### Slide 1: Title
-**CommunityConnect** — *Where neighbors help neighbors*
-Team: [Names] | JetBrains KMP Hackathon 2024
-
-### Slide 2: The Problem
-- 60% of Americans don't know their neighbors' names
-- Elderly isolation = health crisis ($6.7B Medicare costs)
-- Mutual aid fragmented: Nextdoor (ads), FB Groups (noise), WhatsApp (private)
-
-### Slide 3: Our Insight
-> "People want to help. They just need a *dedicated, trustworthy, hyperlocal* way to do it."
-
-### Slide 4: Solution
-CommunityConnect: Purpose-built mutual aid platform
-- Request/Offer/Event/Announcement posts
-- Reputation system builds trust
-- Neighborhood communities
-- Cross-platform: Android, iOS, Web, Desktop
-
-### Slide 5: Live Demo
-[Show on phone + laptop simultaneously]
-1. Browse nearby requests
-2. Respond "Can Help" 
-3. Create offer post
-4. View profile with reputation
-
-### Slide 6: Technical Execution
-- **100% shared UI** via Compose Multiplatform
-- **95% shared logic** in `shared` KMP module
-- **4 platforms** from single codebase
-- **Modern stack**: Ktor, SQLDelight, Coil, Decompose
-
-### Slide 7: Impact & Next Steps
-- Pilot in 3 SF neighborhoods (Mission, Castro, Noe Valley)
-- Partner with local orgs (Meals on Wheels, Village Movement)
-- Add: real-time chat, push notifications, calendar sync
-- Scale: City-wide → Multi-city → Open source platform
-
-### Slide 8: Ask / Thanks
-- Mentorship on KMP scaling
-- Connections to community orgs
-- **Try it:** [QR to Web build]
-
-## 🔧 Development Commands
-
-```bash
-# Format code
-./gradlew spotlessApply
-
-# Run tests
-./gradlew test
-
-# Check all targets compile
-./gradlew :shared:compileKotlinJvm :shared:compileKotlinIosSimulatorArm64 :shared:compileKotlinWasmJs :composeApp:compileKotlinAndroid
-
-# Generate iOS framework
-./gradlew :shared:packForXcode
-
-# Clean everything
-./gradlew clean
-```
-
-## 📝 License
-
-MIT License - Built for JetBrains KMP Hackathon 2024
 
 ---
 
-**Built with ❤️ using Kotlin Multiplatform & Compose Multiplatform**
+## 🛠️ Technology Stack
+
+| Layer | Technology |
+|---|---|
+| **Cross-Platform UI** | Compose Multiplatform (Android, iOS, Desktop JVM, Web WASM) |
+| **Language** | Kotlin 2.0+ across 100% of platforms, Python 3.9+ for CV pipeline |
+| **Map Rendering** | Custom Compose Vector Canvas Map (Zero external SDK dependencies) |
+| **Networking** | Ktor Client with ContentNegotiation & Kotlinx Serialization |
+| **State Management** | StateFlow, SharedFlow, AndroidX Lifecycle ViewModel |
+| **AI Integration** | OpenRouter API (`https://openrouter.ai/api/v1/chat/completions`) |
+| **Database & Cloud** | MongoDB Atlas cluster + reactive local telemetry simulator |
+| **Computer Vision** | YOLOv8-OBB (`yolov8n-obb.pt`), OpenStreetMap Overpass API, Shapely |
+
+---
+
+## 📱 Features (MVP Walkthrough)
+
+1. **Map Exploration & Filters**:
+   - Filter by Dubai Zone: **Bur Dubai, Al Karama, Deira, Downtown Dubai**.
+   - Filter by Bay Category: **POD Accessible, Women-Only Pink, Delivery Rider, EV Charging**.
+2. **Predictive Arrival Slider**:
+   - Drag arrival ETA slider (5 min to 60 min) to see real-time slot probability percentage and smart recommendation.
+3. **Pre-Booking & Frictionless Payments**:
+   - Guaranteed 15-minute slot lock with Apple Pay, Google Pay, or Dubai RTA NOL card.
+   - Digital Parking Pass with QR code for ANPR smart gates.
+4. **1-Click Remote Extension**:
+   - Extend session (+15m, +30m, +1h) remotely without visiting a meter.
+5. **Way 2 Admin Console**:
+   - Toggle to Admin Mode in top bar.
+   - Deploy new facilities in Deira or Bur Dubai.
+   - Tap individual bays to simulate vehicle arrivals/departures or gate sensor telemetry.
+   - Switch between RTA Authority, Mawaqif, and Private Operator roles.
+6. **Eco-Rewards**:
+   - Earn green points for off-peak parking, redeemable at local Dubai cafes and merchants.
+7. **YallaPark AI**:
+   - Ask questions about parking rules, tariffs, and locations in Dubai.
+
+---
+
+## 👥 Hackathon Team
+
+- **Platform Architect & Lead**: Kotlin Multiplatform & Compose Multiplatform
+- **Database & Cloud**: MongoDB Atlas Integration
+- **AI & Mobility Intelligence**: OpenRouter LLM Integration
+- **Way 1 Vision Pipeline**: YOLO-OBB & OpenStreetMap Spatial Analytics

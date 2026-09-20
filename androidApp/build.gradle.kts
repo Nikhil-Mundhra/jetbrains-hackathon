@@ -3,13 +3,14 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "com.communityconnect.android"
     compileSdk = 34
     defaultConfig {
-        applicationId = "com.communityconnect.android"
+        applicationId = "com.yallapark.android"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -38,14 +39,14 @@ android {
 
 dependencies {
     implementation(project(":composeApp"))
-    implementation(libs.androidx.activityCompose)
-    implementation(libs.androidx.lifecycle.viewmodelCompose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.google.mapsCompose)
+    implementation(libs.google.maps.compose)
     implementation(libs.location)
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
     }

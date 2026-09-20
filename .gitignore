@@ -67,3 +67,12 @@ coverage/
 .env
 .env.local
 .env.*.local
+
+# API Keys and Secrets (never commit these)
+ai/
+!.ai/.gitkeep
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -23,8 +24,9 @@ kotlin {
     val desktopTargets = listOf(jvm("desktop"))
     val wasmTargets = listOf(wasmJs("wasm"))
 
-    listOf(iosTargets, desktopTargets, wasmTargets).flatten().forEach { target ->
-        target.compilations["main"].defaultSourceSet {
+
+    sourceSets {
+val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
@@ -43,39 +45,24 @@ kotlin {
                 implementation(libs.decompose)
                 implementation(libs.mokoResources)
                 implementation(libs.mokoResourcesCompose)
+                implementation(libs.koog.agents)
+                implementation(libs.koog.agents.additions)
+                implementation(libs.koog.openai)
             }
         }
-    }
-
-    sourceSets {
-        val commonMain by getting {
+        val commonTest by getting {
             dependencies {
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.contentNegotiation)
-                implementation(libs.ktor.client.logging)
-                implementation(libs.ktor.serialization.kotlinxJson)
-                implementation(libs.ktor.client.cio)
-                implementation(libs.kermit)
-                implementation(libs.coil.compose)
-                implementation(libs.room.runtime)
-                implementation(libs.sqlDelight.runtime)
-                implementation(libs.sqlDelight.coroutines)
-                implementation(libs.decompose)
-                implementation(libs.mokoResources)
-                implementation(libs.mokoResourcesCompose)
+                implementation(kotlin("test"))
+                implementation(libs.kotlinx.test)
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation(libs.androidx.lifecycle.runtime)
-                implementation(libs.androidx.lifecycle.viewmodel)
-                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
                 implementation(libs.androidx.navigation.compose)
-                implementation(libs.androidx.activityCompose)
-                implementation(libs.google.mapsCompose)
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.google.maps.compose)
                 implementation(libs.location)
             }
         }
@@ -108,7 +95,7 @@ android {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
     }

@@ -28,14 +28,12 @@ robolectric = "4.11"
 androidxTest = "1.5.2"
 androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.2"
+koog = "1.2.0"
 
 [libraries]
 # Kotlin & Compose
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-gradle-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 # Coroutines
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -68,7 +66,6 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sql-delight-runtime = { module = "app.cash.sqldelight:sql-delight-runtime", version.ref = "sqlDelight" }
 sql-delight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
-sql-delight-gradle-plugin = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 
 # Navigation & Architecture
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
@@ -88,6 +85,11 @@ location = { module = "com.google.android.gms:play-services-location", version.r
 compose-web-core = { module = "org.jetbrains.compose.web:compose-web-core-wasm", version.ref = "compose" }
 compose-web-dom = { module = "org.jetbrains.compose.web:compose-web-dom-wasm", version.ref = "compose" }
 
+# Koog (AI Agents)
+koog-agents = { module = "ai.koog:koog-agents", version.ref = "koog" }
+koog-agents-additions = { module = "ai.koog:koog-agents-additions", version.ref = "koog" }
+koog-openai = { module = "ai.koog:koog-openai", version.ref = "koog" }
+
 # Testing
 junit = { module = "junit:junit", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
@@ -105,5 +107,6 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sql-delight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
