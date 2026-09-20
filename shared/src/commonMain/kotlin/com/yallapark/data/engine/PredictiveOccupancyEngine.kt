@@ -38,7 +38,7 @@ class PredictiveOccupancyEngine {
         // Projected open bays calculation
         val currentOpen = lot.availableBays.toDouble()
         // Exponential slot decay model: Open(t) = Open(0) * e^(-lambda * t)
-        val projectedOpen = (currentOpen * exp(-effectiveDecay * (clampedEta / 10.0))).coerceAtLeast(0.0)
+        val projectedOpen = (currentOpen * exp(-effectiveDecay * clampedEta)).coerceAtLeast(0.0)
         
         // Probability calculation
         val probability = if (lot.totalCapacity > 0) {
